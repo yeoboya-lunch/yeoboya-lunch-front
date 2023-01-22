@@ -6,5 +6,6 @@ module.exports = {
   theme: {
     extend: {},
   },
+  darkMode: "media", //default os system
   plugins: [],
 };
