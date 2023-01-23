@@ -1,11 +1,8 @@
 module.exports = {
-  content: [
-    "./pages/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {},
   },
-  darkMode: "media", //default os system
-  plugins: [require("@tailwindcss/forms")],
+  darkMode: 'media', //default os system
+  plugins: [require('@tailwindcss/forms')],
 };
