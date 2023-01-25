@@ -1,31 +1,34 @@
 import {useState} from 'react';
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
-type UseMutationResult = [(data: any) => void, UseMutationState];
 
-export default function useMutations(url: string): UseMutationResult {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<undefined | any>(undefined);
-  const [error, setError] = useState<undefined | any>(undefined);
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
+export default function useMutation<T = any>(url: string): UseMutationResult<T> {
+  const [state, setSate] = useState<UseMutationState<T>>({
+    loading: false,
+    data: undefined,
+    error: undefined,
+  });
+  const accessToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJra2xhdGg5OTE5QG5hdmVyLmNvbSIsImp0aSI6ImIyZjQ4ZGY0LTY2ZTYtNGE2OC04MmNlLTA3NTRkNjQ5ZTU2MiIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE2NzQ2MDYyMjMsImV4cCI6MTY3NDY5MjYyMywiYXV0aCI6IlJPTEVfVVNFUiJ9.9722OWdhAb442Jv4GXTprXiQ6AE4C5M9AnBaqAlR6pE';
   function mutation(data: any) {
-    setLoading(true);
-    fetch(url, {
+    setSate((prev) => ({...prev, loading: true}));
+    fetch(process.env.NEXT_PUBLIC_API_SERVER + url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJra2xhdGg5OTE5QG5hdmVyLmNvbSIsImp0aSI6IjRmZjkzMWNjLTBhZDQtNDc1Ni1hMTQ4LTA5YWZkZTVlZjc4MyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE2NzQ0NTE4NzUsImV4cCI6MTY3NDUzODI3NSwiYXV0aCI6IlJPTEVfVVNFUiJ9.mOfZ9jcPBY3J_8t_gen80V4PcPXlix-uc_g0xTtUguQ`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(data),
     })
       .then((response) => response.json().catch(() => {}))
-      .then(setData)
-      .catch(setError)
-      .finally(() => setLoading(false));
+      .then((data) => setSate((prev) => ({...prev, data, loading: false})))
+      .catch((error) => setSate((prev) => ({...prev, error, loading: false})));
   }
-  return [mutation, {loading, data, error}];
+  return [mutation, {...state}];
 }

@@ -1,10 +1,14 @@
 import type {NextPage} from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
+import {useMemberQuery} from './queries';
 
 const Profile: NextPage = () => {
+  const {isLoading, isError, data, error} = useMemberQuery('open');
+  console.log(isLoading, isError, data, error);
+
   return (
-    <Layout hasTabBar title="나의 캐럿">
+    <Layout hasTabBar title="프로필">
       <div className="px-4">
         <div className="flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
@@ -33,7 +37,7 @@ const Profile: NextPage = () => {
                 ></path>
               </svg>
             </div>
-            <span className="text-sm mt-2 font-medium text-gray-700">판매내역</span>
+            <span className="text-sm mt-2 font-medium text-gray-700">주문내역</span>
           </Link>
           <Link href="/profile/bought" className="flex flex-col items-center">
             <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">

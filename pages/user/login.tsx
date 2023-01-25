@@ -1,35 +1,60 @@
 import type {NextPage} from 'next';
-import {useState} from 'react';
-import {useForm} from 'react-hook-form';
-import Button from '../components/button';
-import Input from '../components/input';
-import useMutation from '../libs/client/useMutation';
+import {useEffect, useState} from 'react';
+import {FieldErrors, useForm} from 'react-hook-form';
+import Button from '@components/button';
+import Input from '@components/input';
+import useMutation from '@libs/client/useMutation';
 import {cls} from '@libs/client/utils';
+import {useRouter} from 'next/router';
+import Link from 'next/link';
 
-interface EnterForm {
+interface LoginForm {
   email?: string;
   phone?: string;
+  password: string;
 }
 
-const Enter: NextPage = () => {
-  const [enter, {loading, data, error}] = useMutation('/api/users/enter');
-  const {register, handleSubmit, reset} = useForm<EnterForm>();
+const Login: NextPage = () => {
+  const [enter, {loading, data, error}] = useMutation('/user/sign-in');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: {errors},
+  } = useForm<LoginForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const onEmailClick = () => {
     reset();
     setMethod('email');
   };
+
   const onPhoneClick = () => {
     reset();
     setMethod('phone');
   };
-  const onValid = (validForm: EnterForm) => {
+
+  const onValid = (validForm: LoginForm) => {
     if (loading) return;
     enter(validForm);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    console.log(data?.code, data?.message, error);
+    if (data?.code == 200) {
+      router.push('/');
+    } else {
+      setError('password', {type: 'focus', message: data?.message}, {shouldFocus: true});
+    }
+  }, [data]);
+
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
+  };
   return (
     <div className="mt-16 px-4">
-      <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+      <h3 className="text-3xl font-bold text-center">Enter to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
           <h5 className="text-sm text-gray-500 font-medium">Enter using:</h5>
@@ -58,19 +83,23 @@ const Enter: NextPage = () => {
             </button>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onValid)} className="flex flex-col mt-8 space-y-4">
-          {method === 'email' ? (
+        <form onSubmit={handleSubmit(onValid, onInvalid)} className="flex flex-col mt-8 space-y-4">
+          {method === 'email' && (
             <Input
               register={register('email', {
-                required: true,
+                required: '이메일은 필수 입력입니다.',
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: '이메일 형식에 맞지 않습니다.',
+                },
               })}
               name="email"
               label="Email address"
               type="email"
               required
             />
-          ) : null}
-          {method === 'phone' ? (
+          )}
+          {method === 'phone' && (
             <Input
               register={register('phone')}
               name="phone"
@@ -79,12 +108,32 @@ const Enter: NextPage = () => {
               kind="phone"
               required
             />
-          ) : null}
-          {method === 'email' ? <Button text={loading ? 'Loading' : 'Get login link'} /> : null}
-          {method === 'phone' ? (
-            <Button text={loading ? 'Loading' : 'Get one-time password'} />
-          ) : null}
+          )}
+          <Input
+            register={register('password', {
+              required: true,
+            })}
+            name="password"
+            label="Password"
+            type="password"
+            required
+          />
+          {errors.password && (
+            <p role="alert" className="text-sm text-red-500">
+              {errors.password?.message}
+            </p>
+          )}
+          {method === 'email' && <Button text={loading ? 'Loading' : 'login'} />}
+          {method === 'phone' && <Button text={loading ? 'Loading' : 'Get one-time password'} />}
         </form>
+
+        <p className="mt-5 p-3 border rounded-md text-center text-gray-700">
+          여보야 점심 처음이신가요?&nbsp;
+          <Link href="/user/sign-up" className="text-blue-600">
+            아이디 만들기
+          </Link>
+          .
+        </p>
 
         <div className="mt-8">
           <div className="relative">
@@ -114,4 +163,4 @@ const Enter: NextPage = () => {
     </div>
   );
 };
-export default Enter;
+export default Login;
