@@ -2,9 +2,9 @@ import type {NextPage} from 'next';
 import {FieldErrors, useForm} from 'react-hook-form';
 import Button from '@components/button';
 import Input from '@components/input';
-import useMutation from '@libs/client/useMutation';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
+import {useMember} from '@libs/hooks/services/mutations/user';
 
 interface SinUpForm {
   email: string;
@@ -13,7 +13,8 @@ interface SinUpForm {
 }
 
 const Login: NextPage = () => {
-  const [enter, {loading, data, error}] = useMutation('/user/sign-up');
+  const {insertMember, signUp} = useMember();
+
   const {
     register,
     handleSubmit,
@@ -23,20 +24,16 @@ const Login: NextPage = () => {
     mode: 'onSubmit',
   });
 
-  const onValid = (validForm: SinUpForm) => {
-    if (loading) return;
-    enter(validForm);
+  const onValid = (sinUpForm: SinUpForm) => {
+    insertMember.mutate(sinUpForm);
   };
 
   const router = useRouter();
   useEffect(() => {
-    console.log(data?.code, data?.message, error);
-    if (data?.code == 201) {
-      router.push('/');
-    } else {
-      setError('email', {type: 'focus', message: data?.message}, {shouldFocus: true});
+    if (insertMember.data?.code === 409) {
+      setError('email', {type: 'focus', message: insertMember.data.message}, {shouldFocus: true});
     }
-  }, [data]);
+  }, [insertMember.data]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -109,7 +106,7 @@ const Login: NextPage = () => {
               {errors.name?.message}
             </p>
           )}
-          <Button text={loading ? 'Loading' : 'sign-up'} />
+          <Button text={insertMember.isLoading ? 'Loading' : 'sign-up'} />
         </form>
       </div>
     </div>

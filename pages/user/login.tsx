@@ -7,6 +7,7 @@ import useMutation from '@libs/client/useMutation';
 import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
+import {useMember} from '@libs/hooks/services/mutations';
 
 interface LoginForm {
   email?: string;
@@ -15,7 +16,8 @@ interface LoginForm {
 }
 
 const Login: NextPage = () => {
-  const [enter, {loading, data, error}] = useMutation('/user/sign-in');
+  const {loginMember} = useMember();
+
   const {
     register,
     handleSubmit,
@@ -35,19 +37,21 @@ const Login: NextPage = () => {
   };
 
   const onValid = (validForm: LoginForm) => {
-    if (loading) return;
-    enter(validForm);
+    loginMember.mutate(validForm);
   };
 
   const router = useRouter();
   useEffect(() => {
-    console.log(data?.code, data?.message, error);
-    if (data?.code == 200) {
+    if (loginMember.data?.code == 200) {
       router.push('/');
     } else {
-      setError('password', {type: 'focus', message: data?.message}, {shouldFocus: true});
+      setError(
+        'password',
+        {type: 'focus', message: loginMember.data?.message},
+        {shouldFocus: true},
+      );
     }
-  }, [data]);
+  }, [loginMember.data]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -123,8 +127,10 @@ const Login: NextPage = () => {
               {errors.password?.message}
             </p>
           )}
-          {method === 'email' && <Button text={loading ? 'Loading' : 'login'} />}
-          {method === 'phone' && <Button text={loading ? 'Loading' : 'Get one-time password'} />}
+          {method === 'email' && <Button text={loginMember.isLoading ? 'Loading' : 'login'} />}
+          {method === 'phone' && (
+            <Button text={loginMember.isLoading ? 'Loading' : 'Get one-time password'} />
+          )}
         </form>
 
         <p className="mt-5 p-3 border rounded-md text-center text-gray-700">
