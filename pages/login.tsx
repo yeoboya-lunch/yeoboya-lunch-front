@@ -3,11 +3,10 @@ import {useEffect, useState} from 'react';
 import {FieldErrors, useForm} from 'react-hook-form';
 import Button from '@components/button';
 import Input from '@components/input';
-import useMutation from '@libs/client/useMutation';
 import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import {useMember} from '@libs/hooks/services/mutations';
+import {useMember} from '@libs/hooks/services/mutations/user';
 
 interface LoginForm {
   email?: string;
@@ -42,7 +41,8 @@ const Login: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
-    if (loginMember.data?.code == 200) {
+    console.log(loginMember.data);
+    if (loginMember.data?.data.code == 200) {
       router.push('/');
     } else {
       setError(
@@ -101,6 +101,7 @@ const Login: NextPage = () => {
               label="Email address"
               type="email"
               required
+              testValue="3@naver.com"
             />
           )}
           {method === 'phone' && (
@@ -111,6 +112,7 @@ const Login: NextPage = () => {
               type="number"
               kind="phone"
               required
+              testValue="qwer1234@@"
             />
           )}
           <Input

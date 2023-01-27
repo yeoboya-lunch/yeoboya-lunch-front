@@ -4,18 +4,21 @@ import Layout from '@components/layout';
 import {useProfiles, useProfileSimple} from '@libs/hooks/services/queries/profile';
 import {useQueries, useQuery} from '@tanstack/react-query';
 import {get} from '@libs/client/api';
+import {Cookies} from 'react-cookie';
+import {authToken} from '@libs/client/AuthToken';
+import {useSilentRefresh} from '@libs/client/useSilentRefresh';
 
 const Profile: NextPage = () => {
-  const profiles = useProfiles({staleTime: 5000});
-  console.log(profiles.isLoading, profiles.isError, profiles.data, profiles.error);
+  const profiles = useProfiles({staleTime: 0});
+  // console.log(profiles.isLoading, profiles.isError, profiles.data, profiles.error);
 
-  const info = useProfileSimple('1@naver.com', {staleTime: 5000});
-  console.log(info.isLoading, info.isError, info.data, info.error);
+  // const info = useProfileSimple('1@naver.com', {staleTime: 5000});
+  // console.log(info.isLoading, info.isError, info.data, info.error);
 
   // useQueries({
   //   queries: [{queryKey: ['q'], queryFn: get(`/member`)}],
   // });
-
+  useSilentRefresh();
   return (
     <Layout hasTabBar title="프로필">
       <div className="px-4">

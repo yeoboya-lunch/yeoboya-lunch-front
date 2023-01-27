@@ -1,4 +1,4 @@
-import type {InferGetStaticPropsType, NextPage} from 'next';
+import type {InferGetStaticPropsType, NextPage, NextPageContext} from 'next';
 import FloatingButton from '../components/floating-button';
 import Item from '../components/item';
 import Layout from '../components/layout';
@@ -31,21 +31,5 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
-
-// export async function getStaticProps() {
-//   const res = await fetch('http://localhost:463/item?page=0&size=100&sort=price,asc', {
-//     method: 'GET',
-//     headers: {
-//       Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJra2xhdGg5OTE5QG5hdmVyLmNvbSIsImp0aSI6IjRmZjkzMWNjLTBhZDQtNDc1Ni1hMTQ4LTA5YWZkZTVlZjc4MyIsImlzcyI6Inllb2JveWEiLCJpYXQiOjE2NzQ0NTE4NzUsImV4cCI6MTY3NDUzODI3NSwiYXV0aCI6IlJPTEVfVVNFUiJ9.mOfZ9jcPBY3J_8t_gen80V4PcPXlix-uc_g0xTtUguQ`,
-//     },
-//   });
-//   const item = await res.json();
-//
-//   return {
-//     props: {
-//       item,
-//     },
-//   };
-// }
 
 export default Home;

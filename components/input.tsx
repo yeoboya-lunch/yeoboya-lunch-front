@@ -7,9 +7,18 @@ interface InputProps {
   type: string;
   register?: UseFormRegisterReturn;
   required: boolean;
+  testValue?: string;
 }
 
-export default function Input({label, name, kind = 'text', register, type, required}: InputProps) {
+export default function Input({
+  label,
+  name,
+  kind = 'text',
+  register,
+  type,
+  required,
+  testValue,
+}: InputProps) {
   return (
     <div>
       <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor={name}>
@@ -18,6 +27,7 @@ export default function Input({label, name, kind = 'text', register, type, requi
       {kind === 'text' ? (
         <div className="rounded-md relative flex  items-center shadow-sm">
           <input
+            value={testValue}
             id={name}
             required={required}
             {...register}
