@@ -6,8 +6,6 @@ axios.interceptors.request.use((config) => {
     if (authToken.haveAccessToken()) {
       console.log(authToken.accessToken);
       config.headers.Authorization = `Bearer ${authToken.accessToken}`;
-    } else {
-      console.log('태양');
     }
   }
   return config;

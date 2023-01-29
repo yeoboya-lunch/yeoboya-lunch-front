@@ -101,7 +101,6 @@ const Login: NextPage = () => {
               label="Email address"
               type="email"
               required
-              testValue="3@naver.com"
             />
           )}
           {method === 'phone' && (
@@ -112,7 +111,6 @@ const Login: NextPage = () => {
               type="number"
               kind="phone"
               required
-              testValue="qwer1234@@"
             />
           )}
           <Input
