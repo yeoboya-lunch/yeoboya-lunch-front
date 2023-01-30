@@ -4,10 +4,7 @@ import {authToken} from '@libs/client/AuthToken';
 axios.interceptors.request.use((config) => {
   if (!config.headers.Authorization) {
     if (authToken.haveAccessToken()) {
-      console.log(authToken.accessToken);
       config.headers.Authorization = `Bearer ${authToken.accessToken}`;
-    } else {
-      console.log('태양');
     }
   }
   return config;
@@ -19,18 +16,15 @@ interface GetParams {
 }
 
 async function get<T = any>({url, params}: GetParams): Promise<AxiosResponse> {
-  return await axios
-    .get(url, {
-      baseURL: process.env.NEXT_PUBLIC_API_SERVER,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-      params: params,
-      timeout: 0,
-    })
-    .then((r: AxiosResponse<any>) => r)
-    .catch((reason) => reason);
+  return await axios.get(url, {
+    baseURL: process.env.NEXT_PUBLIC_API_SERVER,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+    params: params,
+    timeout: 0,
+  });
 }
 
 interface PostParams {
@@ -39,17 +33,14 @@ interface PostParams {
 }
 
 async function post<T = any>({url, data}: PostParams): Promise<AxiosResponse> {
-  return await axios
-    .post(url, data, {
-      baseURL: process.env.NEXT_PUBLIC_API_SERVER,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-      responseType: 'json',
-    })
-    .then((r: AxiosResponse<any>) => r)
-    .catch((reason) => reason);
+  return await axios.post(url, data, {
+    baseURL: process.env.NEXT_PUBLIC_API_SERVER,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+    responseType: 'json',
+  });
 }
 
 export {get, post};

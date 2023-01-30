@@ -12,7 +12,6 @@ function useSilentRefresh() {
       post({
         url: 'user/reissue',
         data: {
-          accessToken: authToken.accessToken,
           refreshToken: authToken.refreshToken,
         },
       }),

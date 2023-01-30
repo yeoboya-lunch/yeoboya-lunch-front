@@ -6,7 +6,8 @@ import Input from '@components/input';
 import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import {useMember} from '@libs/hooks/services/mutations/user';
+import {useLogin} from '@libs/hooks/services/mutations/user';
+import {authToken} from '@libs/client/AuthToken';
 
 interface LoginForm {
   email?: string;
@@ -14,9 +15,9 @@ interface LoginForm {
   password: string;
 }
 
-const Login: NextPage = () => {
-  const {loginMember} = useMember();
-
+const Login: NextPage = (props) => {
+  console.log(props);
+  const {mutate, isSuccess, isError, isLoading, error} = useLogin();
   const {
     register,
     handleSubmit,
@@ -36,22 +37,22 @@ const Login: NextPage = () => {
   };
 
   const onValid = (validForm: LoginForm) => {
-    loginMember.mutate(validForm);
+    mutate(validForm);
   };
 
   const router = useRouter();
   useEffect(() => {
-    console.log(loginMember.data);
-    if (loginMember.data?.data.code == 200) {
-      router.push('/');
-    } else {
+    if (isError) {
       setError(
         'password',
-        {type: 'focus', message: loginMember.data?.message},
+        {type: 'focus', message: error.response.data.message},
         {shouldFocus: true},
       );
     }
-  }, [loginMember.data]);
+    if (isSuccess) {
+      router.push('/');
+    }
+  }, [isLoading]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -101,7 +102,6 @@ const Login: NextPage = () => {
               label="Email address"
               type="email"
               required
-              testValue="3@naver.com"
             />
           )}
           {method === 'phone' && (
@@ -112,7 +112,6 @@ const Login: NextPage = () => {
               type="number"
               kind="phone"
               required
-              testValue="qwer1234@@"
             />
           )}
           <Input
@@ -129,10 +128,8 @@ const Login: NextPage = () => {
               {errors.password?.message}
             </p>
           )}
-          {method === 'email' && <Button text={loginMember.isLoading ? 'Loading' : 'login'} />}
-          {method === 'phone' && (
-            <Button text={loginMember.isLoading ? 'Loading' : 'Get one-time password'} />
-          )}
+          {method === 'email' && <Button text={isLoading ? 'Loading' : 'login'} />}
+          {method === 'phone' && <Button text={isLoading ? 'Loading' : 'Get one-time password'} />}
         </form>
 
         <p className="mt-5 p-3 border rounded-md text-center text-gray-700">
@@ -171,4 +168,13 @@ const Login: NextPage = () => {
     </div>
   );
 };
+
+export function getServerSideProps() {
+  return {
+    props: {
+      user: authToken.haveRefreshToken(),
+    },
+  };
+}
+
 export default Login;

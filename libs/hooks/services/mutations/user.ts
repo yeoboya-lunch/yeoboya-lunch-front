@@ -1,5 +1,4 @@
 import {post} from '@libs/client/api';
-import {useState} from 'react';
 import {useMutation} from '@tanstack/react-query';
 import {authToken} from '@libs/client/AuthToken';
 
@@ -15,7 +14,7 @@ interface LoginForm {
   password: string;
 }
 
-export const userKeys = {
+const userKeys = {
   all: () => ['user'],
   list: () => [...userKeys.all(), 'list'],
   details: () => [...userKeys.all(), 'detail'],
@@ -23,36 +22,22 @@ export const userKeys = {
   insert: () => ['sign-up'],
 };
 
-export const useMember = () => {
-  const [signUp, setSignUp] = useState({});
-
-  const insertMember: any = useMutation({
+function useSignUp(): any {
+  return useMutation({
     mutationKey: userKeys.insert(),
     mutationFn: (value: SinUpForm) => post({url: `/user/sign-up`, data: value}),
-    onMutate: (value) => {
-      console.log(
-        'onMutate 는 mutation 함수가 실행되기 전에 실행되고 mutation 함수가 받을 동일한 변수가 전달된다.',
-      );
-      console.log('optimistic update 사용 시 유용한 함수이다.');
-    },
-    onSuccess: (data) => {
-      setSignUp(data);
-      console.log('onSuccess 는 mutation 이 성공하고 결과를 전달할 때 실행된다.');
-    },
-    onSettled: () => {
-      console.log(
-        'onSettled 는 mutation 이 성공해서 성공한 데이터 또는 error가 전달될 때 실행된다. (성공하든 실패하든 아무튼 결과가 전달된다)',
-      );
-    },
-    onError: () => {
-      console.log('onError 는 mutation 이 error 를 만났을 때 실행된다.');
-    },
+    onMutate: (variables) => {},
+    onSuccess: (data, variables, context) => {},
+    onSettled: (data, error, variables, context) => {},
+    onError: (error, variables, context) => {},
   });
+}
 
-  const loginMember: any = useMutation({
+function useLogin(): any {
+  return useMutation({
     mutationFn: (value: LoginForm) => post({url: '/user/sign-in', data: value}),
+    onMutate: (variables) => {},
     onSuccess: (data) => {
-      console.log(data);
       if (data.status === 200) {
         authToken.setToken({
           accessToken: data.data.data.accessToken,
@@ -61,14 +46,9 @@ export const useMember = () => {
         });
       }
     },
-    onError: (data) => {
-      console.log('ㅜㅜ', data);
-    },
+    onSettled: (data, error, variables, context) => {},
+    onError: (error, variables, context) => {},
   });
+}
 
-  return {
-    signUp: signUp ? signUp : setSignUp,
-    loginMember,
-    insertMember,
-  };
-};
+export {useSignUp, useLogin};

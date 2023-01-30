@@ -4,7 +4,7 @@ import Button from '@components/button';
 import Input from '@components/input';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
-import {useMember} from '@libs/hooks/services/mutations/user';
+import {useSignUp} from '@libs/hooks/services/mutations/user';
 
 interface SinUpForm {
   email: string;
@@ -13,7 +13,7 @@ interface SinUpForm {
 }
 
 const Login: NextPage = () => {
-  const {insertMember, signUp} = useMember();
+  const {mutate, isSuccess, isError, isLoading, error} = useSignUp();
 
   const {
     register,
@@ -25,15 +25,23 @@ const Login: NextPage = () => {
   });
 
   const onValid = (sinUpForm: SinUpForm) => {
-    insertMember.mutate(sinUpForm);
+    mutate(sinUpForm);
   };
 
   const router = useRouter();
   useEffect(() => {
-    if (insertMember.data?.code === 409) {
-      setError('email', {type: 'focus', message: insertMember.data.message}, {shouldFocus: true});
+    if (isError) {
+      setError('email', {type: 'focus', message: error.response.data.message}, {shouldFocus: true});
     }
-  }, [insertMember.data]);
+    if (isSuccess) {
+      router.push({
+        pathname: '/login',
+        query: {
+          email: '11',
+        },
+      });
+    }
+  }, [isLoading]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -106,10 +114,19 @@ const Login: NextPage = () => {
               {errors.name?.message}
             </p>
           )}
-          <Button text={insertMember.isLoading ? 'Loading' : 'sign-up'} />
+          <Button text={isLoading ? 'Loading' : 'sign-up'} />
         </form>
       </div>
     </div>
   );
 };
+
+export function getServerSideProps() {
+  return {
+    props: {
+      user: 'sign-up',
+    },
+  };
+}
+
 export default Login;

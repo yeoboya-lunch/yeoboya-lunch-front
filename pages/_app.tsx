@@ -1,11 +1,10 @@
 import '../styles/globals.css';
-import type {AppProps} from 'next/app';
+import type {AppContext, AppInitialProps, AppProps} from 'next/app';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {CookiesProvider} from 'react-cookie';
-import {useSilentRefresh} from '@libs/client/useSilentRefresh';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({});
 
 function MyApp({Component, pageProps}: AppProps) {
   return (
@@ -19,5 +18,15 @@ function MyApp({Component, pageProps}: AppProps) {
     </div>
   );
 }
+
+MyApp.getInitialProps = async ({Component, ctx}: AppContext): Promise<AppInitialProps> => {
+  let pageProps = {};
+
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
+  return {pageProps};
+};
 
 export default MyApp;

@@ -18,7 +18,7 @@ const Profile: NextPage = () => {
   // useQueries({
   //   queries: [{queryKey: ['q'], queryFn: get(`/member`)}],
   // });
-  useSilentRefresh();
+
   return (
     <Layout hasTabBar title="프로필">
       <div className="px-4">

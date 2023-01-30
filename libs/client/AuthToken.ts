@@ -22,6 +22,10 @@ class AuthToken {
     return this._accessToken;
   }
 
+  haveRefreshToken(): boolean {
+    return this.cookies.get('refreshToken') !== '';
+  }
+
   haveAccessToken(): boolean {
     return this._accessToken !== '';
   }
