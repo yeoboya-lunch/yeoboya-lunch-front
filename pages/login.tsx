@@ -7,7 +7,8 @@ import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
-import {authToken} from '@libs/client/AuthToken';
+import {useRecoilState} from 'recoil';
+import {tokenState} from '@libs/states';
 
 interface LoginForm {
   email?: string;
@@ -16,8 +17,8 @@ interface LoginForm {
 }
 
 const Login: NextPage = (props) => {
-  console.log(props);
-  const {mutate, isSuccess, isError, isLoading, error} = useLogin();
+  const {mutate, isSuccess, isError, isLoading, error, data} = useLogin();
+  const [token, setToken] = useRecoilState(tokenState);
   const {
     register,
     handleSubmit,
@@ -168,13 +169,5 @@ const Login: NextPage = (props) => {
     </div>
   );
 };
-
-export function getServerSideProps() {
-  return {
-    props: {
-      user: authToken.haveRefreshToken(),
-    },
-  };
-}
 
 export default Login;

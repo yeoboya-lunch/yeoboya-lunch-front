@@ -1,42 +1,33 @@
 import {Cookies} from 'react-cookie';
 
-interface Token {
-  accessToken: string;
+interface IToken {
   refreshToken: string;
   refreshTokenExpirationTime: any;
 }
 
-class AuthToken {
-  private _accessToken: string;
+class Token {
+  private _refreshToken: string;
   private cookies = new Cookies();
 
   constructor() {
-    this._accessToken = '';
+    this._refreshToken = '';
   }
 
   get refreshToken(): string {
     return this.cookies.get('refreshToken');
   }
 
-  get accessToken(): string {
-    return this._accessToken;
-  }
-
   haveRefreshToken(): boolean {
     return this.cookies.get('refreshToken') !== '';
   }
 
-  haveAccessToken(): boolean {
-    return this._accessToken !== '';
-  }
-
-  setToken({accessToken, refreshToken, refreshTokenExpirationTime}: Token) {
+  setToken({refreshToken, refreshTokenExpirationTime}: IToken) {
     this.cookies.set('refreshToken', refreshToken, {
       path: '/',
       sameSite: true,
     });
-    this._accessToken = accessToken;
+    this._refreshToken = refreshToken;
   }
 }
 
-export const authToken = new AuthToken();
+export const jwtToken = new Token();

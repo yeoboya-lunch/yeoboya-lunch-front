@@ -1,23 +1,19 @@
 import type {NextPage} from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
-import {useProfiles, useProfileSimple} from '@libs/hooks/services/queries/profile';
-import {useQueries, useQuery} from '@tanstack/react-query';
-import {get} from '@libs/client/api';
-import {Cookies} from 'react-cookie';
-import {authToken} from '@libs/client/AuthToken';
-import {useSilentRefresh} from '@libs/client/useSilentRefresh';
+import {useProfiles} from '@libs/hooks/services/queries/profile';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import {tokenState} from '@libs/states';
 
 const Profile: NextPage = () => {
-  const profiles = useProfiles({staleTime: 0});
-  // console.log(profiles.isLoading, profiles.isError, profiles.data, profiles.error);
+  const {isSuccess, isError, isLoading, error} = useProfiles();
+  // console.log(isSuccess, isError, isLoading, error);
 
-  // const info = useProfileSimple('1@naver.com', {staleTime: 5000});
-  // console.log(info.isLoading, info.isError, info.data, info.error);
-
-  // useQueries({
-  //   queries: [{queryKey: ['q'], queryFn: get(`/member`)}],
-  // });
+  const [token, setToken] = useRecoilState(tokenState);
+  // console.log(token);
+  //
+  // const todoList = useRecoilValue(tokenState);
+  // console.log(todoList);
 
   return (
     <Layout hasTabBar title="프로필">
@@ -25,7 +21,20 @@ const Profile: NextPage = () => {
         <div className="flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900">Steve Jebs</span>
+            <span className="font-medium text-gray-900">
+              Steve Jebs1
+              <input
+                className="border-2"
+                value={token.accessToken}
+                onChange={(e) =>
+                  setToken({
+                    accessToken: e.target.value,
+                    refreshToken: '',
+                    refreshTokenExpirationTime: '',
+                  })
+                }
+              />
+            </span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
               Edit profile &rarr;
             </Link>

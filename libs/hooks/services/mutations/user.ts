@@ -1,6 +1,8 @@
-import {post} from '@libs/client/api';
+import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation} from '@tanstack/react-query';
-import {authToken} from '@libs/client/AuthToken';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {tokenState} from '@libs/states';
+import {jwtToken} from '@libs/client/Token';
 
 interface SinUpForm {
   email: string;
@@ -23,6 +25,8 @@ const userKeys = {
 };
 
 function useSignUp(): any {
+  const {post} = useFetchWrapper();
+
   return useMutation({
     mutationKey: userKeys.insert(),
     mutationFn: (value: SinUpForm) => post({url: `/user/sign-up`, data: value}),
@@ -34,12 +38,19 @@ function useSignUp(): any {
 }
 
 function useLogin(): any {
+  const {post} = useFetchWrapper();
+  const setToken = useSetRecoilState(tokenState);
+
   return useMutation({
     mutationFn: (value: LoginForm) => post({url: '/user/sign-in', data: value}),
     onMutate: (variables) => {},
     onSuccess: (data) => {
       if (data.status === 200) {
-        authToken.setToken({
+        jwtToken.setToken({
+          refreshToken: data.data.data.refreshToken,
+          refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
+        });
+        setToken({
           accessToken: data.data.data.accessToken,
           refreshToken: data.data.data.refreshToken,
           refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
