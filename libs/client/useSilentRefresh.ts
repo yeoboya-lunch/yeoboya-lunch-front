@@ -1,13 +1,14 @@
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {tokenState} from '@libs/states';
-import {useRecoilState} from 'recoil';
+import {textState, tokenState} from '@libs/states';
+import {useRecoilState, useResetRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/Token';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
   const [token, setToken] = useRecoilState(tokenState);
+  const [text, setText] = useRecoilState(textState);
   const {post} = useFetchWrapper();
 
   useQuery(
@@ -16,6 +17,7 @@ function useSilentRefresh() {
       post({
         url: 'user/reissue',
         data: {
+          random: text.value,
           refreshToken: token.refreshToken,
         },
       }),
@@ -40,6 +42,11 @@ function useSilentRefresh() {
           accessToken: data.data.data.accessToken,
           refreshToken: data.data.data.refreshToken,
           refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
+        });
+        setText({
+          ...text,
+          name: 'kim',
+          value: Math.floor(Math.random() * 100),
         });
       },
     },

@@ -3,17 +3,18 @@ import Link from 'next/link';
 import Layout from '@components/layout';
 import {useProfiles} from '@libs/hooks/services/queries/profile';
 import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {tokenState} from '@libs/states';
+import {textState, tokenState} from '@libs/states';
+import {recoilPersist} from 'recoil-persist';
 
 const Profile: NextPage = () => {
-  const {isSuccess, isError, isLoading, error} = useProfiles();
+  // const {isSuccess, isError, isLoading, error} = useProfiles();
   // console.log(isSuccess, isError, isLoading, error);
 
-  const [token, setToken] = useRecoilState(tokenState);
+  const token = useRecoilValue(tokenState);
+  const text = useRecoilValue(textState);
+
   // console.log(token);
-  //
-  // const todoList = useRecoilValue(tokenState);
-  // console.log(todoList);
+  // console.log(text);
 
   return (
     <Layout hasTabBar title="프로필">
@@ -21,20 +22,7 @@ const Profile: NextPage = () => {
         <div className="flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900">
-              Steve Jebs1
-              <input
-                className="border-2"
-                value={token.accessToken}
-                onChange={(e) =>
-                  setToken({
-                    accessToken: e.target.value,
-                    refreshToken: '',
-                    refreshTokenExpirationTime: '',
-                  })
-                }
-              />
-            </span>
+            <span className="font-medium text-gray-900">Steve Jebs1</span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
               Edit profile &rarr;
             </Link>

@@ -9,14 +9,25 @@ interface IToken {
   refreshTokenExpirationTime: any;
 }
 
+const initialState: IToken = {
+  accessToken: '',
+  refreshToken: '',
+  refreshTokenExpirationTime: '',
+};
+
 const tokenState = atom<IToken>({
   key: 'tokenState',
-  default: {
-    accessToken: '',
-    refreshToken: '',
-    refreshTokenExpirationTime: '',
-  },
+  default: initialState,
   effects_UNSTABLE: [persistAtom],
 });
 
-export {tokenState};
+const textState = atom({
+  key: 'textState11', // unique ID(다른 atom/selectors 와 구별하기 위함)
+  default: {
+    name: '',
+    value: '',
+  }, // default value (=initial value)
+  effects_UNSTABLE: [persistAtom],
+});
+
+export {tokenState, textState};
