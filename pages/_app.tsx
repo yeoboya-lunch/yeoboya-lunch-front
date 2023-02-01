@@ -3,7 +3,20 @@ import type {AppContext, AppInitialProps, AppProps} from 'next/app';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {CookiesProvider} from 'react-cookie';
-import {RecoilRoot} from 'recoil';
+import {RecoilRoot, useRecoilSnapshot} from 'recoil';
+import React, {useEffect} from 'react';
+
+function DebugObserver(): React.Node {
+  const snapshot = useRecoilSnapshot();
+  useEffect(() => {
+    console.log('The following atoms were modified:');
+    for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
+      console.log(node.key, snapshot.getLoadable(node));
+    }
+  }, [snapshot]);
+
+  return null;
+}
 
 const queryClient = new QueryClient({});
 
@@ -13,6 +26,7 @@ function MyApp({Component, pageProps}: AppProps) {
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
           <RecoilRoot>
+            <DebugObserver />
             <ReactQueryDevtools initialIsOpen={true} />
             <Component {...pageProps} />
           </RecoilRoot>

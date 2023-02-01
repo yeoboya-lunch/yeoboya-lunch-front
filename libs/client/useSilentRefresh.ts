@@ -1,14 +1,13 @@
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {textState, tokenState} from '@libs/states';
-import {useRecoilState, useResetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/Token';
+import tokenAtom from '@libs/recoil/token';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
-  const [token, setToken] = useRecoilState(tokenState);
-  const [text, setText] = useRecoilState(textState);
+  const [token, setToken] = useRecoilState(tokenAtom);
   const {post} = useFetchWrapper();
 
   useQuery(
@@ -17,7 +16,6 @@ function useSilentRefresh() {
       post({
         url: 'user/reissue',
         data: {
-          random: text.value,
           refreshToken: token.refreshToken,
         },
       }),
@@ -25,8 +23,8 @@ function useSilentRefresh() {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       refetchOnReconnect: false,
-      // retry: 2,
-      refetchInterval: refreshStop ? false : 5000, // 10초
+      retry: 2,
+      refetchInterval: refreshStop ? false : 60 * 60 * 1000,
       refetchIntervalInBackground: true,
       onError: () => {
         setRefreshStop(true);
@@ -43,18 +41,13 @@ function useSilentRefresh() {
           refreshToken: data.data.data.refreshToken,
           refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
         });
-        setText({
-          ...text,
-          name: 'kim',
-          value: Math.floor(Math.random() * 100),
-        });
       },
     },
   );
 }
 
 function useCheckCurrentUser() {
-  const [token, setToken] = useRecoilState(tokenState);
+  const [token, setToken] = useRecoilState(tokenAtom);
   const currentUserQuery = useQuery(['CURRENT_USER'], () => {}, {
     refetchOnWindowFocus: false,
     refetchOnMount: true,

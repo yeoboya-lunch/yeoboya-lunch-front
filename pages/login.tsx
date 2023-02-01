@@ -8,7 +8,7 @@ import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
 import {useRecoilState} from 'recoil';
-import {tokenState} from '@libs/states';
+import {useSettingMember} from '@libs/hooks/services/queries/member';
 
 interface LoginForm {
   email?: string;
@@ -18,7 +18,6 @@ interface LoginForm {
 
 const Login: NextPage = (props) => {
   const {mutate, isSuccess, isError, isLoading, error, data} = useLogin();
-  const [token, setToken] = useRecoilState(tokenState);
   const {
     register,
     handleSubmit,

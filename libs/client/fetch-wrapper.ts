@@ -1,37 +1,13 @@
 import axios from 'axios';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {textState, tokenState} from '@libs/states';
+import {useRecoilValue} from 'recoil';
 import {jwtToken} from '@libs/client/Token';
+import {getAccessToken} from '@libs/recoil/token';
 
 function useFetchWrapper() {
-  // const token = useRecoilValue(tokenState);
-  // const test = useRecoilValue(textState);
-
-  const [token, setToken] = useRecoilState(tokenState);
-  const [test, setText] = useRecoilState(textState);
+  let token = useRecoilValue(getAccessToken);
 
   axios.defaults.headers.common['Authorization'] =
-    token.accessToken !== '' && jwtToken.haveRefreshToken() ? `Bearer ${token.accessToken}` : null;
-
-  // axios.interceptors.request.use((config) => {
-  //   if (token.accessToken !== '' && jwtToken.haveRefreshToken()) {
-  //     console.group();
-  //     console.log(test.value);
-  //     console.log(token.accessToken);
-  //     console.groupEnd();
-  //     // config.headers['Authorization'] = `Bearer ${token.accessToken}`;
-  //   }
-  //   return config;
-  // });
-
-  // axios.interceptors.response.use(
-  //   function (response) {
-  //     return response;
-  //   },
-  //   function (error) {
-  //     return Promise.reject(error);
-  //   },
-  // );
+    token !== '' && jwtToken.haveRefreshToken() ? `Bearer ${token}` : null;
 
   interface GetParams {
     url: string;

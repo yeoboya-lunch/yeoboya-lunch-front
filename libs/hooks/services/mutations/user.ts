@@ -1,8 +1,9 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation} from '@tanstack/react-query';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
-import {tokenState} from '@libs/states';
+import {useSetRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/Token';
+import tokenAtom from '@libs/recoil/token';
+import memberAtom from '@libs/recoil/member';
 
 interface SinUpForm {
   email: string;
@@ -39,7 +40,8 @@ function useSignUp(): any {
 
 function useLogin(): any {
   const {post} = useFetchWrapper();
-  const setToken = useSetRecoilState(tokenState);
+  const setToken = useSetRecoilState(tokenAtom);
+  const setMember = useSetRecoilState(memberAtom);
 
   return useMutation({
     mutationFn: (value: LoginForm) => post({url: '/user/sign-in', data: value}),
@@ -54,6 +56,9 @@ function useLogin(): any {
           accessToken: data.data.data.accessToken,
           refreshToken: data.data.data.refreshToken,
           refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
+        });
+        setMember({
+          email: data.data.data.subject,
         });
       }
     },

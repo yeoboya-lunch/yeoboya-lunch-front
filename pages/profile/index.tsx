@@ -1,20 +1,14 @@
 import type {NextPage} from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
-import {useProfiles} from '@libs/hooks/services/queries/profile';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
-import {textState, tokenState} from '@libs/states';
-import {recoilPersist} from 'recoil-persist';
+import {useSettingMember} from '@libs/hooks/services/queries/member';
+import {useRecoilValue} from 'recoil';
+import memberAtom from '@libs/recoil/member';
 
 const Profile: NextPage = () => {
-  // const {isSuccess, isError, isLoading, error} = useProfiles();
-  // console.log(isSuccess, isError, isLoading, error);
-
-  const token = useRecoilValue(tokenState);
-  const text = useRecoilValue(textState);
-
-  // console.log(token);
-  // console.log(text);
+  const iMember = useRecoilValue(memberAtom);
+  const {isSuccess, isError, isLoading, error, data} = useSettingMember(iMember.email);
+  console.log(data);
 
   return (
     <Layout hasTabBar title="프로필">
@@ -22,7 +16,7 @@ const Profile: NextPage = () => {
         <div className="flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900">Steve Jebs1</span>
+            <span className="font-medium text-gray-900"></span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
               Edit profile &rarr;
             </Link>
