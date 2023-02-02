@@ -5,24 +5,28 @@ interface IToken {
   refreshTokenExpirationTime: any;
 }
 
-class Token {
+class JwtToken {
   private _refreshToken: string;
-  private cookies = new Cookies();
+  private _cookies = new Cookies();
 
   constructor() {
     this._refreshToken = '';
   }
 
   get refreshToken(): string {
-    return this.cookies.get('refreshToken');
+    return this._cookies.get('refreshToken');
   }
 
   haveRefreshToken(): boolean {
-    return this.cookies.get('refreshToken') !== '';
+    return this._cookies.get('refreshToken') !== '';
+  }
+
+  deleteToken() {
+    this._cookies.remove('refreshToken');
   }
 
   setToken({refreshToken, refreshTokenExpirationTime}: IToken) {
-    this.cookies.set('refreshToken', refreshToken, {
+    this._cookies.set('refreshToken', refreshToken, {
       path: '/',
       sameSite: true,
     });
@@ -30,4 +34,4 @@ class Token {
   }
 }
 
-export const jwtToken = new Token();
+export const jwtToken = new JwtToken();

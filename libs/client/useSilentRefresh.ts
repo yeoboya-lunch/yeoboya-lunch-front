@@ -1,13 +1,14 @@
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useRecoilState} from 'recoil';
-import {jwtToken} from '@libs/client/Token';
+import {useRecoilState, useResetRecoilState} from 'recoil';
+import {jwtToken} from '@libs/client/JwtToken';
 import tokenAtom from '@libs/recoil/token';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
   const [token, setToken] = useRecoilState(tokenAtom);
+  const resetToken = useResetRecoilState(tokenAtom);
   const {post} = useFetchWrapper();
 
   useQuery(
@@ -28,8 +29,8 @@ function useSilentRefresh() {
       refetchIntervalInBackground: true,
       onError: () => {
         setRefreshStop(true);
-        jwtToken.setToken({refreshToken: '', refreshTokenExpirationTime: ''});
-        setToken({accessToken: '', refreshToken: '', refreshTokenExpirationTime: ''});
+        jwtToken.deleteToken();
+        resetToken();
       },
       onSuccess: (data) => {
         jwtToken.setToken({

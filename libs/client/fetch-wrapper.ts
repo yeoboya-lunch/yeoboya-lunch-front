@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useRecoilValue} from 'recoil';
-import {jwtToken} from '@libs/client/Token';
+import {jwtToken} from '@libs/client/JwtToken';
 import {getAccessToken} from '@libs/recoil/token';
 
 function useFetchWrapper() {

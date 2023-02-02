@@ -4,11 +4,14 @@ import Layout from '@components/layout';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
 import {useRecoilValue} from 'recoil';
 import memberAtom from '@libs/recoil/member';
+import Button from '@components/button';
+import {useLogout} from '@libs/hooks/services/mutations/user';
 
 const Profile: NextPage = () => {
   const iMember = useRecoilValue(memberAtom);
   const {isSuccess, isError, isLoading, error, data} = useSettingMember(iMember.email);
-  console.log(data);
+
+  const logout = useLogout();
 
   return (
     <Layout hasTabBar title="프로필">
@@ -145,6 +148,10 @@ const Profile: NextPage = () => {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="mx-4 mt-3.5" onClick={logout.mutate}>
+        <Button text="로그아웃" />
       </div>
     </Layout>
   );

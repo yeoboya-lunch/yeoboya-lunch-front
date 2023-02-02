@@ -4,11 +4,9 @@ import {FieldErrors, useForm} from 'react-hook-form';
 import Button from '@components/button';
 import Input from '@components/input';
 import {cls} from '@libs/client/utils';
-import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
-import {useRecoilState} from 'recoil';
-import {useSettingMember} from '@libs/hooks/services/queries/member';
+import {useRouter} from 'next/router';
 
 interface LoginForm {
   email?: string;

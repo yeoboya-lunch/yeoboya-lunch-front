@@ -1,9 +1,11 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation} from '@tanstack/react-query';
-import {useSetRecoilState} from 'recoil';
-import {jwtToken} from '@libs/client/Token';
-import tokenAtom from '@libs/recoil/token';
+import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+import {jwtToken} from '@libs/client/JwtToken';
+import tokenAtom, {getAccessToken} from '@libs/recoil/token';
 import memberAtom from '@libs/recoil/member';
+import {router} from 'next/client';
+import {useRouter} from 'next/router';
 
 interface SinUpForm {
   email: string;
@@ -67,4 +69,33 @@ function useLogin(): any {
   });
 }
 
-export {useSignUp, useLogin};
+function useLogout(): any {
+  const {post} = useFetchWrapper();
+  let token = useRecoilValue(getAccessToken);
+  const router = useRouter();
+  const resetMember = useResetRecoilState(memberAtom);
+  const resetToken = useResetRecoilState(tokenAtom);
+  return useMutation({
+    mutationFn: () =>
+      post({
+        url: '/user/sign-out',
+        data: {
+          accessToken: token,
+          refreshToken: jwtToken.refreshToken,
+        },
+      }),
+    onMutate: (variables) => {},
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        jwtToken.deleteToken();
+        resetToken();
+        resetMember();
+        router.push('/');
+      }
+    },
+    onSettled: (data, error, variables, context) => {},
+    onError: (error, variables, context) => {},
+  });
+}
+
+export {useSignUp, useLogin, useLogout};
