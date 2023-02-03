@@ -9,16 +9,25 @@ import React, {useEffect} from 'react';
 function DebugObserver(): React.Node {
   const snapshot = useRecoilSnapshot();
   useEffect(() => {
-    console.log('The following atoms were modified:');
+    console.group('atom');
     for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
-      console.log(node.key, snapshot.getLoadable(node));
+      console.log(node.key, ':', snapshot.getLoadable(node));
     }
+    console.groupEnd();
   }, [snapshot]);
 
   return null;
 }
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({Component, pageProps}: AppProps) {
   return (

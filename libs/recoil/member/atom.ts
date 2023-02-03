@@ -8,13 +8,19 @@ interface IMember {
   email: string;
   bankName?: string;
   accountNumber?: string;
+  nickName?: string;
+  phoneNumber?: string;
+  bio?: string;
 }
 
 const initialState: IMember = {
   name: '',
   email: '',
   bankName: '',
+  nickName: '',
   accountNumber: '',
+  phoneNumber: '',
+  bio: '',
 };
 
 const memberAtom = atom<IMember>({

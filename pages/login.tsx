@@ -7,6 +7,8 @@ import {cls} from '@libs/client/utils';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
 import {useRouter} from 'next/router';
+import {useSettingMember} from '@libs/hooks/services/queries/member';
+import {useQuery} from '@tanstack/react-query';
 
 interface LoginForm {
   email?: string;
@@ -15,7 +17,8 @@ interface LoginForm {
 }
 
 const Login: NextPage = (props) => {
-  const {mutate, isSuccess, isError, isLoading, error, data} = useLogin();
+  const login = useLogin();
+  const settingMember = useSettingMember();
   const {
     register,
     handleSubmit,
@@ -35,22 +38,24 @@ const Login: NextPage = (props) => {
   };
 
   const onValid = (validForm: LoginForm) => {
-    mutate(validForm);
+    login.mutate(validForm);
   };
 
   const router = useRouter();
   useEffect(() => {
-    if (isError) {
+    if (login.isError) {
       setError(
         'password',
-        {type: 'focus', message: error.response.data.message},
+        {type: 'focus', message: login.error.response.data.message},
         {shouldFocus: true},
       );
     }
-    if (isSuccess) {
+    if (login.isSuccess) {
+      // if (member.isSuccess) {
       router.push('/');
+      // }
     }
-  }, [isLoading]);
+  }, [login.isLoading]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -126,8 +131,10 @@ const Login: NextPage = (props) => {
               {errors.password?.message}
             </p>
           )}
-          {method === 'email' && <Button text={isLoading ? 'Loading' : 'login'} />}
-          {method === 'phone' && <Button text={isLoading ? 'Loading' : 'Get one-time password'} />}
+          {method === 'email' && <Button text={login.isLoading ? 'Loading' : 'login'} />}
+          {method === 'phone' && (
+            <Button text={login.isLoading ? 'Loading' : 'Get one-time password'} />
+          )}
         </form>
 
         <p className="mt-5 p-3 border rounded-md text-center text-gray-700">

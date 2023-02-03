@@ -1,7 +1,9 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useMutation, useQuery} from '@tanstack/react-query';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useQuery} from '@tanstack/react-query';
+import {useRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
+import {Simulate} from 'react-dom/test-utils';
+import select = Simulate.select;
 
 const memberKeys = {
   all: () => ['user'],
@@ -10,19 +12,23 @@ const memberKeys = {
   detail: (email: string) => [...memberKeys.details(), email],
 };
 
-function useSettingMember(email: string): any {
+function useSettingMember(options?: {}): any {
   const {get} = useFetchWrapper();
   const [member, setMember] = useRecoilState(memberAtom);
 
-  return useQuery([memberKeys.detail(email)], () => get({url: `/member/account/${email}`}), {
+  return useQuery([memberKeys.detail(member.email)], () => get({url: `/member/${member.email}`}), {
+    ...options,
+    enabled: !!member.email,
     onSuccess: (data) => {
       if (data.status === 200) {
-        console.log(data);
         setMember({
-          name: data.data.data[0].name,
-          email: data.data.data[0].email,
-          bankName: data.data.data[0].bankName,
-          accountNumber: data.data.data[0].accountNumber,
+          name: data.data.data.name,
+          email: data.data.data.email,
+          bankName: data.data.data.bankName,
+          nickName: data.data.data.nickName,
+          accountNumber: data.data.data.accountNumber,
+          phoneNumber: data.data.data.phoneNumber,
+          bio: data.data.data.bio,
         });
       }
     },

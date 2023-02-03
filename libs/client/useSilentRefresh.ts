@@ -4,12 +4,14 @@ import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useRecoilState, useResetRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/JwtToken';
 import tokenAtom from '@libs/recoil/token';
+import {useRouter} from 'next/router';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
   const [token, setToken] = useRecoilState(tokenAtom);
   const resetToken = useResetRecoilState(tokenAtom);
   const {post} = useFetchWrapper();
+  const router = useRouter();
 
   useQuery(
     ['REFRESH'],
@@ -17,20 +19,21 @@ function useSilentRefresh() {
       post({
         url: 'user/reissue',
         data: {
-          refreshToken: token.refreshToken,
+          refreshToken: jwtToken.refreshToken,
         },
       }),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       refetchOnReconnect: false,
-      retry: 2,
+      retry: 0,
       refetchInterval: refreshStop ? false : 60 * 60 * 1000,
       refetchIntervalInBackground: true,
       onError: () => {
         setRefreshStop(true);
         jwtToken.deleteToken();
         resetToken();
+        router.push('/');
       },
       onSuccess: (data) => {
         jwtToken.setToken({
@@ -47,18 +50,4 @@ function useSilentRefresh() {
   );
 }
 
-function useCheckCurrentUser() {
-  const [token, setToken] = useRecoilState(tokenAtom);
-  const currentUserQuery = useQuery(['CURRENT_USER'], () => {}, {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    retry: 2,
-    staleTime: 24 * 60 * 60 * 1000,
-    onError: () => {
-      setToken({accessToken: '', refreshToken: '', refreshTokenExpirationTime: ''});
-    },
-  });
-}
-
-export {useSilentRefresh, useCheckCurrentUser};
+export {useSilentRefresh};
