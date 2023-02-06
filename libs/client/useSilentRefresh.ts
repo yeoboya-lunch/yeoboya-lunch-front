@@ -1,15 +1,18 @@
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useRecoilState, useResetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useResetRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/JwtToken';
 import tokenAtom from '@libs/recoil/token';
 import {useRouter} from 'next/router';
+import memberAtom from '@libs/recoil/member';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
   const [token, setToken] = useRecoilState(tokenAtom);
+  const [member, setMember] = useRecoilState(memberAtom);
   const resetToken = useResetRecoilState(tokenAtom);
+  const resetMember = useResetRecoilState(memberAtom);
   const {post} = useFetchWrapper();
   const router = useRouter();
 
@@ -27,12 +30,14 @@ function useSilentRefresh() {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retry: 0,
-      refetchInterval: refreshStop ? false : 60 * 60 * 1000,
+      refetchInterval: refreshStop ? false : 5000,
       refetchIntervalInBackground: true,
+      enabled: !!member.email,
       onError: () => {
         setRefreshStop(true);
         jwtToken.deleteToken();
         resetToken();
+        resetMember();
         router.push('/');
       },
       onSuccess: (data) => {

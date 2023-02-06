@@ -2,8 +2,6 @@ import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useQuery} from '@tanstack/react-query';
 import {useRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
-import {Simulate} from 'react-dom/test-utils';
-import select = Simulate.select;
 
 const memberKeys = {
   all: () => ['user'],
@@ -19,6 +17,8 @@ function useSettingMember(options?: {}): any {
   return useQuery([memberKeys.detail(member.email)], () => get({url: `/member/${member.email}`}), {
     ...options,
     enabled: !!member.email,
+    refetchOnMount: true,
+    select: (data) => data.data.data,
     onSuccess: (data) => {
       if (data.status === 200) {
         setMember({

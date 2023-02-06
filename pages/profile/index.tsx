@@ -1,15 +1,22 @@
 import type {NextPage} from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
-import {useRecoilValue} from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import {Suspense, useEffect, useState} from 'react';
 import Button from '@components/button';
 import {useLogout} from '@libs/hooks/services/mutations/user';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
 
 const Profile: NextPage = () => {
-  const member = useRecoilValue(memberAtom);
-  const logout = useLogout();
+  const {data: member, isLoading} = useSettingMember({suspense: false});
+  const {mutate: logout} = useLogout();
+
+  const Loading = () => {
+    return (
+      <h1 className="text-9xl">
+        loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...
+      </h1>
+    );
+  };
 
   return (
     <Layout hasTabBar title="프로필">
@@ -17,9 +24,9 @@ const Profile: NextPage = () => {
         <div className="flex items-center mt-4 space-x-3">
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-gray-900">{member.email}</span>
-            <span className="text-sm text-gray-500">{member.nickName}</span>
-            <span>{member.bio}</span>
+            <span className="text-2xl font-bold text-gray-900">{member?.email}</span>
+            <span className="text-sm text-gray-500">{member?.nickName}</span>
+            <span>{member?.bio}</span>
             <Link href="/profile/edit" className="text-sm text-gray-700">
               Edit profile &rarr;
             </Link>
@@ -150,7 +157,7 @@ const Profile: NextPage = () => {
         </div>
       </div>
 
-      <div className="mx-4 mt-3.5" onClick={logout.mutate}>
+      <div className="mx-4 mt-3.5" onClick={logout}>
         <Button text="로그아웃" />
       </div>
     </Layout>

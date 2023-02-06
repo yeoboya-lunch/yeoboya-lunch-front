@@ -7,8 +7,6 @@ import {cls} from '@libs/client/utils';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
 import {useRouter} from 'next/router';
-import {useSettingMember} from '@libs/hooks/services/queries/member';
-import {useQuery} from '@tanstack/react-query';
 
 interface LoginForm {
   email?: string;
@@ -18,7 +16,6 @@ interface LoginForm {
 
 const Login: NextPage = (props) => {
   const login = useLogin();
-  const settingMember = useSettingMember();
   const {
     register,
     handleSubmit,
@@ -51,9 +48,7 @@ const Login: NextPage = (props) => {
       );
     }
     if (login.isSuccess) {
-      // if (member.isSuccess) {
       router.push('/');
-      // }
     }
   }, [login.isLoading]);
 

@@ -45,6 +45,25 @@ function useFetchWrapper() {
     });
   }
 
-  return {get, post};
+  interface PatchParams {
+    url: string;
+    data?: any;
+    config?: any;
+  }
+
+  function patch<T = any>({url, data, config}: PatchParams): Promise<any> {
+    return axios.patch(url, data, {
+      baseURL: process.env.NEXT_PUBLIC_API_SERVER,
+      headers: {
+        ...config,
+        // Authorization: `Bearer ${token.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      responseType: 'json',
+    });
+  }
+
+  return {get, post, patch};
 }
 export {useFetchWrapper};

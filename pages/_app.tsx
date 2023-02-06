@@ -22,6 +22,8 @@ function DebugObserver(): React.Node {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      // suspense: true,
+      staleTime: 0,
       refetchOnMount: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,

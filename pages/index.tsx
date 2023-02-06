@@ -2,8 +2,11 @@ import type {InferGetStaticPropsType, NextPage, NextPageContext} from 'next';
 import FloatingButton from '../components/floating-button';
 import Item from '../components/item';
 import Layout from '../components/layout';
+import {useSettingMember} from '@libs/hooks/services/queries/member';
 
 const Home: NextPage = () => {
+  const member = useSettingMember();
+
   return (
     <Layout title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y">
