@@ -30,7 +30,7 @@ function useSilentRefresh() {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retry: 0,
-      refetchInterval: refreshStop ? false : 5000,
+      refetchInterval: refreshStop ? false : 60 * 1000,
       refetchIntervalInBackground: true,
       enabled: !!member.email,
       onError: () => {

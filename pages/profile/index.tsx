@@ -27,12 +27,9 @@ const Profile: NextPage = () => {
             <span className="text-2xl font-bold text-gray-900">{member?.email}</span>
             <span className="text-sm text-gray-500">{member?.nickName}</span>
             <span>{member?.bio}</span>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
           </div>
         </div>
-        <div className="mt-10 flex justify-around">
+        <div className="mt-10 flex justify-around pb-5 border-b">
           <Link href="/profile/sold" className="flex flex-col items-center">
             <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
               <svg
@@ -91,6 +88,47 @@ const Profile: NextPage = () => {
             <span className="text-sm mt-2 font-medium text-gray-700">관심목록</span>
           </Link>
         </div>
+
+        <div className="grid grid-cols-3 grid-rows-3 mt-5 gap-x-5 gap-y-10 p-4">
+          <Link href="/profile/edit" className="text-sm text-gray-700">
+            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+              <div className="">사진</div>
+              <span>Edit profile</span>
+            </div>
+          </Link>
+
+          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="">사진</div>
+            <Link href="/profile/edit" className="text-sm text-gray-700">
+              Edit profile &rarr;
+            </Link>
+          </div>
+          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="">사진</div>
+            <Link href="/profile/edit" className="text-sm text-gray-700">
+              Edit profile &rarr;
+            </Link>
+          </div>
+          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="">사진</div>
+            <Link href="/profile/edit" className="text-sm text-gray-700">
+              Edit profile &rarr;
+            </Link>
+          </div>
+          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="">사진</div>
+            <Link href="/profile/edit" className="text-sm text-gray-700">
+              Edit profile &rarr;
+            </Link>
+          </div>
+          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="">사진</div>
+            <Link href="/profile/edit" className="text-sm text-gray-700">
+              Edit profile &rarr;
+            </Link>
+          </div>
+        </div>
+
         <div className="mt-12">
           <div className="flex space-x-4 items-center">
             <div className="w-12 h-12 rounded-full bg-slate-500" />

@@ -8,10 +8,15 @@ import {FieldErrors, useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {useEffect, Suspense} from 'react';
 
-interface UpdateForm {
+interface PublicProfileForm {
   email: string;
   phoneNumber: string;
   bio: string;
+}
+
+interface AccountForm {
+  bankName: string;
+  accountNumber: string;
 }
 
 const EditProfile: NextPage = () => {
@@ -19,13 +24,24 @@ const EditProfile: NextPage = () => {
   const update = useMemberUpdate();
 
   const {
-    register,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<UpdateForm>();
+    register: publicProfileRegister,
+    handleSubmit: publicProfileHandleSubmit,
+    formState: {errors: publicProfileErrors},
+  } = useForm<PublicProfileForm>();
 
-  const onValid = (validForm: UpdateForm) => {
+  const {
+    register: accountRegister,
+    handleSubmit: accountHandleSubmit,
+    formState: {errors: accountErrors},
+  } = useForm<AccountForm>();
+
+  const onValid = (validForm: PublicProfileForm | AccountForm) => {
+    console.log(validForm);
     update.mutate(validForm);
+  };
+
+  const onInvalid = (publicProfileErrors: FieldErrors) => {
+    console.log(publicProfileErrors);
   };
 
   const router = useRouter();
@@ -38,16 +54,13 @@ const EditProfile: NextPage = () => {
     }
   }, [update.isLoading]);
 
-  const onInvalid = (errors: FieldErrors) => {
-    console.log(errors);
-  };
-  const Loading = () => {
-    return <h1>loading...</h1>;
-  };
   return (
     <Layout canGoBack title="Edit Profile">
-      <h2 className="text-2xl">Public profile</h2>
-      <form onSubmit={handleSubmit(onValid, onInvalid)} className="py-10 px-4 space-y-4">
+      <h2 className="text-2xl py-3 px-4 border-b-2">Public profile</h2>
+      <form
+        onSubmit={publicProfileHandleSubmit(onValid, onInvalid)}
+        className="pt-5 px-4 space-y-4"
+      >
         <div className="flex items-center space-x-3">
           <div className="w-14 h-14 rounded-full bg-slate-500" />
           <label
@@ -67,7 +80,7 @@ const EditProfile: NextPage = () => {
           defaultValue={member?.name}
         />
         <Input
-          register={register('email', {
+          register={publicProfileRegister('email', {
             required: '이메일은 필수 입력입니다.',
           })}
           required
@@ -78,7 +91,7 @@ const EditProfile: NextPage = () => {
           defaultValue={member?.email}
         />
         <Input
-          register={register('phoneNumber', {
+          register={publicProfileRegister('phoneNumber', {
             required: '핸드폰 번호는 필수 입니다.',
           })}
           required
@@ -97,7 +110,7 @@ const EditProfile: NextPage = () => {
           defaultValue={member?.nickName}
         />
         <Input
-          register={register('bio', {
+          register={publicProfileRegister('bio', {
             required: '정보는 필수 입력입니다.',
           })}
           required
@@ -107,12 +120,37 @@ const EditProfile: NextPage = () => {
           kind="text"
           defaultValue={member?.bio}
         />
-        {errors.bio && (
+        {publicProfileErrors.bio && (
           <p role="alert" className="text-sm text-red-500">
-            {errors.bio?.message}
+            {publicProfileErrors.bio?.message}
           </p>
         )}
         <Button text={update.isLoading ? 'Loading' : 'Update profile'} />
+      </form>
+
+      <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
+      <form onSubmit={accountHandleSubmit(onValid, onInvalid)} className="pt-5 px-4 space-y-4">
+        <Input
+          register={accountRegister('bankName', {
+            required: '이메일은 필수 입력입니다.',
+          })}
+          required
+          label="은행"
+          name="bankName"
+          type="text"
+          defaultValue={member?.bankName}
+        />
+        <Input
+          register={accountRegister('accountNumber', {
+            required: '이메일은 필수 입력입니다.',
+          })}
+          required
+          label="계좌번호"
+          name="accountNumber"
+          type="text"
+          defaultValue={member?.accountNumber}
+        />
+        <Button text={update.isLoading ? 'Loading' : 'Update Account'} />
       </form>
     </Layout>
   );
