@@ -3,7 +3,7 @@ import Button from '@components/button';
 import Input from '@components/input';
 import Layout from '@components/layout';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
-import {useMemberUpdate} from '@libs/hooks/services/mutations/member';
+import {usePublicProfileUpdate, useAccountSave} from '@libs/hooks/services/mutations/member';
 import {FieldErrors, useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
 import {useEffect, Suspense} from 'react';
@@ -15,13 +15,16 @@ interface PublicProfileForm {
 }
 
 interface AccountForm {
+  email: string;
   bankName: string;
   accountNumber: string;
 }
 
 const EditProfile: NextPage = () => {
   const {data: member} = useSettingMember({suspense: true});
-  const update = useMemberUpdate();
+  const publicProfile = usePublicProfileUpdate();
+  const account = useAccountSave();
+  // const update = useAccountInfoSave();
 
   const {
     register: publicProfileRegister,
@@ -35,9 +38,13 @@ const EditProfile: NextPage = () => {
     formState: {errors: accountErrors},
   } = useForm<AccountForm>();
 
-  const onValid = (validForm: PublicProfileForm | AccountForm) => {
-    console.log(validForm);
-    update.mutate(validForm);
+  const onValidPublic = (validForm: PublicProfileForm) => {
+    publicProfile.mutate(validForm);
+  };
+
+  const onValidAccount = (validForm: AccountForm) => {
+    validForm.email = member?.email;
+    account.mutate(validForm);
   };
 
   const onInvalid = (publicProfileErrors: FieldErrors) => {
@@ -46,19 +53,19 @@ const EditProfile: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
-    if (update.isError) {
-      // console.log(errors);
+    if (publicProfile.isError || account.isError) {
+      console.log(publicProfileErrors, accountErrors);
     }
-    if (update.isSuccess) {
+    if (publicProfile.isSuccess || account.isSuccess) {
       router.push('/profile');
     }
-  }, [update.isLoading]);
+  }, [publicProfile.isLoading]);
 
   return (
     <Layout canGoBack title="Edit Profile">
       <h2 className="text-2xl py-3 px-4 border-b-2">Public profile</h2>
       <form
-        onSubmit={publicProfileHandleSubmit(onValid, onInvalid)}
+        onSubmit={publicProfileHandleSubmit(onValidPublic, onInvalid)}
         className="pt-5 px-4 space-y-4"
       >
         <div className="flex items-center space-x-3">
@@ -125,11 +132,14 @@ const EditProfile: NextPage = () => {
             {publicProfileErrors.bio?.message}
           </p>
         )}
-        <Button text={update.isLoading ? 'Loading' : 'Update profile'} />
+        <Button text={publicProfile.isLoading ? 'Loading' : 'Update profile'} />
       </form>
 
       <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
-      <form onSubmit={accountHandleSubmit(onValid, onInvalid)} className="pt-5 px-4 space-y-4">
+      <form
+        onSubmit={accountHandleSubmit(onValidAccount, onInvalid)}
+        className="pt-5 px-4 space-y-4"
+      >
         <Input
           register={accountRegister('bankName', {
             required: '이메일은 필수 입력입니다.',
@@ -150,7 +160,7 @@ const EditProfile: NextPage = () => {
           type="text"
           defaultValue={member?.accountNumber}
         />
-        <Button text={update.isLoading ? 'Loading' : 'Update Account'} />
+        <Button text={account.isLoading ? 'Loading' : 'Create Account'} />
       </form>
     </Layout>
   );

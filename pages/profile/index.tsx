@@ -93,40 +93,23 @@ const Profile: NextPage = () => {
           <Link href="/profile/edit" className="text-sm text-gray-700">
             <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
               <div className="">사진</div>
+              <span>프로필 수정</span>
+            </div>
+          </Link>
+
+          <Link href="/profile/edit" className="text-sm text-gray-700">
+            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+              <div className="">사진</div>
               <span>Edit profile</span>
             </div>
           </Link>
 
-          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
-            <div className="">사진</div>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
-          </div>
-          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
-            <div className="">사진</div>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
-          </div>
-          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
-            <div className="">사진</div>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
-          </div>
-          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
-            <div className="">사진</div>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
-          </div>
-          <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
-            <div className="">사진</div>
-            <Link href="/profile/edit" className="text-sm text-gray-700">
-              Edit profile &rarr;
-            </Link>
-          </div>
+          <Link href="/member" className="text-sm text-gray-700">
+            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+              <div className="">사진</div>
+              <span>당직자</span>
+            </div>
+          </Link>
         </div>
 
         <div className="mt-12">

@@ -1,10 +1,10 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
 
 const memberKeys = {
-  all: () => ['user'],
+  all: () => ['member'],
   list: () => [...memberKeys.all(), 'list'],
   details: () => [...memberKeys.all(), 'detail'],
   detail: (email: string) => [...memberKeys.details(), email],
@@ -35,4 +35,31 @@ function useSettingMember(options?: {}): any {
   });
 }
 
-export {useSettingMember};
+function useInfiniteMemberList(options?: {}): any {
+  const {get} = useFetchWrapper();
+  const size = 30;
+
+  return useInfiniteQuery(
+    [memberKeys.list()],
+    () => get({url: '/member', params: {size: size, page: 1}}),
+    {
+      ...options,
+      // select: (data) => data,
+      getNextPageParam: (lastPage) => {
+        //fixme api 에서 return data 구조 생각하기
+        // console.log(lastPage.data.data.next);
+        // if (!lastPage) {
+        //   return false;
+        // }
+        //
+        // const offset = new URL(lastPage).searchParams.get('offset');
+        return Number(lastPage.data.data.next);
+      },
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    },
+  );
+}
+
+export {useSettingMember, useInfiniteMemberList};

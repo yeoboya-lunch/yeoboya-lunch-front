@@ -1,9 +1,9 @@
 import type {UseFormRegisterReturn} from 'react-hook-form';
 
 interface InputProps {
-  label: string;
+  label?: string;
   name: string;
-  kind?: 'text' | 'phone' | 'price';
+  kind?: 'text' | 'phone' | 'price' | 'hidden';
   type: string;
   register?: UseFormRegisterReturn;
   required: boolean;
@@ -77,6 +77,18 @@ export default function Input({
             className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md rounded-l-none shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
           />
         </div>
+      ) : null}
+      {kind === 'hidden' ? (
+        <input
+          hidden
+          id={name}
+          required={required}
+          {...register}
+          type={type}
+          disabled={disabled}
+          readOnly={readOnly}
+          defaultValue={defaultValue}
+        />
       ) : null}
     </div>
   );
