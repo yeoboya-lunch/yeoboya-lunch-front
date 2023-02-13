@@ -37,26 +37,18 @@ function useSettingMember(options?: {}): any {
 
 function useInfiniteMemberList(options?: {}): any {
   const {get} = useFetchWrapper();
-  const size = 30;
+  const size = 10;
 
   return useInfiniteQuery(
     [memberKeys.list()],
-    () => get({url: '/member', params: {size: size, page: 1}}),
+    ({pageParam = 1}) => get({url: '/member', params: {size: size, page: pageParam}}),
     {
       ...options,
-      // select: (data) => data,
-      getNextPageParam: (lastPage) => {
-        //fixme api 에서 return data 구조 생각하기
-        // console.log(lastPage.data.data.next);
-        // if (!lastPage) {
-        //   return false;
-        // }
-        //
-        // const offset = new URL(lastPage).searchParams.get('offset');
-        return Number(lastPage.data.data.next);
+      getNextPageParam: (lastPage, pages) => {
+        return lastPage.data.data.next + 1;
       },
-      onSuccess: (data) => {
-        console.log(data);
+      getPreviousPageParam: (firstPage, allPages) => {
+        return firstPage.data.data.next - 1;
       },
     },
   );
