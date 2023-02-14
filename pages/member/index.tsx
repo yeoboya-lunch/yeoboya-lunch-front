@@ -40,19 +40,18 @@ const Member: NextPage = () => {
 
       {member.status === 'success' &&
         member.data.pages.map((group: any, index: number) => (
-          <div key={index}>
+          <div className="flex flex-wrap gap-4 mb-2" key={index}>
             {group.data.data.list.map((data: TMember, index: number) => {
               return (
-                <div className="border-b-2" key={index}>
-                  <MemberCard
-                    email={data.email}
-                    name={data.name}
-                    nickName={data.nickName}
-                    phoneNumber={data.phoneNumber}
-                    bankName={data.bankName}
-                    accountNumber={data.accountNumber}
-                  />
-                </div>
+                <MemberCard
+                  key={index}
+                  email={data.email}
+                  name={data.name}
+                  nickName={data.nickName}
+                  phoneNumber={data.phoneNumber}
+                  bankName={data.bankName}
+                  accountNumber={data.accountNumber}
+                />
               );
             })}
           </div>

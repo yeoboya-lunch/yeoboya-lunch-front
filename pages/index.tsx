@@ -8,12 +8,12 @@ const Home: NextPage = () => {
   const member = useSettingMember();
 
   return (
-    <Layout title="홈" hasTabBar>
+    <Layout title="오늘의주문" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Item id={i} key={i} title="iPhone 14" price={99} comments={1} hearts={1} />
         ))}
-        <FloatingButton href="/items/upload">
+        <FloatingButton href="/order/shop">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"

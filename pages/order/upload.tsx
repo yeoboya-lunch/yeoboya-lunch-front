@@ -5,8 +5,10 @@ import Layout from '@components/layout';
 import TextArea from '@components/textarea';
 
 const Upload: NextPage = () => {
+  //식당정보 select
+
   return (
-    <Layout canGoBack title="Upload Product">
+    <Layout canGoBack title="오늘의 주문">
       <form className="p-4 space-y-4">
         <div>
           <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
@@ -27,10 +29,18 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <Input required label="Name" name="name" type="text" />
-        <Input required label="Price" place-Holder="0.00" name="price" type="text" kind="price" />
-        <TextArea name="description" label="Description" />
-        <Button text="Upload item" />
+        <Input required label="식당이름" name="name" type="text" />
+        <Input
+          required
+          label="배달비 (수정가능)"
+          place-Holder="0.00"
+          name="price"
+          type="text"
+          kind="price"
+        />
+        <Input required label="주문마감시간" name="name" type="time" />
+        <TextArea name="description" label="주문요청사항" />
+        <Button text="주문시작" />
       </form>
     </Layout>
   );

@@ -35,22 +35,33 @@ export default function MemberCard({
   });
 
   return (
-    <Link
-      href={`/member/${email}`}
-      className="pt-4 block  px-4"
-      ref={target}
-      onClick={() => setScrollY(window.scrollY)}
-    >
-      {visible && (
-        <>
-          <h1 className="text-2xl mt-2 font-bold text-gray-900">{email}</h1>
-          <span className="text-gray-700 text-sm">{name}</span>
-          <span className="text-gray-700 text-sm">{nickName}</span>
-          <span className="text-gray-700 text-sm">{phoneNumber}</span>
-          <span className="text-gray-700 text-sm">{bankName}</span>
-          <span className="text-gray-700 text-sm">{accountNumber}</span>
-        </>
-      )}
-    </Link>
+    <div className="w-[calc(50%_-_1rem)] p-1 rounded-xl min-h-7 shadow-2xl flex items-center justify-evenly">
+      <div className="space-y-2">
+        <div className="w-12 h-12 rounded-full bg-slate-500" />
+        <div className="text-gray-700 text-xs text-center">{nickName}</div>
+      </div>
+      <div>
+        <Link
+          href={`/member/${email}`}
+          className="flex flex-col "
+          ref={target}
+          onClick={() => setScrollY(window.scrollY)}
+        >
+          {visible && (
+            <>
+              <div className="text-base mt-2 font-bold">{email}</div>
+              <div className="flex space-x-1">
+                <div className="text-gray-700 text-sm">{name}</div>
+                <div className="text-gray-700 text-sm">{phoneNumber}</div>
+              </div>
+              <div className="space-x-1">
+                <span className="text-gray-700 text-sm">{bankName}</span>
+                <span className="text-gray-700 text-sm">{accountNumber}</span>
+              </div>
+            </>
+          )}
+        </Link>
+      </div>
+    </div>
   );
 }

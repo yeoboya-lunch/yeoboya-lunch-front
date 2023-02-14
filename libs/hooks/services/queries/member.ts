@@ -37,18 +37,18 @@ function useSettingMember(options?: {}): any {
 
 function useInfiniteMemberList(options?: {}): any {
   const {get} = useFetchWrapper();
-  const size = 10;
+  const size = 30;
 
   return useInfiniteQuery(
     [memberKeys.list()],
     ({pageParam = 1}) => get({url: '/member', params: {size: size, page: pageParam}}),
     {
       ...options,
-      getNextPageParam: (lastPage, pages) => {
-        return lastPage.data.data.next + 1;
+      getNextPageParam: (lastPage) => {
+        if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
       },
-      getPreviousPageParam: (firstPage, allPages) => {
-        return firstPage.data.data.next - 1;
+      getPreviousPageParam: (firstPage) => {
+        if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
       },
     },
   );
