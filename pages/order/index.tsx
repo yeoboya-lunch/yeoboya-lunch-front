@@ -4,7 +4,7 @@ import Input from '@components/input';
 import Layout from '@components/layout';
 import TextArea from '@components/textarea';
 
-const Upload: NextPage = () => {
+const Index: NextPage = () => {
   //식당정보 select
 
   return (
@@ -29,7 +29,7 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <Input required label="식당이름" name="name" type="text" />
+        <Input required label="제목" name="name" type="text" />
         <Input
           required
           label="배달비 (수정가능)"
@@ -46,4 +46,4 @@ const Upload: NextPage = () => {
   );
 };
 
-export default Upload;
+export default Index;

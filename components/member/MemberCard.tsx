@@ -23,7 +23,7 @@ export default function MemberCard({
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  const [scrollY, setScrollY] = useLocalStorage('poke_list_scroll', 0);
+  const [scrollY, setScrollY] = useLocalStorage('member_list_scroll', 0);
 
   const onIntersect: IntersectionObserverCallback = ([entry]) =>
     entry.isIntersecting ? setVisible(true) : setVisible(false);
