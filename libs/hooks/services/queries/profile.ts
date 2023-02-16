@@ -10,7 +10,7 @@ const profileKeys = {
 
 function useProfiles(options: {} = {}) {
   const {get} = useFetchWrapper();
-  return useQuery([profileKeys.all()], () => get({url: `/member`}), {
+  return useQuery(profileKeys.all(), () => get({url: `/member`}), {
     ...options,
     onSuccess: (data) => {},
     onError: (err) => {},
@@ -20,7 +20,7 @@ function useProfiles(options: {} = {}) {
 
 function useProfileSimple(memberId: string, options: {} = {}) {
   const {get} = useFetchWrapper();
-  return useQuery([profileKeys.detail(memberId)], () => get({url: `/member/${memberId}`}), {
+  return useQuery(profileKeys.detail(memberId), () => get({url: `/member/${memberId}`}), {
     ...options,
     onError: (err) => {
       console.log('err', err);

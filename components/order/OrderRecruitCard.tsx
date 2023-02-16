@@ -1,4 +1,9 @@
 import Link from 'next/link';
+import profilePic from '../../public/image-4@2x.jpg';
+import Image from 'next/image';
+import {useRef, useState} from 'react';
+import useLocalStorage from 'use-local-storage';
+import {useObserver} from '@libs/client/useObserver';
 
 interface IRecruitProps {
   orderId: number;
@@ -17,6 +22,20 @@ export default function OrderRecruitCard({
   lastOrderTime,
   orderStatus,
 }: IRecruitProps) {
+  const target = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  const [scrollY, setScrollY] = useLocalStorage('recruit_list_scroll', 0);
+
+  const onIntersect: IntersectionObserverCallback = ([entry]) =>
+    entry.isIntersecting ? setVisible(true) : setVisible(false);
+
+  useObserver({
+    target,
+    onIntersect,
+    threshold: 0.1,
+  });
+
   return (
     <li className="flex flex-row mb-2 border-gray-400">
       <div
@@ -24,16 +43,22 @@ export default function OrderRecruitCard({
                     hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer
                     bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4"
       >
-        <Link href={`/items/${orderId}`}>
-          <div className="flex flex-col items-center justify-center w-10 h-10 mr-4">
-            <img
-              alt="image"
-              src="/images/person/6.jpg"
+        <Link
+          href={`/items/${orderId}`}
+          className="flex flex-1 justify-between items-center"
+          ref={target}
+          onClick={() => setScrollY(window.scrollY)}
+        >
+          <div className="flex flex-col items-center justify-center mr-4">
+            <Image
               className="mx-auto object-cover rounded-md h-20 w-20"
+              src={profilePic}
+              alt={'기본이미지'}
             />
+            <span>sdf</span>
           </div>
 
-          <div className="flex pl-1">
+          <div className="flex flex-grow pl-1">
             <div className="font-medium dark:text-white">{title}</div>
             <div className="text-sm text-gray-600 dark:text-gray-200">{orderMemberName}</div>
 
@@ -59,7 +84,7 @@ export default function OrderRecruitCard({
             </div>
           </div>
 
-          <button className="flex justify-end text-right">
+          <button className="flex justify-end">
             <svg
               width="12"
               fill="currentColor"

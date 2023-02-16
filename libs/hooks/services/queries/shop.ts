@@ -13,7 +13,7 @@ function useInfiniteShops(options?: {}): any {
   const size = 30;
 
   return useInfiniteQuery(
-    [shopKeys.all()],
+    shopKeys.all(),
     ({pageParam = 1}) => get({url: `/shop`, params: {size: size, page: pageParam}}),
     {
       ...options,

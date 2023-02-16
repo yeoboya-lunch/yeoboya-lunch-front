@@ -1,22 +1,17 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-
-const orderKeys = {
-  all: () => ['order'],
-  list: () => [...orderKeys.all(), 'list'],
-  details: () => [...orderKeys.all(), 'detail'],
-  detail: (orderId: string) => [...orderKeys.details(), orderId],
-};
+import {orderKeys} from '@libs/hooks/services/keys/order';
 
 function useInfiniteOrders(options?: {}): any {
   const {get} = useFetchWrapper();
-  const size = 30;
+  const size = 6;
 
   return useInfiniteQuery(
-    [orderKeys.all()],
+    orderKeys.list(),
     ({pageParam = 1}) => get({url: `/order/recruits`, params: {size: size, page: pageParam}}),
     {
       ...options,
+      refetchOnMount: true,
       getNextPageParam: (lastPage) => {
         if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
       },

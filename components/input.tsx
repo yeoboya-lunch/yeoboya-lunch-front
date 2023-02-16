@@ -6,7 +6,7 @@ interface InputProps {
   kind?: 'text' | 'phone' | 'price' | 'hidden';
   type: string;
   register?: UseFormRegisterReturn;
-  required: boolean;
+  required?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   defaultValue?: string;
@@ -53,6 +53,7 @@ export default function Input({
             required={required}
             {...register}
             type={type}
+            defaultValue={defaultValue}
             className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
           />
           <div className="absolute right-0 pointer-events-none pr-3 flex items-center">

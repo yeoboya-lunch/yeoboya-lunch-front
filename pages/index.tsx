@@ -38,7 +38,7 @@ const Home: NextPage = () => {
     }
   }, []);
 
-  console.log(orders);
+  console.log(orders.data);
 
   return (
     <Layout title="오늘의주문" hasTabBar>
@@ -64,10 +64,10 @@ const Home: NextPage = () => {
         </div>
       )}
 
-      <div className="flex flex-col space-y-5 divide-y">
+      <div className="space-y-5">
         {orders.status === 'success' &&
           orders.data.pages.map((group: any, index: number) => (
-            <ul className="flex flex-col" key={index}>
+            <ul key={index}>
               {group.data.data.list.map((data: TRecruit, index: number) => {
                 return (
                   <OrderRecruitCard

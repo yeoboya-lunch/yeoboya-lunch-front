@@ -40,7 +40,7 @@ function useInfiniteMemberList(options?: {}): any {
   const size = 30;
 
   return useInfiniteQuery(
-    [memberKeys.list()],
+    memberKeys.list(),
     ({pageParam = 1}) => get({url: '/member', params: {size: size, page: pageParam}}),
     {
       ...options,
