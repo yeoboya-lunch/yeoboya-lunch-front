@@ -39,7 +39,7 @@ const Index: NextPage = () => {
         shop.data.pages.map((group: any, index: number) => (
           <div className="flex flex-wrap gap-4 mb-2" key={index}>
             {group.data.data.list.map((data: TShop, index: number) => {
-              return <ShopCard key={index} shopName={data.shopName} image={profilePic} />;
+              return <ShopCard key={index} shopName={data.shopName} image={''} />;
             })}
           </div>
         ))}

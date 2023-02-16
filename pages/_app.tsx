@@ -6,18 +6,18 @@ import {CookiesProvider} from 'react-cookie';
 import {RecoilRoot, useRecoilSnapshot} from 'recoil';
 import React, {useEffect} from 'react';
 
-function DebugObserver(): React.Node {
-  const snapshot = useRecoilSnapshot();
-  useEffect(() => {
-    console.group('atom');
-    for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
-      console.log(node.key, ':', snapshot.getLoadable(node));
-    }
-    console.groupEnd();
-  }, [snapshot]);
+// function DebugObserver(): React.Node {
+//   const snapshot = useRecoilSnapshot();
+// useEffect(() => {
+//   console.group('atom');
+//   for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
+//     console.log(node.key, ':', snapshot.getLoadable(node));
+//   }
+//   console.groupEnd();
+// }, [snapshot]);
 
-  return null;
-}
+// return null;
+// }
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +37,7 @@ function MyApp({Component, pageProps}: AppProps) {
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
           <RecoilRoot>
-            <DebugObserver />
+            {/*<DebugObserver />*/}
             <ReactQueryDevtools initialIsOpen={true} />
             <Component {...pageProps} />
           </RecoilRoot>

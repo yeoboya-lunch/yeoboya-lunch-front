@@ -5,12 +5,7 @@ import Input from '@components/input';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import {useSignUp} from '@libs/hooks/services/mutations/user';
-
-interface SinUpForm {
-  email: string;
-  password: string;
-  name: string;
-}
+import {ISignUpForm} from '../../types/user';
 
 const Login: NextPage = () => {
   const {mutate, isSuccess, isError, isLoading, error} = useSignUp();
@@ -20,11 +15,11 @@ const Login: NextPage = () => {
     handleSubmit,
     setError,
     formState: {errors},
-  } = useForm<SinUpForm>({
+  } = useForm<ISignUpForm>({
     mode: 'onSubmit',
   });
 
-  const onValid = (sinUpForm: SinUpForm) => {
+  const onValid = (sinUpForm: ISignUpForm) => {
     mutate(sinUpForm);
   };
 

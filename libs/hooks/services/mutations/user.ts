@@ -4,20 +4,8 @@ import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
 import {jwtToken} from '@libs/client/JwtToken';
 import tokenAtom, {getAccessToken} from '@libs/recoil/token';
 import memberAtom from '@libs/recoil/member';
-import {router} from 'next/client';
 import {useRouter} from 'next/router';
-
-interface SinUpForm {
-  email: string;
-  password: string;
-  name: string;
-}
-
-interface LoginForm {
-  email?: string;
-  phone?: string;
-  password: string;
-}
+import {ISignUpForm, LoginForm} from '../../../../types/user';
 
 const userKeys = {
   all: () => ['user'],
@@ -32,7 +20,7 @@ function useSignUp(): any {
 
   return useMutation({
     mutationKey: userKeys.insert(),
-    mutationFn: (value: SinUpForm) => post({url: `/user/sign-up`, data: value}),
+    mutationFn: (value: ISignUpForm) => post({url: `/user/sign-up`, data: value}),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {},
     onSettled: (data, error, variables, context) => {},
