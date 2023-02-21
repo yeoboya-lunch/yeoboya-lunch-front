@@ -1,8 +1,15 @@
 import type {NextPage} from 'next';
 import Layout from '@components/layout';
 import TextArea from '@components/textarea';
+import {useRecruitQuery} from '@libs/hooks/services/queries/order';
+import {useRouter} from 'next/router';
 
 const CommunityPostDetail: NextPage = () => {
+  const router = useRouter();
+  //fixme
+  let useRecruitQuery1 = useRecruitQuery(router.query.id as string);
+  console.log(useRecruitQuery1.data);
+
   return (
     <Layout canGoBack>
       <div>

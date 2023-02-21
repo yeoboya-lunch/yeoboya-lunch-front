@@ -1,6 +1,8 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {orderKeys} from '@libs/hooks/services/keys/order';
+import {useRecoilState} from 'recoil';
+import memberAtom from '@libs/recoil/member';
 
 function useInfiniteOrders(options?: {}): any {
   const {get} = useFetchWrapper();
@@ -8,7 +10,11 @@ function useInfiniteOrders(options?: {}): any {
 
   return useInfiniteQuery(
     orderKeys.list(),
-    ({pageParam = 1}) => get({url: `/order/recruits`, params: {size: size, page: pageParam}}),
+    ({pageParam = 1}) =>
+      get({
+        url: `/order/recruits`,
+        params: {size: size, page: pageParam, startDate: '20220101', endDate: '20230221'},
+      }),
     {
       ...options,
       refetchOnMount: true,
@@ -22,4 +28,14 @@ function useInfiniteOrders(options?: {}): any {
   );
 }
 
-export {useInfiniteOrders};
+function useRecruitQuery(orderNo: string, options?: {}): any {
+  const {get} = useFetchWrapper();
+
+  return useQuery(orderKeys.detail(orderNo), () => get({url: `/order/recruit/${orderNo}`}), {
+    ...options,
+    select: (data) => data.data.data,
+    onSuccess: (data) => {},
+  });
+}
+
+export {useInfiniteOrders, useRecruitQuery};
