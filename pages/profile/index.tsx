@@ -97,10 +97,10 @@ const Profile: NextPage = () => {
             </div>
           </Link>
 
-          <Link href="/profile/edit" className="text-sm text-gray-700">
+          <Link href="/shop/register" className="text-sm text-gray-700">
             <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
               <div className="">사진</div>
-              <span>Edit profile</span>
+              <span>식당등록</span>
             </div>
           </Link>
 
