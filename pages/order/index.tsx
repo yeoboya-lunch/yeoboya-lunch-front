@@ -9,7 +9,7 @@ import {FieldErrors, useForm} from 'react-hook-form';
 import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 
-interface Recruit {
+interface IRecruit {
   email: string;
   shopName: string;
   title: string;
@@ -32,11 +32,11 @@ const Index: NextPage = () => {
     handleSubmit,
     setError,
     formState: {errors},
-  } = useForm<Recruit>({
+  } = useForm<IRecruit>({
     mode: 'onSubmit',
   });
 
-  const onValid = (recruitForm: Recruit) => {
+  const onValid = (recruitForm: IRecruit) => {
     recruitForm.email = '1@1.1';
     recruitForm.shopName = router.query.shopName as string;
     recruitForm.lastOrderTime = (

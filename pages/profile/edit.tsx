@@ -134,7 +134,7 @@ const EditProfile: NextPage = () => {
         )}
         <Button text={publicProfile.isLoading ? 'Loading' : 'Update profile'} />
       </form>
-
+      <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
       <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
       <form
         onSubmit={accountHandleSubmit(onValidAccount, onInvalid)}
