@@ -1,17 +1,13 @@
 import type {NextPage} from 'next';
 import Layout from '@components/layout';
-import profilePic from '../../public/image-4@2x.jpg';
-import {useInfiniteShops} from '@libs/hooks/services/queries/shop';
-import {useEffect, useRef} from 'react';
-import useLocalStorage from 'use-local-storage';
-import {useObserver} from '@libs/client/useObserver';
-import ShopCard from '@components/shop/ShopCard';
+import {SyntheticEvent, useEffect, useRef, useState} from 'react';
 import Input from '@components/input';
 import Button from '@components/button';
 import {FieldErrors, useForm} from 'react-hook-form';
 import {IShop} from '../../types/shop';
 import {useRouter} from 'next/router';
 import {useShopRegister} from '@libs/hooks/services/mutations/shop';
+import {scalarOptions} from 'yaml';
 
 const Register: NextPage = () => {
   const shopRegister = useShopRegister();
@@ -19,7 +15,6 @@ const Register: NextPage = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: {errors},
   } = useForm<IShop>({
     mode: 'onSubmit',
@@ -42,6 +37,20 @@ const Register: NextPage = () => {
       router.push('/');
     }
   }, [shopRegister.isLoading]);
+
+  const [inputFields, setInputFields] = useState([{itemName: '', price: 0}]);
+
+  const addFields = (e: SyntheticEvent) => {
+    e.preventDefault();
+    let newField = {itemName: '', price: 0};
+    setInputFields([...inputFields, newField]);
+  };
+
+  const removeFields = (index: number) => {
+    let data = [...inputFields];
+    data.splice(index, 1);
+    setInputFields(data);
+  };
 
   return (
     <Layout canGoBack title="식당등록">
@@ -73,6 +82,34 @@ const Register: NextPage = () => {
           name="shopName"
           type="text"
         />
+
+        {inputFields.map((input, index) => {
+          return (
+            <div key={index} className="space-y-4">
+              <Input
+                register={register(`items.${index}.itemName`, {
+                  required: true,
+                })}
+                label="메뉴"
+                name="itemName"
+                type="text"
+              />
+              <Input
+                register={register(`items.${index}.price`, {
+                  required: true,
+                })}
+                label="가격"
+                name="price"
+                type="text"
+                kind="price"
+              />
+              <button onClick={() => removeFields(index)}>Remove</button>
+            </div>
+          );
+        })}
+
+        <button onClick={addFields}>Add More..</button>
+
         <Button text="식당등록" />
       </form>
     </Layout>

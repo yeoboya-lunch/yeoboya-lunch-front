@@ -38,8 +38,6 @@ const Home: NextPage = () => {
     }
   }, []);
 
-  console.log(orders.data);
-
   return (
     <Layout title="오늘의주문" hasTabBar>
       <div className="container flex flex-col items-center justify-center w-full mx-auto">

@@ -42,7 +42,6 @@ const Index: NextPage = () => {
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
-    console.log(recruitForm);
     mutate(recruitForm);
   };
 
@@ -53,7 +52,6 @@ const Index: NextPage = () => {
         {type: 'focus', message: error.response.data.message},
         {shouldFocus: true},
       );
-      console.log(isError);
     }
     if (isSuccess) {
       router.push({

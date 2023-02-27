@@ -4,6 +4,7 @@ import {NextResponse} from 'next/server';
 export function middleware(request: NextRequest) {
   const {pathname} = request.nextUrl;
   const isLoginActive = ['/user/sign-up', '/login'];
+  const requireTokenURLs = '/profile, /order';
 
   if (isLoginActive.includes(pathname)) {
     if (request.cookies.get('refreshToken')?.value) {

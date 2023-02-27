@@ -9,7 +9,7 @@ function useShopRegister(): any {
 
   return useMutation({
     mutationKey: shopKeys.insert(),
-    mutationFn: (value: IShop) => post({url: `/shop`, data: value}),
+    mutationFn: (value: IShop) => post({url: `/shop/create`, data: value}),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {
       return cache.invalidateQueries(shopKeys.list());
