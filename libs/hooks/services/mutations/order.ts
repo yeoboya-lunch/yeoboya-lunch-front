@@ -19,10 +19,11 @@ function useOrderStartRecruit(): any {
     mutationKey: orderKeys.insert(),
     mutationFn: (value: Recruit) => post({url: `/order/recruit`, data: value}),
     onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, variables, context) => {},
+    onSettled: (data, error, variables, context) => {
+      console.log('갑니다');
       return cache.invalidateQueries(orderKeys.list());
     },
-    onSettled: (data, error, variables, context) => {},
     onError: (error, variables, context) => {},
   });
 }

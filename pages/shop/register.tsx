@@ -14,6 +14,7 @@ const Register: NextPage = () => {
 
   const {
     register,
+    unregister,
     handleSubmit,
     formState: {errors},
   } = useForm<IShop>({
@@ -38,17 +39,25 @@ const Register: NextPage = () => {
     }
   }, [shopRegister.isLoading]);
 
-  const [inputFields, setInputFields] = useState([{itemName: '', price: 0}]);
+  const [inputFields, setInputFields] = useState([
+    {
+      'items.0.itemName': '',
+      'items.0.price': 0,
+    },
+  ]);
 
   const addFields = (e: SyntheticEvent) => {
     e.preventDefault();
-    let newField = {itemName: '', price: 0};
+    let newField = {};
     setInputFields([...inputFields, newField]);
   };
 
-  const removeFields = (index: number) => {
+  const removeFields = (e: SyntheticEvent) => {
+    e.preventDefault();
     let data = [...inputFields];
-    data.splice(index, 1);
+    unregister(`items.${data.length - 1}.itemName`);
+    unregister(`items.${data.length - 1}.price`);
+    data.splice(data.length - 1, 1);
     setInputFields(data);
   };
 
@@ -83,32 +92,50 @@ const Register: NextPage = () => {
           type="text"
         />
 
-        {inputFields.map((input, index) => {
-          return (
-            <div key={index} className="space-y-4">
-              <Input
-                register={register(`items.${index}.itemName`, {
-                  required: true,
-                })}
-                label="메뉴"
-                name="itemName"
-                type="text"
-              />
-              <Input
-                register={register(`items.${index}.price`, {
-                  required: true,
-                })}
-                label="가격"
-                name="price"
-                type="text"
-                kind="price"
-              />
-              <button onClick={() => removeFields(index)}>Remove</button>
-            </div>
-          );
-        })}
+        <div className="border rounded-md space-y-4 p-3 divide-y-[2px] divide-dashed">
+          {inputFields.map((input, index) => {
+            return (
+              <div key={index} className="space-y-4 pt-4">
+                <Input
+                  register={register(`items.${index}.itemName`, {
+                    required: true,
+                  })}
+                  label={`${index + 1}번째 메뉴`}
+                  name={`items.${index}.itemName`}
+                  type="text"
+                />
+                <Input
+                  register={register(`items.${index}.price`, {
+                    required: true,
+                  })}
+                  label={`${index + 1}번째 메뉴 가격`}
+                  name={`items.${index}.price`}
+                  type="text"
+                  kind="price"
+                />
+              </div>
+            );
+          })}
 
-        <button onClick={addFields}>Add More..</button>
+          <div className="flex justify-evenly pt-4">
+            <button
+              type="button"
+              className="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
+              onClick={addFields}
+            >
+              메뉴추가
+            </button>
+            {inputFields.length > 0 && (
+              <button
+                type="button"
+                className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                onClick={removeFields}
+              >
+                메뉴삭제
+              </button>
+            )}
+          </div>
+        </div>
 
         <Button text="식당등록" />
       </form>

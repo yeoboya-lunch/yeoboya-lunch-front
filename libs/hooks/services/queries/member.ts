@@ -14,7 +14,7 @@ function useSettingMember(options?: {}): any {
   const {get} = useFetchWrapper();
   const [member, setMember] = useRecoilState(memberAtom);
 
-  return useQuery([memberKeys.detail(member.email)], () => get({url: `/member/${member.email}`}), {
+  return useQuery(memberKeys.detail(member.email), () => get({url: `/member/${member.email}`}), {
     ...options,
     enabled: !!member.email,
     refetchOnMount: true,

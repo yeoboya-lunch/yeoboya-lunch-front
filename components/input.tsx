@@ -10,6 +10,7 @@ interface InputProps {
   disabled?: boolean;
   readOnly?: boolean;
   defaultValue?: string;
+  onChange?: any;
 }
 
 export default function Input({
@@ -22,6 +23,7 @@ export default function Input({
   disabled = false,
   readOnly = false,
   defaultValue,
+  onChange,
 }: InputProps) {
   return (
     <div>
@@ -38,6 +40,7 @@ export default function Input({
             disabled={disabled}
             readOnly={readOnly}
             defaultValue={defaultValue}
+            onChange={onChange}
             className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500
             read-only:cursor-not-allowed read-only:text-gray-500"
           />
@@ -54,6 +57,7 @@ export default function Input({
             {...register}
             type={type}
             defaultValue={defaultValue}
+            onChange={onChange}
             className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
           />
           <div className="absolute right-0 pointer-events-none pr-3 flex items-center">
@@ -74,6 +78,7 @@ export default function Input({
             disabled={disabled}
             readOnly={readOnly}
             defaultValue={defaultValue}
+            onChange={onChange}
             placeholder={'10-0000-0000'}
             className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md rounded-l-none shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
           />
@@ -88,6 +93,7 @@ export default function Input({
           type={type}
           disabled={disabled}
           readOnly={readOnly}
+          onChange={onChange}
           defaultValue={defaultValue}
         />
       ) : null}

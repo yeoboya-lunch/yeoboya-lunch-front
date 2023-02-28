@@ -10,13 +10,15 @@ const shopKeys = {
 
 function useInfiniteShops(options?: {}): any {
   const {get} = useFetchWrapper();
-  const size = 30;
+  const size = 10;
 
   return useInfiniteQuery(
-    shopKeys.all(),
-    ({pageParam = 1}) => get({url: `/shop`, params: {size: size, page: pageParam}}),
+    shopKeys.list(),
+    ({pageParam = 1}) =>
+      get({url: `/shop`, params: {size: size, page: pageParam, sort: 'id,desc'}}),
     {
       ...options,
+      refetchOnMount: true,
       getNextPageParam: (lastPage) => {
         if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
       },

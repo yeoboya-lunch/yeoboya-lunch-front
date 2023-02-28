@@ -35,11 +35,11 @@ export default function ShopCard({shopName, image}: TShop) {
         >
           {visible && (
             <Image
-              width={100}
-              height={200}
+              width={250}
+              height={250}
               className="rounded-t-lg"
-              src=""
               alt="image description"
+              src="https://www.mcdonalds.co.kr/upload/product/pcList/1583727487454.png"
             />
           )}
         </Link>
@@ -95,8 +95,7 @@ export default function ShopCard({shopName, image}: TShop) {
             </svg>
           </div>
           <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            Some quick example text to build on the card title and make up the bulk of the card's
-            content.
+            Some Some Some Some Some Some
           </p>
         </div>
       </div>
