@@ -13,7 +13,7 @@ function useInfiniteOrders(options?: {}): any {
     ({pageParam = 1}) =>
       get({
         url: `/order/recruits`,
-        params: {size: size, page: pageParam, startDate: '20220101', endDate: '20230228'},
+        params: {size: size, page: pageParam, startDate: '20220101', endDate: '20230302'},
       }),
     {
       ...options,

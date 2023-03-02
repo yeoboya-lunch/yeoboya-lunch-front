@@ -114,7 +114,7 @@ const Login: NextPage = (props) => {
           )}
           <Input
             register={register('password', {
-              required: true,
+              required: 'This is required.',
             })}
             name="password"
             label="Password"
