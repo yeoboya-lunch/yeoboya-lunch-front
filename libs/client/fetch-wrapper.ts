@@ -64,6 +64,25 @@ function useFetchWrapper() {
     });
   }
 
-  return {get, post, patch};
+  interface DeleteParams {
+    url: string;
+    config?: any;
+  }
+
+  function axiosDelete<T = any>({url, config}: DeleteParams): Promise<any> {
+    return axios.delete(url, {
+      baseURL: process.env.NEXT_PUBLIC_API_SERVER,
+      headers: {
+        ...config,
+        // Authorization: `Bearer ${token.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      responseType: 'json',
+    });
+  }
+
+  return {get, post, patch, axiosDelete};
 }
+
 export {useFetchWrapper};

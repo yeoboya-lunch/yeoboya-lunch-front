@@ -17,6 +17,7 @@ type TRecruit = {
   title: string;
   lastOrderTime: string;
   orderStatus: string;
+  groupCount: number;
 };
 
 const Home: NextPage = () => {
@@ -76,6 +77,7 @@ const Home: NextPage = () => {
                     title={data.title}
                     lastOrderTime={data.lastOrderTime}
                     orderStatus={data.orderStatus}
+                    groupCount={data.groupCount}
                   />
                 );
               })}

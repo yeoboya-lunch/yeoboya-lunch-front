@@ -1,15 +1,7 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {orderKeys} from '@libs/hooks/services/keys/order';
-
-interface Recruit {
-  email: string;
-  shopName: string;
-  title: string;
-  deliveryFee: number;
-  lastOrderTime: string;
-  memo: string;
-}
+import {IItem, IRecruit, IRecruitJoin} from '../../../../types/order';
 
 function useOrderStartRecruit(): any {
   const {post} = useFetchWrapper();
@@ -17,15 +9,68 @@ function useOrderStartRecruit(): any {
 
   return useMutation({
     mutationKey: orderKeys.insert(),
-    mutationFn: (value: Recruit) => post({url: `/order/recruit`, data: value}),
+    mutationFn: (value: IRecruit) => post({url: `/order/recruit`, data: value}),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {},
     onSettled: (data, error, variables, context) => {
-      console.log('갑니다');
       return cache.invalidateQueries(orderKeys.list());
     },
     onError: (error, variables, context) => {},
   });
 }
 
-export {useOrderStartRecruit};
+function useOrderRecruitGroupJoin(): any {
+  const {post} = useFetchWrapper();
+  const cache = useQueryClient();
+
+  return useMutation({
+    mutationKey: orderKeys.insert(),
+    mutationFn: (value: IRecruitJoin) => post({url: `/order/recruit/group/join`, data: value}),
+    onMutate: (variables) => {},
+    onSuccess: (data, variables, context) => {},
+    onSettled: (data, error, variables, context) => {
+      return cache.invalidateQueries(orderKeys.list());
+    },
+    onError: (error, variables, context) => {},
+  });
+}
+
+function useOrderRecruitGroupExit(): any {
+  const {axiosDelete} = useFetchWrapper();
+  const cache = useQueryClient();
+
+  return useMutation({
+    mutationKey: orderKeys.insert(),
+    mutationFn: (groupOrderId: number) =>
+      axiosDelete({url: `/order/recruit/group/join/${groupOrderId}`}),
+    onMutate: (variables) => {},
+    onSuccess: (data, variables, context) => {},
+    onSettled: (data, error, variables, context) => {
+      return cache.invalidateQueries(orderKeys.list());
+    },
+    onError: (error, variables, context) => {},
+  });
+}
+
+function useSetOrderStatus(): any {
+  const {patch} = useFetchWrapper();
+  const cache = useQueryClient();
+
+  return useMutation({
+    mutationKey: orderKeys.insert(),
+    mutationFn: (value: IRecruitJoin) => patch({url: `/order/${orderId}`, data: value}),
+    onMutate: (variables) => {},
+    onSuccess: (data, variables, context) => {},
+    onSettled: (data, error, variables, context) => {
+      return cache.invalidateQueries(orderKeys.list());
+    },
+    onError: (error, variables, context) => {},
+  });
+}
+
+export {
+  useOrderStartRecruit,
+  useOrderRecruitGroupJoin,
+  useOrderRecruitGroupExit,
+  useSetOrderStatus,
+};

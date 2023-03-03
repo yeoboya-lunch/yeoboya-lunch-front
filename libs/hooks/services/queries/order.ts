@@ -1,19 +1,20 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {orderKeys} from '@libs/hooks/services/keys/order';
-import {useRecoilState} from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import dayjs from 'dayjs';
 
 function useInfiniteOrders(options?: {}): any {
   const {get} = useFetchWrapper();
   const size = 6;
+  let today = dayjs().format('YYYYMMDD');
+  let startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
   return useInfiniteQuery(
     orderKeys.list(),
     ({pageParam = 1}) =>
       get({
         url: `/order/recruits`,
-        params: {size: size, page: pageParam, startDate: '20220101', endDate: '20230302'},
+        params: {size: size, page: pageParam, startDate: startDay, endDate: today},
       }),
     {
       ...options,

@@ -12,6 +12,7 @@ interface IRecruitProps {
   title: string;
   lastOrderTime: string;
   orderStatus: string;
+  groupCount: number;
 }
 
 export default function OrderRecruitCard({
@@ -21,6 +22,7 @@ export default function OrderRecruitCard({
   title,
   lastOrderTime,
   orderStatus,
+  groupCount,
 }: IRecruitProps) {
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -37,7 +39,7 @@ export default function OrderRecruitCard({
   });
 
   return (
-    <li className="flex flex-row mb-2 border-gray-400">
+    <li className="flex mb-2 border-gray-400">
       <div
         className="transition duration-500 shadow ease-in-out transform
                     hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer
@@ -60,6 +62,9 @@ export default function OrderRecruitCard({
 
           <div className="flex flex-grow mr-4 ml-4">
             <div className="flex-1">
+              <span className="inline-flex px-0.5 py-0.5 rounded-xl text-sm bg-green-100 text-gray-800">
+                {orderStatus}
+              </span>
               <div className="flex dark:text-white w-64">
                 <p className="whitespace-nowrap overflow-hidden text-ellipsis">{title}</p>
               </div>
@@ -67,25 +72,16 @@ export default function OrderRecruitCard({
                 <p className="whitespace-nowrap overflow-hidden text-ellipsis">{orderMemberName}</p>
               </div>
             </div>
-            <div>
+
+            <div className="flex items-end flex-col justify-center ">
               <div className="text-xs text-gray-600 dark:text-gray-200">{lastOrderTime}</div>
-              <div className="flex space-x-2 items-end justify-end">
+              <div className="flex items-end justify-end">
                 <div className="flex space-x-0.5 items-center text-sm text-gray-600">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    ></path>
+                  <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <path d="M42 22.3c-2.8-1.1-3.2-2.2-3.2-3.3s.8-2.2 1.8-3c1.7-1.4 2.6-3.5 2.6-5.8 0-4.4-2.9-8.2-8-8.2-4.7 0-7.5 3.2-7.9 7.1 0 .4.2.7.5.9 3.8 2.4 6.1 6.6 6.1 11.7 0 3.8-1.5 7.2-4.2 9.6-.2.2-.2.6 0 .8.7.5 2.3 1.2 3.3 1.7.3.1.5.2.8.2h12.1c2.3 0 4.1-1.9 4.1-4v-.6c0-3.5-3.8-5.4-8-7.1z" />
+                    <path d="M28.6 36.2c-3.4-1.4-3.9-2.6-3.9-3.9 0-1.3 1-2.6 2.1-3.6 2-1.7 3.1-4.1 3.1-6.9 0-5.2-3.4-9.7-9.6-9.7-6.1 0-9.6 4.5-9.6 9.7 0 2.8 1.1 5.2 3.1 6.9 1.1 1 2.1 2.3 2.1 3.6 0 1.3-.5 2.6-4 3.9-5 2-9.9 4.3-9.9 8.5V46c0 2.2 1.8 4 4.1 4h27.7c2.3 0 4.2-1.8 4.2-4v-1.4c0-4.1-4.4-6.4-9.4-8.4z" />
                   </svg>
-                  <span>+122</span>
+                  <span className="text-sm text-gray-600">{groupCount}</span>
                 </div>
               </div>
             </div>
