@@ -7,6 +7,7 @@ import {cls} from '@libs/client/utils';
 import Link from 'next/link';
 import {useLogin} from '@libs/hooks/services/mutations/user';
 import {useRouter} from 'next/router';
+import {signIn} from 'next-auth/react';
 
 interface LoginForm {
   email?: string;
@@ -34,8 +35,15 @@ const Login: NextPage = (props) => {
     setMethod('phone');
   };
 
-  const onValid = (validForm: LoginForm) => {
-    login.mutate(validForm);
+  const onValid = async (validForm: LoginForm) => {
+    console.log(validForm);
+    const response = await signIn('email-password-credential', {
+      validForm,
+      callbackUrl: '/',
+      redirect: false,
+    });
+    console.log(response);
+    // login.mutate(validForm);
   };
 
   const router = useRouter();

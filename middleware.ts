@@ -3,7 +3,7 @@ import {NextResponse} from 'next/server';
 
 export function middleware(request: NextRequest) {
   const {pathname} = request.nextUrl;
-  const isLoginActive = ['/user/sign-up', '/login'];
+  const isLoginActive = ['/user/sign-up', '/auth/login'];
   const requireTokenURLs = '/profile, /order';
 
   if (isLoginActive.includes(pathname)) {
@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
 
   if (request.nextUrl.pathname.startsWith('/profile')) {
     if (!request.cookies.get('refreshToken')?.value) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
   }
 }

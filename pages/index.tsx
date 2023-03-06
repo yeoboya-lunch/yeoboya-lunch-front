@@ -9,6 +9,7 @@ import {useInfiniteOrders} from '@libs/hooks/services/queries/order';
 import ShopCard from '@components/shop/ShopCard';
 import profilePic from '../public/image-4@2x.jpg';
 import OrderRecruitCard from '@components/order/OrderRecruitCard';
+import {useSession} from 'next-auth/react';
 
 type TRecruit = {
   orderId: number;
@@ -21,6 +22,14 @@ type TRecruit = {
 };
 
 const Home: NextPage = () => {
+  const {data: session} = useSession();
+  console.log(session);
+  useEffect(() => {
+    if (session) {
+      console.log(';;');
+    }
+  }, []);
+
   const orders = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);

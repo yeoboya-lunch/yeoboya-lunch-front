@@ -3,7 +3,8 @@ import type {AppContext, AppInitialProps, AppProps} from 'next/app';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {CookiesProvider} from 'react-cookie';
-import {RecoilRoot, useRecoilSnapshot} from 'recoil';
+import {RecoilRoot} from 'recoil';
+import {SessionProvider} from 'next-auth/react';
 import React, {useEffect} from 'react';
 
 // function DebugObserver(): React.Node {
@@ -31,18 +32,20 @@ const queryClient = new QueryClient({
   },
 });
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
   return (
     <div className="w-full max-w-xl mx-auto">
-      <QueryClientProvider client={queryClient}>
-        <CookiesProvider>
-          <RecoilRoot>
-            {/*<DebugObserver />*/}
-            <ReactQueryDevtools initialIsOpen={true} />
-            <Component {...pageProps} />
-          </RecoilRoot>
-        </CookiesProvider>
-      </QueryClientProvider>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <CookiesProvider>
+            <RecoilRoot>
+              {/*<DebugObserver />*/}
+              <ReactQueryDevtools initialIsOpen={true} />
+              <Component {...pageProps} />
+            </RecoilRoot>
+          </CookiesProvider>
+        </QueryClientProvider>
+      </SessionProvider>
     </div>
   );
 }
