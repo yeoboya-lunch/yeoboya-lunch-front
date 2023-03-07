@@ -6,6 +6,7 @@ import {jwtToken} from '@libs/client/JwtToken';
 import tokenAtom from '@libs/recoil/token';
 import {useRouter} from 'next/router';
 import memberAtom from '@libs/recoil/member';
+import {useSession} from 'next-auth/react';
 
 function useSilentRefresh() {
   const [refreshStop, setRefreshStop] = useState(false);
@@ -16,13 +17,16 @@ function useSilentRefresh() {
   const {post} = useFetchWrapper();
   const router = useRouter();
 
+  const {data: session, status: statue} = useSession();
+  console.log(session, statue);
+
   useQuery(
     ['REFRESH'],
     () =>
       post({
         url: 'user/reissue',
         data: {
-          refreshToken: jwtToken.refreshToken,
+          refreshToken: session?.user.refreshToken,
         },
       }),
     {
@@ -30,9 +34,9 @@ function useSilentRefresh() {
       refetchOnMount: false,
       refetchOnReconnect: false,
       retry: 0,
-      refetchInterval: refreshStop ? false : 60 * 1000,
+      refetchInterval: refreshStop ? false : 10 * 1000,
       refetchIntervalInBackground: true,
-      enabled: !!member.email,
+      enabled: session !== null && statue === 'authenticated',
       onError: () => {
         setRefreshStop(true);
         jwtToken.deleteToken();
@@ -41,6 +45,7 @@ function useSilentRefresh() {
         router.push('/');
       },
       onSuccess: (data) => {
+        //todo session 업데이트
         jwtToken.setToken({
           refreshToken: data.data.data.refreshToken,
           refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,

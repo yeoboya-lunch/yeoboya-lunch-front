@@ -1,13 +1,12 @@
 import type {NextPage} from 'next';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {FieldErrors, useForm} from 'react-hook-form';
 import Button from '@components/button';
 import Input from '@components/input';
 import {cls} from '@libs/client/utils';
 import Link from 'next/link';
-import {useLogin} from '@libs/hooks/services/mutations/user';
+import {signIn, useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
-import {signIn} from 'next-auth/react';
 
 interface LoginForm {
   email?: string;
@@ -16,15 +15,18 @@ interface LoginForm {
 }
 
 const Login: NextPage = (props) => {
-  const login = useLogin();
+  const {data: session, status: statue} = useSession();
+
+  console.log(session);
+
   const {
     register,
     handleSubmit,
     reset,
-    setError,
     formState: {errors},
   } = useForm<LoginForm>();
   const [method, setMethod] = useState<'email' | 'phone'>('email');
+
   const onEmailClick = () => {
     reset();
     setMethod('email');
@@ -35,34 +37,26 @@ const Login: NextPage = (props) => {
     setMethod('phone');
   };
 
+  const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
-    console.log(validForm);
-    const response = await signIn('email-password-credential', {
-      validForm,
+    const response: any = await signIn('email-password-credential', {
+      email: validForm.email,
+      password: validForm.password,
       callbackUrl: '/',
       redirect: false,
     });
-    console.log(response);
-    // login.mutate(validForm);
-  };
 
-  const router = useRouter();
-  useEffect(() => {
-    if (login.isError) {
-      setError(
-        'password',
-        {type: 'focus', message: login.error.response.data.message},
-        {shouldFocus: true},
-      );
+    if (response?.error) {
+      console.log(response);
+    } else {
+      await router.push(response.url);
     }
-    if (login.isSuccess) {
-      router.push('/');
-    }
-  }, [login.isLoading]);
+  };
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Yeoboya Lunch</h3>
@@ -107,6 +101,7 @@ const Login: NextPage = (props) => {
               name="email"
               label="Email address"
               type="email"
+              defaultValue="z@z.z"
               required
             />
           )}
@@ -134,15 +129,13 @@ const Login: NextPage = (props) => {
               {errors.password?.message}
             </p>
           )}
-          {method === 'email' && <Button text={login.isLoading ? 'Loading' : 'login'} />}
-          {method === 'phone' && (
-            <Button text={login.isLoading ? 'Loading' : 'Get one-time password'} />
-          )}
+          {method === 'email' && <Button text={'login'} />}
+          {method === 'phone' && <Button text={'Get one-time password'} />}
         </form>
 
         <p className="mt-5 p-3 border rounded-md text-center text-gray-700">
           여보야 점심 처음이신가요?&nbsp;
-          <Link href="/user/sign-up" className="text-blue-600">
+          <Link href="/auth/sign-up" className="text-blue-600">
             아이디 만들기
           </Link>
           .

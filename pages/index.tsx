@@ -10,6 +10,7 @@ import ShopCard from '@components/shop/ShopCard';
 import profilePic from '../public/image-4@2x.jpg';
 import OrderRecruitCard from '@components/order/OrderRecruitCard';
 import {useSession} from 'next-auth/react';
+import getToken from './api/get-token-example';
 
 type TRecruit = {
   orderId: number;
@@ -22,11 +23,11 @@ type TRecruit = {
 };
 
 const Home: NextPage = () => {
-  const {data: session} = useSession();
-  console.log(session);
+  const {data: session, status: statue} = useSession();
+
   useEffect(() => {
     if (session) {
-      console.log(';;');
+      console.log(session, statue);
     }
   }, []);
 

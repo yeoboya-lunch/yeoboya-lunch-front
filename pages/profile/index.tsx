@@ -5,6 +5,7 @@ import {Suspense, useEffect, useState} from 'react';
 import Button from '@components/button';
 import {useLogout} from '@libs/hooks/services/mutations/user';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
+import {signOut} from 'next-auth/react';
 
 const Profile: NextPage = () => {
   const {data: member, isLoading} = useSettingMember({suspense: false});
@@ -121,7 +122,7 @@ const Profile: NextPage = () => {
 
         <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
       </div>
-      <div className="mx-4 mt-3.5" onClick={logout}>
+      <div className="mx-4 mt-3.5" onClick={signOut}>
         <Button text="로그아웃" />
       </div>
     </Layout>

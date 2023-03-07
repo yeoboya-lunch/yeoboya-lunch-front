@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {useRecoilValue} from 'recoil';
-import {jwtToken} from '@libs/client/JwtToken';
 import {getAccessToken} from '@libs/recoil/token';
+import {useSession} from 'next-auth/react';
 
 function useFetchWrapper() {
-  let token = useRecoilValue(getAccessToken);
+  const {data: session, status: statue} = useSession();
+  console.log(session, statue);
 
   axios.defaults.headers.common['Authorization'] =
-    token !== '' && jwtToken.haveRefreshToken() ? `Bearer ${token}` : null;
+    session !== null && statue === 'authenticated' ? `Bearer ${session?.user.accessToken}` : null;
 
   interface GetParams {
     url: string;

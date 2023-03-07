@@ -1,20 +1,20 @@
-import type {NextRequest} from 'next/server';
+import type {NextRequest, NextFetchEvent} from 'next/server';
 import {NextResponse} from 'next/server';
+import {getToken} from 'next-auth/jwt';
 
-export function middleware(request: NextRequest) {
-  const {pathname} = request.nextUrl;
-  const isLoginActive = ['/user/sign-up', '/auth/login'];
-  const requireTokenURLs = '/profile, /order';
+const secret = process.env.SECRET;
 
-  if (isLoginActive.includes(pathname)) {
-    if (request.cookies.get('refreshToken')?.value) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-  }
+export async function middleware(req: NextRequest, event: NextFetchEvent) {
+  const session = await getToken({req, secret, raw: true});
+  const {pathname} = req.nextUrl;
 
-  if (request.nextUrl.pathname.startsWith('/profile')) {
-    if (!request.cookies.get('refreshToken')?.value) {
-      return NextResponse.redirect(new URL('/auth/login', request.url));
+  if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/sign-up')) {
+    if (session) {
+      return NextResponse.redirect(new URL('/', req.url));
     }
   }
 }
+
+export const config = {
+  matcher: ['/auth/login', '/auth/sign-up'],
+};
