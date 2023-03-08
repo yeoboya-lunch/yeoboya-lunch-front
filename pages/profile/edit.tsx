@@ -21,7 +21,7 @@ interface AccountForm {
 }
 
 const EditProfile: NextPage = () => {
-  const {data: member} = useSettingMember({suspense: true});
+  const {data: member} = useSettingMember({suspense: false});
   const publicProfile = usePublicProfileUpdate();
   const account = useAccountSave();
   // const update = useAccountInfoSave();

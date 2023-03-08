@@ -30,9 +30,9 @@ const Login: NextPage = () => {
     }
     if (isSuccess) {
       router.push({
-        pathname: '/login',
+        pathname: '/auth/login',
         query: {
-          email: '11',
+          init: true,
         },
       });
     }

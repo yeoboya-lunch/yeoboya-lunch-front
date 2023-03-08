@@ -2,6 +2,8 @@ import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {orderKeys} from '@libs/hooks/services/keys/order';
 import {IItem, IRecruit, IRecruitJoin} from '../../../../types/order';
+import {router} from 'next/client';
+import {useRouter} from 'next/router';
 
 function useOrderStartRecruit(): any {
   const {post} = useFetchWrapper();
@@ -22,12 +24,15 @@ function useOrderStartRecruit(): any {
 function useOrderRecruitGroupJoin(): any {
   const {post} = useFetchWrapper();
   const cache = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationKey: orderKeys.insert(),
     mutationFn: (value: IRecruitJoin) => post({url: `/order/recruit/group/join`, data: value}),
     onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {},
+    onSuccess: (data, variables, context) => {
+      router.reload();
+    },
     onSettled: (data, error, variables, context) => {
       return cache.invalidateQueries(orderKeys.list());
     },
@@ -38,13 +43,16 @@ function useOrderRecruitGroupJoin(): any {
 function useOrderRecruitGroupExit(): any {
   const {axiosDelete} = useFetchWrapper();
   const cache = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationKey: orderKeys.insert(),
     mutationFn: (groupOrderId: number) =>
       axiosDelete({url: `/order/recruit/group/join/${groupOrderId}`}),
     onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {},
+    onSuccess: (data, variables, context) => {
+      router.reload();
+    },
     onSettled: (data, error, variables, context) => {
       return cache.invalidateQueries(orderKeys.list());
     },

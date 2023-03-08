@@ -1,5 +1,6 @@
 import type {NextRequest, NextFetchEvent} from 'next/server';
 import {NextResponse} from 'next/server';
+export {default} from 'next-auth/middleware';
 import {getToken} from 'next-auth/jwt';
 
 const secret = process.env.SECRET;
@@ -8,9 +9,8 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const session = await getToken({req, secret, raw: true});
   const {pathname} = req.nextUrl;
 
-  console.log('-------------');
-  console.log(pathname);
-  console.log(session);
+  // console.log('-------------');
+  // console.log(pathname);
 
   if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/sign-up')) {
     if (session) {
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
     }
   }
 
-  if (pathname.startsWith('/profile')) {
+  if (pathname.startsWith('/profile') || pathname.startsWith('/shop')) {
     if (!session) {
       return NextResponse.redirect(new URL('/auth/login', req.url));
     }
@@ -26,5 +26,5 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
 }
 
 export const config = {
-  matcher: ['/auth/login', '/auth/sign-up'],
+  matcher: ['/auth/:path*', '/profile/:path*', '/order/:path*', '/shop/:path*'],
 };

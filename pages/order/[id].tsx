@@ -10,6 +10,7 @@ import {
 import {useRecoilValue} from 'recoil';
 import memberAtom from '@libs/recoil/member';
 import {useState} from 'react';
+import {getSession, GetSessionParams} from 'next-auth/react';
 
 const RecruitPost: NextPage = () => {
   const router = useRouter();
@@ -153,3 +154,19 @@ const RecruitPost: NextPage = () => {
 };
 
 export default RecruitPost;
+
+export async function getServerSideProps(context: GetSessionParams) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {session},
+  };
+}

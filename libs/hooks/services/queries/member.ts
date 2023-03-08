@@ -1,6 +1,6 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
 import {useSession} from 'next-auth/react';
 

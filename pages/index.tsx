@@ -12,6 +12,7 @@ import OrderRecruitCard from '@components/order/OrderRecruitCard';
 import {signOut, useSession} from 'next-auth/react';
 import Link from 'next/link';
 import Button from '@components/button';
+import TopBanner from '@components/index/TopBanner';
 
 type TRecruit = {
   orderId: number;
@@ -24,14 +25,6 @@ type TRecruit = {
 };
 
 const Home: NextPage = () => {
-  const {data: session, status: statue} = useSession();
-
-  useEffect(() => {
-    if (session) {
-      console.log(session, statue);
-    }
-  }, []);
-
   const orders = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
@@ -52,19 +45,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout title="오늘의주문" hasTabBar>
-      <div className="container flex flex-col items-center justify-center w-full mx-auto">
-        <div className="w-full px-4 py-5 mb-2 bg-white border rounded-md shadow sm:px-6 dark:bg-gray-800">
-          <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-            여보야 점심메뉴 시스템
-          </h3>
-          <p className="max-w-2xl mt-1 text-sm text-gray-500 dark:text-gray-200">
-            점심 같이 먹어요~
-            <Link href="/auth/login" className="text-blue-600">
-              로그인
-            </Link>
-          </p>
-        </div>
-      </div>
+      <TopBanner />
 
       {orders.status === 'loading' && (
         <div className="flex justify-center items-center">
