@@ -15,10 +15,6 @@ interface LoginForm {
 }
 
 const Login: NextPage = (props) => {
-  const {data: session, status: statue} = useSession();
-
-  console.log(session);
-
   const {
     register,
     handleSubmit,

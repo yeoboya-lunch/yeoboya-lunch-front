@@ -8,9 +8,19 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const session = await getToken({req, secret, raw: true});
   const {pathname} = req.nextUrl;
 
+  console.log('-------------');
+  console.log(pathname);
+  console.log(session);
+
   if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/sign-up')) {
     if (session) {
       return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
+
+  if (pathname.startsWith('/profile')) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/auth/login', req.url));
     }
   }
 }

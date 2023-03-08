@@ -9,8 +9,9 @@ import {useInfiniteOrders} from '@libs/hooks/services/queries/order';
 import ShopCard from '@components/shop/ShopCard';
 import profilePic from '../public/image-4@2x.jpg';
 import OrderRecruitCard from '@components/order/OrderRecruitCard';
-import {useSession} from 'next-auth/react';
-import getToken from './api/get-token-example';
+import {signOut, useSession} from 'next-auth/react';
+import Link from 'next/link';
+import Button from '@components/button';
 
 type TRecruit = {
   orderId: number;
@@ -58,6 +59,9 @@ const Home: NextPage = () => {
           </h3>
           <p className="max-w-2xl mt-1 text-sm text-gray-500 dark:text-gray-200">
             점심 같이 먹어요~
+            <Link href="/auth/login" className="text-blue-600">
+              로그인
+            </Link>
           </p>
         </div>
       </div>

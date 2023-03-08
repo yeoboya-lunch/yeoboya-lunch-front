@@ -14,6 +14,7 @@ import {useState} from 'react';
 const RecruitPost: NextPage = () => {
   const router = useRouter();
   const member = useRecoilValue(memberAtom);
+  console.log(member);
   const {data: recruit} = useRecruitQuery(router.query.id as string);
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();

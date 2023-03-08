@@ -2,37 +2,43 @@ import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
+import {useSession} from 'next-auth/react';
 
 const memberKeys = {
   all: () => ['member'],
   list: () => [...memberKeys.all(), 'list'],
   details: () => [...memberKeys.all(), 'detail'],
-  detail: (email: string) => [...memberKeys.details(), email],
+  detail: (email: string | undefined) => [...memberKeys.details(), email],
 };
 
 function useSettingMember(options?: {}): any {
   const {get} = useFetchWrapper();
   const [member, setMember] = useRecoilState(memberAtom);
+  const {data: session} = useSession();
 
-  return useQuery(memberKeys.detail(member.email), () => get({url: `/member/${member.email}`}), {
-    ...options,
-    enabled: !!member.email,
-    refetchOnMount: true,
-    select: (data) => data.data.data,
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        setMember({
-          name: data.data.data.name,
-          email: data.data.data.email,
-          bankName: data.data.data.bankName,
-          nickName: data.data.data.nickName,
-          accountNumber: data.data.data.accountNumber,
-          phoneNumber: data.data.data.phoneNumber,
-          bio: data.data.data.bio,
-        });
-      }
+  return useQuery(
+    memberKeys.detail(session?.token.subject),
+    () => get({url: `/member/${session?.token.subject}`}),
+    {
+      ...options,
+      enabled: !!session?.token.subject,
+      refetchOnMount: true,
+      select: (data) => data.data.data,
+      onSuccess: (data) => {
+        if (data.status === 200) {
+          setMember({
+            name: data.data.data.name,
+            email: data.data.data.email,
+            bankName: data.data.data.bankName,
+            nickName: data.data.data.nickName,
+            accountNumber: data.data.data.accountNumber,
+            phoneNumber: data.data.data.phoneNumber,
+            bio: data.data.data.bio,
+          });
+        }
+      },
     },
-  });
+  );
 }
 
 function useInfiniteMemberList(options?: {}): any {

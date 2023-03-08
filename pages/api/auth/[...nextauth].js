@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 export const authOptions = {
   providers: [
@@ -38,14 +39,14 @@ export const authOptions = {
   ],
   pages: {
     signIn: '/auth/login',
-    // signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
+    // signOut: '/auth/sign-out',
+    error: '/auth/error',
     verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: '/user/sign-up', // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 7 * 24 * 60 * 60, // 7 days
   },
   callbacks: {
     async signIn({user, account, profile, email, credentials}) {
@@ -60,18 +61,47 @@ export const authOptions = {
       return baseUrl;
     },
     async jwt({token, user, account, profile, isNewUser}) {
-      user && (token.user = user);
+      if (account && user) {
+        return (token = user);
+      }
+
+      const nowTime = dayjs();
+      const tokenExpirationTime = dayjs(token.tokenExpirationTime);
+      if (tokenExpirationTime.diff(nowTime, 'hour') < 1) {
+        return refreshAccessToken(token);
+      }
       return token;
     },
+
     async session({session, user, token}) {
-      session.user = token.user;
-      if (session.user != null && token.hasAcceptedTerms != null) {
-        session.user.hasAcceptedTerms = token?.hasAcceptedTerms;
-      }
+      // console.log('1', session);
+      // console.log('2', user);
+      // console.log('3', token);
+      session.token = token;
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+async function refreshAccessToken(token) {
+  const payload = {refreshToken: token.refreshToken};
+  const res = await axios
+    .post('/user/reissue', payload, {
+      baseURL: process.env.NEXT_PUBLIC_API_SERVER,
+      headers: {'Content-Type': 'application/json'},
+      withCredentials: true,
+      responseType: 'json',
+    })
+    .catch((r) => {
+      throw new Error(r);
+    });
+  if (res.data.code === 200) {
+    console.log(res.data.data.refreshToken);
+    return res.data.data;
+  } else {
+    return token;
+  }
+}
 
 export default NextAuth(authOptions);

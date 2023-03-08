@@ -1,15 +1,14 @@
 import type {NextPage} from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
-import {Suspense, useEffect, useState} from 'react';
 import Button from '@components/button';
-import {useLogout} from '@libs/hooks/services/mutations/user';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
 import {signOut} from 'next-auth/react';
+import {useLogout} from '@libs/hooks/services/mutations/user';
 
 const Profile: NextPage = () => {
   const {data: member, isLoading} = useSettingMember({suspense: false});
-  const {mutate: logout} = useLogout();
+  const logout = useLogout();
 
   const Loading = () => {
     return (
@@ -122,7 +121,15 @@ const Profile: NextPage = () => {
 
         <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
       </div>
-      <div className="mx-4 mt-3.5" onClick={signOut}>
+      <div
+        className="mx-4 mt-3.5"
+        onClick={() => {
+          signOut({callbackUrl: '/', redirect: true}).finally(() => {
+            console.log('todo server logout');
+            logout.mutate;
+          });
+        }}
+      >
         <Button text="로그아웃" />
       </div>
     </Layout>

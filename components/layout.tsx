@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
-import {useSilentRefresh} from '@libs/client/useSilentRefresh';
 
 interface LayoutProps {
   title?: string;
@@ -12,7 +11,6 @@ interface LayoutProps {
 }
 
 export default function Layout({title, canGoBack, hasTabBar, children}: LayoutProps) {
-  useSilentRefresh();
   const router = useRouter();
   const onClick = () => {
     router.back();
