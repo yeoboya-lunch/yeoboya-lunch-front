@@ -1,8 +1,6 @@
 import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {useMutation} from '@tanstack/react-query';
 import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {jwtToken} from '@libs/client/JwtToken';
-import tokenAtom, {getAccessToken} from '@libs/recoil/token';
 import memberAtom from '@libs/recoil/member';
 import {useRouter} from 'next/router';
 import {ISignUpForm, LoginForm} from '../../../../types/user';
@@ -30,7 +28,6 @@ function useSignUp(): any {
 
 function useLogin(): any {
   const {post} = useFetchWrapper();
-  const setToken = useSetRecoilState(tokenAtom);
   const setMember = useSetRecoilState(memberAtom);
 
   return useMutation({
@@ -38,15 +35,6 @@ function useLogin(): any {
     onMutate: (variables) => {},
     onSuccess: (data) => {
       if (data.status === 200) {
-        jwtToken.setToken({
-          refreshToken: data.data.data.refreshToken,
-          refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
-        });
-        setToken({
-          accessToken: data.data.data.accessToken,
-          refreshToken: data.data.data.refreshToken,
-          refreshTokenExpirationTime: data.data.data.refreshTokenExpirationTime,
-        });
         setMember({
           email: data.data.data.subject,
         });
@@ -59,24 +47,20 @@ function useLogin(): any {
 
 function useLogout(): any {
   const {post} = useFetchWrapper();
-  let token = useRecoilValue(getAccessToken);
   const router = useRouter();
   const resetMember = useResetRecoilState(memberAtom);
-  const resetToken = useResetRecoilState(tokenAtom);
   return useMutation({
     mutationFn: () =>
       post({
         url: '/user/sign-out',
         data: {
-          accessToken: token,
-          refreshToken: jwtToken.refreshToken,
+          // accessToken: token,
+          // refreshToken: jwtToken.refreshToken,
         },
       }),
     onMutate: (variables) => {},
     onSuccess: (data) => {
       if (data.status === 200) {
-        jwtToken.deleteToken();
-        resetToken();
         resetMember();
         router.push('/');
       }
