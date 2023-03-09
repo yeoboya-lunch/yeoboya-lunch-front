@@ -29,6 +29,10 @@ const Home: NextPage = () => {
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
 
+  const {data: session} = useSession();
+
+  console.log(session);
+
   const onIntersect: IntersectionObserverCallback = ([entry]) =>
     entry.isIntersecting && orders.fetchNextPage();
 

@@ -10,7 +10,7 @@ export const authOptions = {
       id: 'email-password-credential',
       name: 'Credentials',
       credentials: {
-        email: {label: 'email', type: 'text', placeholder: 'z@z.z'},
+        email: {label: 'email', type: 'text', placeholder: '이메일을 입력해주세요.'},
         password: {label: 'password', type: 'password'},
       },
       async authorize(credentials, req) {

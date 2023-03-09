@@ -7,6 +7,9 @@ import {cls} from '@libs/client/utils';
 import Link from 'next/link';
 import {signIn, useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
+import {useSettingMember} from '@libs/hooks/services/queries/member';
+import {useSetRecoilState} from 'recoil';
+import memberAtom from '@libs/recoil/member';
 
 interface LoginForm {
   email?: string;
@@ -33,6 +36,8 @@ const Login: NextPage = (props) => {
     setMethod('phone');
   };
 
+  const setMember = useSetRecoilState(memberAtom);
+
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
     const response: any = await signIn('email-password-credential', {
@@ -45,6 +50,10 @@ const Login: NextPage = (props) => {
     if (response?.error) {
       console.log(response);
     } else {
+      console.log(response);
+      setMember({
+        email: 'how do set up email...',
+      });
       await router.push(response.url);
     }
   };
@@ -97,7 +106,6 @@ const Login: NextPage = (props) => {
               name="email"
               label="Email address"
               type="email"
-              defaultValue="z@z.z"
               required
             />
           )}

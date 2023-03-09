@@ -8,6 +8,7 @@ import {useOrderStartRecruit} from '@libs/hooks/services/mutations/order';
 import {FieldErrors, useForm} from 'react-hook-form';
 import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
+import {useSession} from 'next-auth/react';
 
 interface IRecruit {
   email: string;
@@ -20,6 +21,7 @@ interface IRecruit {
 
 const Index: NextPage = () => {
   const router = useRouter();
+  const {data: session, status: statue} = useSession();
   const {mutate, isSuccess, isError, isLoading, error} = useOrderStartRecruit();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const Index: NextPage = () => {
   });
 
   const onValid = (recruitForm: IRecruit) => {
-    recruitForm.email = '1@1.1';
+    recruitForm.email = session.token.subject;
     recruitForm.shopName = router.query.shopName as string;
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement

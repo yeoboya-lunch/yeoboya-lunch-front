@@ -3,7 +3,13 @@ import {useFetchWrapper} from '@libs/client/fetch-wrapper';
 import {orderKeys} from '@libs/hooks/services/keys/order';
 import dayjs from 'dayjs';
 
-function useInfiniteOrders(options?: {}): any {
+interface IOrderSearch {
+  orderEmail: string;
+  startDate: string;
+  endDate: string;
+}
+
+function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
   const {get} = useFetchWrapper();
   const size = 6;
   let today = dayjs().format('YYYYMMDD');
@@ -14,7 +20,14 @@ function useInfiniteOrders(options?: {}): any {
     ({pageParam = 1}) =>
       get({
         url: `/order/recruits`,
-        params: {size: size, page: pageParam, startDate: startDay, endDate: today},
+        params: {
+          size: size,
+          page: pageParam,
+          orderEmail: params?.orderEmail,
+          // orderStatus:
+          startDate: startDay,
+          endDate: today,
+        },
       }),
     {
       ...options,

@@ -7,15 +7,13 @@ import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
 } from '@libs/hooks/services/mutations/order';
-import {useRecoilValue} from 'recoil';
-import memberAtom from '@libs/recoil/member';
 import {useState} from 'react';
-import {getSession, GetSessionParams} from 'next-auth/react';
+import {getSession, GetSessionParams, useSession} from 'next-auth/react';
 
 const RecruitPost: NextPage = () => {
   const router = useRouter();
-  const member = useRecoilValue(memberAtom);
-  console.log(member);
+  const {data: session} = useSession();
+
   const {data: recruit} = useRecruitQuery(router.query.id as string);
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();
@@ -95,10 +93,10 @@ const RecruitPost: NextPage = () => {
           <p>{cart.length}</p>
           {cart.map((item, index) => {
             return (
-              <>
+              <div key={index}>
                 <p>{item.itemName}</p>
                 <button onClick={() => deleteCart(item)}>카트 삭제</button>
-              </>
+              </div>
             );
           })}
         </div>
@@ -107,7 +105,7 @@ const RecruitPost: NextPage = () => {
           onClick={() =>
             orderRecruitJoin.mutate({
               orderNo: router.query.id,
-              email: member.email,
+              email: session?.token.subject,
               orderItems: cart,
             })
           }
@@ -134,7 +132,7 @@ const RecruitPost: NextPage = () => {
                       {group.totalPrice}
                     </div>
                   </div>
-                  {member.email === group.email && (
+                  {session?.token.subject === group.email && (
                     <button
                       onClick={() => {
                         orderRecruitExit.mutate(group.groupOrderId);
