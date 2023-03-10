@@ -8,21 +8,16 @@ import {useOrderStartRecruit} from '@libs/hooks/services/mutations/order';
 import {FieldErrors, useForm} from 'react-hook-form';
 import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
-import {useSession} from 'next-auth/react';
-
-interface IRecruit {
-  email: string;
-  shopName: string;
-  title: string;
-  deliveryFee: number;
-  lastOrderTime: string;
-  memo: string;
-}
+import {useRecoilValue} from 'recoil';
+import memberAtom from '@libs/recoil/member';
+import {IRecruit} from '../../types/order';
 
 const Index: NextPage = () => {
   const router = useRouter();
-  const {data: session, status: statue} = useSession();
   const {mutate, isSuccess, isError, isLoading, error} = useOrderStartRecruit();
+
+  const iMember = useRecoilValue(memberAtom);
+  //console.log(iMember);
 
   useEffect(() => {
     const dateControl = document.querySelector('input[type="datetime-local"]') as HTMLInputElement;
@@ -39,7 +34,7 @@ const Index: NextPage = () => {
   });
 
   const onValid = (recruitForm: IRecruit) => {
-    recruitForm.email = session.token.subject;
+    recruitForm.email = iMember.email!;
     recruitForm.shopName = router.query.shopName as string;
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement

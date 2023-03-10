@@ -7,7 +7,6 @@ import {cls} from '@libs/client/utils';
 import Link from 'next/link';
 import {signIn, useSession} from 'next-auth/react';
 import {useRouter} from 'next/router';
-import {useSettingMember} from '@libs/hooks/services/queries/member';
 import {useSetRecoilState} from 'recoil';
 import memberAtom from '@libs/recoil/member';
 
@@ -24,6 +23,7 @@ const Login: NextPage = (props) => {
     reset,
     formState: {errors},
   } = useForm<LoginForm>();
+  const setMember = useSetRecoilState(memberAtom);
   const [method, setMethod] = useState<'email' | 'phone'>('email');
 
   const onEmailClick = () => {
@@ -35,8 +35,6 @@ const Login: NextPage = (props) => {
     reset();
     setMethod('phone');
   };
-
-  const setMember = useSetRecoilState(memberAtom);
 
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
@@ -50,9 +48,8 @@ const Login: NextPage = (props) => {
     if (response?.error) {
       console.log(response);
     } else {
-      console.log(response);
       setMember({
-        email: 'how do set up email...',
+        email: validForm.email,
       });
       await router.push(response.url);
     }
@@ -119,15 +116,19 @@ const Login: NextPage = (props) => {
               required
             />
           )}
-          <Input
-            register={register('password', {
-              required: 'This is required.',
-            })}
-            name="password"
-            label="Password"
-            type="password"
-            required
-          />
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor={'password'}>
+              Password
+            </label>
+            <input
+              {...register('password', {required: 'This is required'})}
+              name="password"
+              type="password"
+              required
+              className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500
+            read-only:cursor-not-allowed read-only:text-gray-500"
+            />
+          </div>
           {errors.password && (
             <p role="alert" className="text-sm text-red-500">
               {errors.password?.message}
@@ -142,7 +143,6 @@ const Login: NextPage = (props) => {
           <Link href="/auth/sign-up" className="text-blue-600">
             아이디 만들기
           </Link>
-          .
         </p>
 
         <div className="mt-8">

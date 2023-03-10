@@ -5,7 +5,7 @@ const {persistAtom} = recoilPersist();
 
 interface IMember {
   name?: string;
-  email: string;
+  email: string | undefined;
   bankName?: string;
   accountNumber?: string;
   nickName?: string;

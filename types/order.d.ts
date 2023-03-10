@@ -1,3 +1,13 @@
+export interface IRecruitItem {
+  orderId: number;
+  orderMemberName: string;
+  shopName: string;
+  title: string;
+  lastOrderTime: string;
+  orderStatus: string;
+  groupCount: number;
+}
+
 export interface IRecruit {
   email: string;
   shopName: string;

@@ -10,6 +10,7 @@ interface InputProps {
   disabled?: boolean;
   readOnly?: boolean;
   defaultValue?: string;
+  onClick?: any;
   onChange?: any;
 }
 
@@ -23,6 +24,7 @@ export default function Input({
   disabled = false,
   readOnly = false,
   defaultValue,
+  onClick,
   onChange,
 }: InputProps) {
   return (
@@ -41,6 +43,7 @@ export default function Input({
             readOnly={readOnly}
             defaultValue={defaultValue}
             onChange={onChange}
+            onClick={onClick}
             className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500
             read-only:cursor-not-allowed read-only:text-gray-500"
           />

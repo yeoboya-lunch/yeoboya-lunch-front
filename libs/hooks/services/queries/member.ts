@@ -13,7 +13,7 @@ const memberKeys = {
 
 function useSettingMember(options?: {}): any {
   const {get} = useFetchWrapper();
-  const [member, setMember] = useRecoilState(memberAtom);
+  const setMember = useSetRecoilState(memberAtom);
   const {data: session} = useSession();
 
   return useQuery(
@@ -23,17 +23,17 @@ function useSettingMember(options?: {}): any {
       ...options,
       enabled: !!session?.token.subject,
       refetchOnMount: true,
-      select: (data) => data.data.data,
+      select: (data) => data.data,
       onSuccess: (data) => {
-        if (data.status === 200) {
+        if (data.code === 200) {
           setMember({
-            name: data.data.data.name,
-            email: data.data.data.email,
-            bankName: data.data.data.bankName,
-            nickName: data.data.data.nickName,
-            accountNumber: data.data.data.accountNumber,
-            phoneNumber: data.data.data.phoneNumber,
-            bio: data.data.data.bio,
+            name: data.data.name,
+            email: data.data.email,
+            bankName: data.data.bankName,
+            nickName: data.data.nickName,
+            accountNumber: data.data.accountNumber,
+            phoneNumber: data.data.phoneNumber,
+            bio: data.data.bio,
           });
         }
       },

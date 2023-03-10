@@ -3,10 +3,14 @@ import Button from '@components/button';
 import Input from '@components/input';
 import Layout from '@components/layout';
 import {useSettingMember} from '@libs/hooks/services/queries/member';
-import {usePublicProfileUpdate, useAccountSave} from '@libs/hooks/services/mutations/member';
+import {
+  usePublicProfileUpdate,
+  useAccountSave,
+  useAccountInfoUpdate,
+} from '@libs/hooks/services/mutations/member';
 import {FieldErrors, useForm} from 'react-hook-form';
 import {useRouter} from 'next/router';
-import {useEffect, Suspense} from 'react';
+import {useEffect, Suspense, useState} from 'react';
 
 interface PublicProfileForm {
   email: string;
@@ -21,10 +25,14 @@ interface AccountForm {
 }
 
 const EditProfile: NextPage = () => {
-  const {data: member} = useSettingMember({suspense: false});
+  const {data: member} = useSettingMember({suspense: true});
   const publicProfile = usePublicProfileUpdate();
+
+  const [isAccount, setIsAccount] = useState(member?.data.account);
+  console.log(isAccount);
+
   const account = useAccountSave();
-  // const update = useAccountInfoSave();
+  const update = useAccountInfoUpdate();
 
   const {
     register: publicProfileRegister,
@@ -43,23 +51,13 @@ const EditProfile: NextPage = () => {
   };
 
   const onValidAccount = (validForm: AccountForm) => {
-    validForm.email = member?.email;
+    validForm.email = member?.data.email;
     account.mutate(validForm);
   };
 
   const onInvalid = (publicProfileErrors: FieldErrors) => {
     console.log(publicProfileErrors);
   };
-
-  const router = useRouter();
-  useEffect(() => {
-    if (publicProfile.isError || account.isError) {
-      console.log(publicProfileErrors, accountErrors);
-    }
-    if (publicProfile.isSuccess || account.isSuccess) {
-      router.push('/profile');
-    }
-  }, [publicProfile.isLoading]);
 
   return (
     <Layout canGoBack title="Edit Profile">
@@ -84,7 +82,7 @@ const EditProfile: NextPage = () => {
           name="name"
           type="name"
           readOnly={true}
-          defaultValue={member?.name}
+          defaultValue={member?.data.name}
         />
         <Input
           register={publicProfileRegister('email', {
@@ -95,7 +93,7 @@ const EditProfile: NextPage = () => {
           name="email"
           type="email"
           readOnly={true}
-          defaultValue={member?.email}
+          defaultValue={member?.data.email}
         />
         <Input
           register={publicProfileRegister('phoneNumber', {
@@ -106,7 +104,7 @@ const EditProfile: NextPage = () => {
           name="phone"
           type="tel"
           kind="phone"
-          defaultValue={member?.phoneNumber}
+          defaultValue={member?.data.phoneNumber}
         />
         <Input
           required
@@ -114,18 +112,15 @@ const EditProfile: NextPage = () => {
           name="nickname"
           type="text"
           kind="text"
-          defaultValue={member?.nickName}
+          defaultValue={member?.data.nickName}
         />
         <Input
-          register={publicProfileRegister('bio', {
-            required: '정보는 필수 입력입니다.',
-          })}
-          required
+          register={publicProfileRegister('bio')}
           label="Bio"
           name="bio"
           type="bio"
           kind="text"
-          defaultValue={member?.bio}
+          defaultValue={member?.data.bio}
         />
         {publicProfileErrors.bio && (
           <p role="alert" className="text-sm text-red-500">
@@ -134,31 +129,34 @@ const EditProfile: NextPage = () => {
         )}
         <Button text={publicProfile.isLoading ? 'Loading' : 'Update profile'} />
       </form>
+
       <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
       <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
+      <button>수정하기</button>
+
       <form
         onSubmit={accountHandleSubmit(onValidAccount, onInvalid)}
         className="pt-5 px-4 space-y-4"
       >
         <Input
           register={accountRegister('bankName', {
-            required: '이메일은 필수 입력입니다.',
+            required: '은행명은 필수 입력입니다.',
           })}
           required
           label="은행"
           name="bankName"
           type="text"
-          defaultValue={member?.bankName}
+          defaultValue={member?.data.bankName}
         />
         <Input
           register={accountRegister('accountNumber', {
-            required: '이메일은 필수 입력입니다.',
+            required: '계좌번호는 필수 입력입니다.',
           })}
           required
           label="계좌번호"
           name="accountNumber"
           type="text"
-          defaultValue={member?.accountNumber}
+          defaultValue={member?.data.accountNumber}
         />
         <Button text={account.isLoading ? 'Loading' : 'Create Account'} />
       </form>
