@@ -55,11 +55,10 @@ function useAccountInfoUpdate(): any {
 
   return useMutation({
     mutationKey: memberKeys.update('temp'),
-    mutationFn: (value: UpdateForm) =>
-      patch({url: `/member/setting/info/${value.email}`, data: value}),
+    mutationFn: (value: UpdateForm) => patch({url: `/member/account/${value.email}`, data: value}),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {
-      return router.push('/profile');
+      // return router.push('/profile');
     },
     onSettled: (data, error, variables, context) => {},
     onError: (error, variables, context) => {},

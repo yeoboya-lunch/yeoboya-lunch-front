@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {cls} from '@libs/client/utils';
 import {useRouter} from 'next/router';
+import {useMemberInterval} from '@libs/hooks/useMemberInterval';
 
 interface LayoutProps {
   title?: string;
@@ -11,6 +12,7 @@ interface LayoutProps {
 }
 
 export default function Layout({title, canGoBack, hasTabBar, children}: LayoutProps) {
+  // useMemberInterval();
   const router = useRouter();
   const onClick = () => {
     router.back();

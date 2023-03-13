@@ -8,9 +8,8 @@ import {
   useAccountSave,
   useAccountInfoUpdate,
 } from '@libs/hooks/services/mutations/member';
-import {FieldErrors, useForm} from 'react-hook-form';
-import {useRouter} from 'next/router';
-import {useEffect, Suspense, useState} from 'react';
+import {FieldErrors, useForm, Controller} from 'react-hook-form';
+import {useEffect, useMemo} from 'react';
 
 interface PublicProfileForm {
   email: string;
@@ -25,12 +24,9 @@ interface AccountForm {
 }
 
 const EditProfile: NextPage = () => {
-  const {data: member} = useSettingMember({suspense: true});
+  const {data: member, isSuccess: isSuccess} = useSettingMember({suspense: true});
+  console.log(isSuccess);
   const publicProfile = usePublicProfileUpdate();
-
-  const [isAccount, setIsAccount] = useState(member?.data.account);
-  console.log(isAccount);
-
   const account = useAccountSave();
   const update = useAccountInfoUpdate();
 
@@ -44,15 +40,32 @@ const EditProfile: NextPage = () => {
     register: accountRegister,
     handleSubmit: accountHandleSubmit,
     formState: {errors: accountErrors},
-  } = useForm<AccountForm>();
+    reset,
+    watch,
+  } = useForm<AccountForm>({
+    defaultValues: {
+      bankName: member?.data.bankName,
+      accountNumber: member?.data.accountNumber,
+    },
+  });
+  console.log(watch());
+  // useEffect(() => {
+  //   if (member) {
+  //     reset({
+  //       bankName: member.data.bankName,
+  //       accountNumber: member.data.accountNumber,
+  //     });
+  //   }
+  // }, [member]);
 
   const onValidPublic = (validForm: PublicProfileForm) => {
     publicProfile.mutate(validForm);
   };
 
   const onValidAccount = (validForm: AccountForm) => {
+    console.log(validForm);
     validForm.email = member?.data.email;
-    account.mutate(validForm);
+    member?.data.account ? update.mutate(validForm) : account.mutate(validForm);
   };
 
   const onInvalid = (publicProfileErrors: FieldErrors) => {
@@ -132,33 +145,71 @@ const EditProfile: NextPage = () => {
 
       <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
       <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
-      <button>수정하기</button>
 
       <form
         onSubmit={accountHandleSubmit(onValidAccount, onInvalid)}
         className="pt-5 px-4 space-y-4"
       >
-        <Input
-          register={accountRegister('bankName', {
-            required: '은행명은 필수 입력입니다.',
-          })}
-          required
-          label="은행"
-          name="bankName"
-          type="text"
-          defaultValue={member?.data.bankName}
-        />
-        <Input
-          register={accountRegister('accountNumber', {
-            required: '계좌번호는 필수 입력입니다.',
-          })}
-          required
-          label="계좌번호"
-          name="accountNumber"
-          type="text"
-          defaultValue={member?.data.accountNumber}
-        />
-        <Button text={account.isLoading ? 'Loading' : 'Create Account'} />
+        {isSuccess && (
+          <>
+            <Input
+              register={accountRegister('bankName', {
+                required: '은행명은 필수 입력입니다.',
+              })}
+              required
+              label="은행"
+              name="bankName"
+              type="text"
+              defaultValue={member?.data.bankName}
+            />
+            <Input
+              register={accountRegister('accountNumber', {
+                required: '계좌번호는 필수 입력입니다.',
+              })}
+              required
+              label="계좌번호"
+              name="accountNumber"
+              type="text"
+              defaultValue={member?.data.accountNumber}
+            />
+          </>
+        )}
+
+        {/*<div>*/}
+        {/*  <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor={'password'}>*/}
+        {/*    은행명*/}
+        {/*  </label>*/}
+        {/*  <input*/}
+        {/*    {...accountRegister('bankName', {required: '은행명은 필수 입력입니다.'})}*/}
+        {/*    name="bankName"*/}
+        {/*    type="text"*/}
+        {/*    required*/}
+        {/*    defaultValue={member?.data.bankName}*/}
+        {/*    className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500*/}
+        {/*    read-only:cursor-not-allowed read-only:text-gray-500"*/}
+        {/*  />*/}
+        {/*</div>*/}
+
+        {/*<div>*/}
+        {/*  <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor={'password'}>*/}
+        {/*    계좌번호*/}
+        {/*  </label>*/}
+        {/*  <input*/}
+        {/*    {...accountRegister('accountNumber', {required: '계좌번호는 필수 입력입니다.'})}*/}
+        {/*    name="accountNumber"*/}
+        {/*    type="text"*/}
+        {/*    required*/}
+        {/*    defaultValue={member?.data.accountNumber}*/}
+        {/*    className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500*/}
+        {/*    read-only:cursor-not-allowed read-only:text-gray-500"*/}
+        {/*  />*/}
+        {/*</div>*/}
+
+        {member?.data.account ? (
+          <Button text={account.isLoading ? 'Loading' : 'Update Account'} />
+        ) : (
+          <Button text={account.isLoading ? 'Loading' : 'Create Account'} />
+        )}
       </form>
     </Layout>
   );
