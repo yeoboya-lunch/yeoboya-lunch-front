@@ -1,6 +1,7 @@
 export interface IRecruitItem {
   orderId: number;
   orderMemberName: string;
+  orderMemberEmail: string;
   shopName: string;
   title: string;
   lastOrderTime: string;

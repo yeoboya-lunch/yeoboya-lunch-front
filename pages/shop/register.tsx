@@ -49,6 +49,7 @@ const Register: NextPage = () => {
   const addFields = (e: SyntheticEvent) => {
     e.preventDefault();
     let newField = {};
+    // @ts-ignore
     setInputFields([...inputFields, newField]);
   };
 

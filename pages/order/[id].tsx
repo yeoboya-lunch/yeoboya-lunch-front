@@ -21,6 +21,7 @@ const RecruitPost: NextPage = () => {
   const [cart, setCart] = useState<IRecruitItem[]>([]);
 
   const addCart = (item: any) => {
+    // @ts-ignore
     setCart([...cart, {itemName: item.name, orderQuantity: 1}]);
   };
 

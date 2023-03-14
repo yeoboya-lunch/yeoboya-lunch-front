@@ -7,22 +7,22 @@ import {RecoilRoot, useRecoilSnapshot} from 'recoil';
 import {SessionProvider} from 'next-auth/react';
 import React, {useEffect} from 'react';
 
-function DebugObserver(): React.Node {
-  const snapshot = useRecoilSnapshot();
-  useEffect(() => {
-    console.group('atom');
-    for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
-      console.log(node.key, ':', snapshot.getLoadable(node));
-    }
-    console.groupEnd();
-  }, [snapshot]);
-  return null;
-}
+// function DebugObserver(): React.Node {
+//   const snapshot = useRecoilSnapshot();
+//   useEffect(() => {
+//     console.group('atom');
+//     for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
+//       console.log(node.key, ':', snapshot.getLoadable(node));
+//     }
+//     console.groupEnd();
+//   }, [snapshot]);
+//   return null;
+// }
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // suspense: true,
+      suspense: true,
       // staleTime: 0,
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -38,7 +38,7 @@ function MyApp({Component, pageProps: {session, ...pageProps}}: AppProps) {
         <QueryClientProvider client={queryClient}>
           <CookiesProvider>
             <RecoilRoot>
-              <DebugObserver />
+              {/*<DebugObserver />*/}
               <ReactQueryDevtools initialIsOpen={true} />
               <Component {...pageProps} />
             </RecoilRoot>

@@ -60,26 +60,26 @@ function useOrderRecruitGroupExit(): any {
     onError: (error, variables, context) => {},
   });
 }
-
-function useSetOrderStatus(): any {
-  const {patch} = useFetchWrapper();
-  const cache = useQueryClient();
-
-  return useMutation({
-    mutationKey: orderKeys.insert(),
-    mutationFn: (value: IRecruitJoin) => patch({url: `/order/${orderId}`, data: value}),
-    onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {},
-    onSettled: (data, error, variables, context) => {
-      return cache.invalidateQueries(orderKeys.list());
-    },
-    onError: (error, variables, context) => {},
-  });
-}
+//
+// function useSetOrderStatus(): any {
+//   const {patch} = useFetchWrapper();
+//   const cache = useQueryClient();
+//
+//   return useMutation({
+//     mutationKey: orderKeys.insert(),
+//     mutationFn: (value: IRecruitJoin) => patch({url: `/order/${orderId}`, data: value}),
+//     onMutate: (variables) => {},
+//     onSuccess: (data, variables, context) => {},
+//     onSettled: (data, error, variables, context) => {
+//       return cache.invalidateQueries(orderKeys.list());
+//     },
+//     onError: (error, variables, context) => {},
+//   });
+// }
 
 export {
   useOrderStartRecruit,
   useOrderRecruitGroupJoin,
   useOrderRecruitGroupExit,
-  useSetOrderStatus,
+  // useSetOrderStatus,
 };

@@ -20,7 +20,6 @@ function useSettingMember(options?: {}): any {
     memberKeys.detail(session?.token.subject),
     () => get({url: `/member/${session?.token.subject}`}),
     {
-      ...options,
       enabled: !!session?.token.subject,
       refetchOnMount: true,
       select: (data) => data.data,
