@@ -3,7 +3,7 @@ import type {UseFormRegisterReturn} from 'react-hook-form';
 interface InputProps {
   label?: string;
   name: string;
-  kind?: 'text' | 'phone' | 'price' | 'hidden';
+  kind?: 'text' | 'phone' | 'price' | 'hidden' | 'checkbox';
   type: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
@@ -25,7 +25,7 @@ export default function Input({
 }: InputProps) {
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor={name}>
+      <label className="mb-1 block text-sm font-medium text-gray-700 border-red-500" htmlFor={name}>
         {label}
       </label>
       {kind === 'text' ? (
@@ -79,6 +79,7 @@ export default function Input({
           />
         </div>
       ) : null}
+
       {kind === 'hidden' ? (
         <input
           hidden
@@ -91,6 +92,8 @@ export default function Input({
           defaultValue={defaultValue}
         />
       ) : null}
+
+      {kind === 'checkbox' ? <input hidden id={name} {...register} type={'checkbox'} /> : null}
     </div>
   );
 }

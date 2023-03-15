@@ -22,9 +22,9 @@ export default function AccountInfo() {
   };
 
   const {
-    register: accountRegister,
-    handleSubmit: accountHandleSubmit,
-    formState: {errors: accountErrors},
+    register,
+    handleSubmit,
+    formState: {errors},
   } = useForm<AccountForm>({
     defaultValues: {
       bankName: data.data.bankName,
@@ -35,9 +35,9 @@ export default function AccountInfo() {
   return (
     <>
       <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
-      <form onSubmit={accountHandleSubmit(onValidAccount)} className="pt-5 px-4 space-y-4">
+      <form onSubmit={handleSubmit(onValidAccount)} className="pt-5 px-4 space-y-4">
         <Input
-          register={accountRegister('bankName', {
+          register={register('bankName', {
             required: '은행명은 필수 입력입니다.',
           })}
           required
@@ -46,7 +46,7 @@ export default function AccountInfo() {
           type="text"
         />
         <Input
-          register={accountRegister('accountNumber', {
+          register={register('accountNumber', {
             required: '계좌번호는 필수 입력입니다.',
           })}
           required
