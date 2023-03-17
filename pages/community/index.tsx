@@ -2,12 +2,16 @@ import type {NextPage} from 'next';
 import Link from 'next/link';
 import FloatingButton from '@components/floating-button';
 import Layout from '@components/layout';
+import {useInfiniteBoardList} from '@libs/hooks/services/queries/board';
+import Pagination from '@components/pagination';
 
 const Community: NextPage = () => {
+  // const list = useInfiniteBoardList();
+  // console.log(list);
   return (
     <Layout hasTabBar title="동네생활">
       <div className="space-y-4 divide-y-[2px]">
-        {[1, 2, 3, 4, 5, 6].map((_, i) => (
+        {[1, 2, 3, 4].map((_, i) => (
           <Link
             key={i}
             href={`/community/${i}`}
@@ -62,6 +66,7 @@ const Community: NextPage = () => {
             </div>
           </Link>
         ))}
+        <Pagination />
         <FloatingButton href="/community/write">
           <svg
             className="w-6 h-6"
