@@ -6,3 +6,12 @@ interface IWriteForm {
   secret: boolean;
   hashTag: String[];
 }
+
+interface IPaginationProps {
+  isFirst: boolean;
+  isLast: boolean;
+  isEmpty: boolean;
+  totalPages: number;
+  totalElements: number;
+  [key: string]: any;
+}

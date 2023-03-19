@@ -2,12 +2,12 @@ import type {NextPage} from 'next';
 import Link from 'next/link';
 import FloatingButton from '@components/floating-button';
 import Layout from '@components/layout';
-import {useInfiniteBoardList} from '@libs/hooks/services/queries/board';
+import {useBoardList} from '@libs/hooks/services/queries/board';
 import Pagination from '@components/pagination';
 
 const Community: NextPage = () => {
-  // const list = useInfiniteBoardList();
-  // console.log(list);
+  const {data: list} = useBoardList(1);
+  console.log(list.pagenation);
   return (
     <Layout hasTabBar title="동네생활">
       <div className="space-y-4 divide-y-[2px]">

@@ -1,10 +1,4 @@
-interface PaginationProps {
-  label?: string;
-  name?: string;
-  [key: string]: any;
-}
-
-export default function Pagination({}) {
+export default function Pagination({}: IPaginationProps) {
   return (
     <nav aria-label="Page navigation example">
       <ul className="inline-flex items-center -space-x-px">
