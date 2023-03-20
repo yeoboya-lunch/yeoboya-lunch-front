@@ -3,30 +3,54 @@ import Link from 'next/link';
 import FloatingButton from '@components/floating-button';
 import Layout from '@components/layout';
 import {useBoardList} from '@libs/hooks/services/queries/board';
-import Pagination from '@components/pagination';
+import React, {useEffect, useState} from 'react';
+import ReactPaginate from 'react-paginate';
 
 const Community: NextPage = () => {
-  const {data: list} = useBoardList(1);
-  console.log(list.pagenation);
+  const [page, setPage] = useState(0);
+  const {data: data, refetch} = useBoardList(page);
+  console.log(data.list);
+
+  const handlePageClick = (event: {selected: number}) => {
+    setPage(event.selected + 1);
+  };
+
+  const handlePageActive = () => {
+    console.log('활성이벤트');
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [page]);
+
   return (
     <Layout hasTabBar title="동네생활">
       <div className="space-y-4 divide-y-[2px]">
-        {[1, 2, 3, 4].map((_, i) => (
+        {data.list.map((content: IBoardContent, index: number) => (
           <Link
-            key={i}
-            href={`/community/${i}`}
+            key={index}
+            href={`/community/${content.boardId}`}
             className="flex cursor-pointer flex-col pt-4 items-start"
           >
-            <span className="flex ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-              동네질문
-            </span>
+            <div className="flex">
+              {content.hashTags.map((hashTag: IHashTag, index: number) => {
+                return (
+                  <span
+                    key={index}
+                    className="first:ml-4 px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {hashTag.tag}
+                  </span>
+                );
+              })}
+            </div>
+
             <div className="mt-2 px-4 text-gray-700">
-              <span className="text-orange-500 font-medium">Q.</span> What is the best mandu
-              restaurant?
+              <span className="text-orange-500 font-medium">Q.</span> {content.title}
             </div>
             <div className="mt-5 px-4 flex items-center justify-between w-full text-gray-500 font-medium text-xs">
-              <span>니꼬</span>
-              <span>18시간 전</span>
+              <span>{content.name}</span>
+              <span>{content.createDate}</span>
             </div>
             <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t   w-full">
               <span className="flex space-x-2 items-center text-sm">
@@ -66,7 +90,36 @@ const Community: NextPage = () => {
             </div>
           </Link>
         ))}
-        <Pagination />
+
+        {!data.pagination.isEmpty && (
+          <ReactPaginate
+            breakLabel=""
+            marginPagesDisplayed={0}
+            previousLabel="<"
+            nextLabel=">"
+            onPageChange={handlePageClick}
+            onPageActive={handlePageActive}
+            renderOnZeroPageCount={undefined}
+            pageRangeDisplayed={data.list.length}
+            pageCount={data.pagination.totalPages}
+            containerClassName={'flex justify-center items-center -space-x-px pt-10'}
+            previousClassName={
+              'block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+            }
+            pageClassName={''}
+            pageLinkClassName={
+              'px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+            }
+            activeClassName={''}
+            activeLinkClassName={
+              'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+            }
+            nextClassName={
+              'block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+            }
+          />
+        )}
+
         <FloatingButton href="/community/write">
           <svg
             className="w-6 h-6"

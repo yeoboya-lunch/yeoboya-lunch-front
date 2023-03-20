@@ -9,9 +9,7 @@ function useBoardList(page: number, options?: {}): any {
   return useQuery(boardKeys.list(), () => get({url: '/board', params: {size: size, page: page}}), {
     refetchOnMount: true,
     select: (data) => data.data.data,
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    onSuccess: (data) => {},
   });
 }
 
