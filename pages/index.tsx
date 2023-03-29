@@ -1,7 +1,7 @@
 import type {NextPage} from 'next';
 import FloatingButton from '../components/floating-button';
 import Layout from '../components/layout';
-import {useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import useLocalStorage from 'use-local-storage';
 import {useObserver} from '@libs/client/useObserver';
 import {useInfiniteOrders} from '@libs/hooks/services/queries/order';
@@ -23,6 +23,7 @@ const Home: NextPage = () => {
     onIntersect,
   });
 
+  console.log(orders.data);
   useEffect(() => {
     if (scrollY !== 0) {
       window.scrollTo(0, Number(scrollY));

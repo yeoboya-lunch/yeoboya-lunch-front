@@ -24,7 +24,24 @@ const Community: NextPage = () => {
   }, [page]);
 
   return (
-    <Layout hasTabBar title="동네생활">
+    <Layout hasTabBar title="자유게시판">
+      {data.pagination.isEmpty && (
+        <div className="border border-dotted flex flex-col items-center p-10 mt-5">
+          <div>사진</div>
+          <Link href="/community/write">
+            <div>Create a New Board</div>
+          </Link>
+        </div>
+      )}
+
+      <div className="flex items-center space-x-1">
+        <div className="">날짜</div>
+        <div className="grow">제목</div>
+        <div className="">글쓴이</div>
+        <div className="">조회</div>
+        <div className="">공감</div>
+        <div className="">비공감</div>
+      </div>
       <div className="space-y-4 divide-y-[2px]">
         {data.list.map((content: IBoardContent, index: number) => (
           <Link
@@ -68,7 +85,7 @@ const Community: NextPage = () => {
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                <span>궁금해요 1</span>
+                <span>공감 1</span>
               </span>
               <span className="flex space-x-2 items-center text-sm">
                 <svg
