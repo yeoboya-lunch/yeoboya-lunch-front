@@ -34,14 +34,6 @@ const Community: NextPage = () => {
         </div>
       )}
 
-      <div className="flex items-center space-x-1">
-        <div className="">날짜</div>
-        <div className="grow">제목</div>
-        <div className="">글쓴이</div>
-        <div className="">조회</div>
-        <div className="">공감</div>
-        <div className="">비공감</div>
-      </div>
       <div className="space-y-4 divide-y-[2px]">
         {data.list.map((content: IBoardContent, index: number) => (
           <Link
