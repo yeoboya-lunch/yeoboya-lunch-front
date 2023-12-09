@@ -5,4 +5,3 @@ yeoboya-lunch-app with next.js
 - react-query
 - recoil (state)
 
-23년 end
