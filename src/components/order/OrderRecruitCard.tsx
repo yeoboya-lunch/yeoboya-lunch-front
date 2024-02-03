@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import profilePic from '../../public/image-4@2x.jpg';
+import profilePic from '../../../public/image-4@2x.jpg';
 import Image from 'next/image';
-import {useRef, useState} from 'react';
+import { useRef, useState } from 'react';
 import useLocalStorage from 'use-local-storage';
-import {useObserver} from '@libs/client/useObserver';
+import { useObserver } from '@libs/client/useObserver';
 
 interface IRecruitProps {
   orderId: number;

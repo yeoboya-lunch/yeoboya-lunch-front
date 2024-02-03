@@ -1,15 +1,16 @@
-import type {NextPage} from 'next';
-import FloatingButton from '../components/floating-button';
-import Layout from '../components/layout';
-import React, {useEffect, useRef} from 'react';
-import useLocalStorage from 'use-local-storage';
-import {useObserver} from '@libs/client/useObserver';
-import {useInfiniteOrders} from '@libs/hooks/services/queries/order';
-import OrderRecruitCard from '@components/order/OrderRecruitCard';
-import TopBanner from '@components/index/TopBanner';
-import {IRecruitItem} from '../types/order';
+'use client';
 
-const Home: NextPage = () => {
+import TopBanner from '@components/index/TopBanner';
+import { IRecruitItem } from '../types/order';
+import OrderRecruitCard from '@components/order/OrderRecruitCard';
+import FloatingButton from '@components/floating-button';
+import Layout from '@components/layout';
+import React, { useEffect, useRef } from 'react';
+import { useInfiniteOrders } from '@libs/hooks/services/queries/order';
+import useLocalStorage from 'use-local-storage';
+import { useObserver } from '@libs/client/useObserver';
+
+const Home = () => {
   const orders = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
@@ -28,7 +29,6 @@ const Home: NextPage = () => {
       window.scrollTo(0, Number(scrollY));
     }
   }, []);
-
   return (
     <Layout title="오늘의주문" hasTabBar>
       <TopBanner />
