@@ -23,7 +23,6 @@ const Home: NextPage = () => {
     onIntersect,
   });
 
-  console.log(orders.data);
   useEffect(() => {
     if (scrollY !== 0) {
       window.scrollTo(0, Number(scrollY));
