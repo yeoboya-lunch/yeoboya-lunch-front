@@ -1,15 +1,15 @@
-import {useState} from 'react';
-import {useQuery} from '@tanstack/react-query';
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
-import {useRouter} from 'next/router';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
 import memberAtom from '@libs/recoil/member';
 
 function useMemberInterval() {
   const [refreshStop, setRefreshStop] = useState(false);
   const [member, setMember] = useRecoilState(memberAtom);
   const resetMember = useResetRecoilState(memberAtom);
-  const {get} = useFetchWrapper();
+  const { get } = useFetchWrapper();
   const router = useRouter();
 
   useQuery(
@@ -47,4 +47,4 @@ function useMemberInterval() {
   );
 }
 
-export {useMemberInterval};
+export { useMemberInterval };

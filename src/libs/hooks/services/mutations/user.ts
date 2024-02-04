@@ -1,9 +1,11 @@
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useMutation} from '@tanstack/react-query';
-import {useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil';
+'use client';
+
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import { useMutation } from '@tanstack/react-query';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import memberAtom from '@libs/recoil/member';
-import {useRouter} from 'next/router';
-import {ISignUpForm, LoginForm} from '../../../../types/user';
+import { useRouter } from 'next/navigation';
+import { ISignUpForm, LoginForm } from '../../../../types/user';
 
 const userKeys = {
   all: () => ['user'],
@@ -14,11 +16,11 @@ const userKeys = {
 };
 
 function useSignUp(): any {
-  const {post} = useFetchWrapper();
+  const { post } = useFetchWrapper();
 
   return useMutation({
     mutationKey: userKeys.insert(),
-    mutationFn: (value: ISignUpForm) => post({url: `/user/sign-up`, data: value}),
+    mutationFn: (value: ISignUpForm) => post({ url: `/user/sign-up`, data: value }),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {},
     onSettled: (data, error, variables, context) => {},
@@ -27,11 +29,11 @@ function useSignUp(): any {
 }
 
 function useLogin(): any {
-  const {post} = useFetchWrapper();
+  const { post } = useFetchWrapper();
   const setMember = useSetRecoilState(memberAtom);
 
   return useMutation({
-    mutationFn: (value: LoginForm) => post({url: '/user/sign-in', data: value}),
+    mutationFn: (value: LoginForm) => post({ url: '/user/sign-in', data: value }),
     onMutate: (variables) => {},
     onSuccess: (data) => {
       if (data.status === 200) {
@@ -46,7 +48,7 @@ function useLogin(): any {
 }
 
 function useLogout(): any {
-  const {post} = useFetchWrapper();
+  const { post } = useFetchWrapper();
   const router = useRouter();
   const resetMember = useResetRecoilState(memberAtom);
   return useMutation({
@@ -70,4 +72,4 @@ function useLogout(): any {
   });
 }
 
-export {useSignUp, useLogin, useLogout};
+export { useSignUp, useLogin, useLogout };

@@ -23,3 +23,9 @@ export default function Layout({ title, canGoBack, hasTabBar, children }: Layout
     </section>
   );
 }
+
+/**
+ * main -
+ * 기본 레이아웃 + 메인 레이아웃
+ * no-auth - 로그인 창
+ */
