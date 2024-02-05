@@ -1,6 +1,8 @@
-import type {NextPage} from 'next';
+'use client';
+
+import type { NextPage } from 'next';
 import Layout from '@components/layout';
-import {Suspense} from 'react';
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 const EditProfile: NextPage = () => {

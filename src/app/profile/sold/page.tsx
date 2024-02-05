@@ -1,3 +1,5 @@
+'use client';
+
 import type { NextPage } from 'next';
 import Item from '@components/item';
 import Layout from '@components/layout';

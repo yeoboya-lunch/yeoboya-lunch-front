@@ -1,17 +1,8 @@
 import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import TextArea from '@components/textarea';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useBoardQuery } from '@libs/hooks/services/queries/board';
 
 const CommunityPostDetail: NextPage = () => {
-  const router = useRouter();
-  const { data: session } = useSession();
-
-  const { data: recruit } = useBoardQuery(router.query.id as string);
-  console.log(recruit);
-
   return (
     <Layout canGoBack>
       <div>

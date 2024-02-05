@@ -79,14 +79,14 @@ const ProfilePage: NextPage = () => {
             </div>
           </Link>
 
-          <Link href="/member/member" className="text-sm text-gray-700">
+          <Link href="/member" className="text-sm text-gray-700">
             <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
               <div className="">사진</div>
               <span>당직자</span>
             </div>
           </Link>
 
-          <Link href="/member/member" className="text-sm text-gray-700">
+          <Link href="/member" className="text-sm text-gray-700">
             <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
               <div className="">사진</div>
               <span>상품등록</span>

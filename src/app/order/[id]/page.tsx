@@ -1,22 +1,24 @@
 'use client';
 
-import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import { useRecruitQuery } from '@libs/hooks/services/queries/order';
-import { useRouter } from 'next/navigation';
 import { IItem, IRecruitItem } from '../../../types/order';
 import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
 } from '@libs/hooks/services/mutations/order';
 import { useState } from 'react';
-import { getSession, GetSessionParams, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-const RecruitPost: NextPage = () => {
-  const router = useRouter();
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const RecruitPost = ({ params }: Props) => {
   const { data: session } = useSession();
-
-  const { data: recruit } = useRecruitQuery(router.query.id as string);
+  const { data: recruit } = useRecruitQuery(params.id);
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();
 
@@ -107,7 +109,7 @@ const RecruitPost: NextPage = () => {
         <div
           onClick={() =>
             orderRecruitJoin.mutate({
-              orderNo: router.query.id,
+              orderNo: params.id,
               email: session?.token.subject,
               orderItems: cart,
             })
@@ -155,19 +157,3 @@ const RecruitPost: NextPage = () => {
 };
 
 export default RecruitPost;
-
-export async function getServerSideProps(context: GetSessionParams) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}

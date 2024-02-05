@@ -12,10 +12,11 @@ import dayjs from 'dayjs';
 import { useRecoilValue } from 'recoil';
 import memberAtom from '@libs/recoil/member';
 import { IRecruit } from '../../types/order';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
+  const search = useSearchParams();
   const { mutate, isSuccess, isError, isLoading, error } = useOrderStartRecruit();
 
   const iMember = useRecoilValue(memberAtom);
@@ -37,7 +38,7 @@ const OrderPage: NextPage = () => {
 
   const onValid = (recruitForm: IRecruit) => {
     recruitForm.email = iMember.email!;
-    recruitForm.shopName = router.query.shopName as string;
+    recruitForm.shopName = search.get('shopName') || '';
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
