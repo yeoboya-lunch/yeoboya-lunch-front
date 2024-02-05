@@ -4,7 +4,7 @@ const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) };
 const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) };
 const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) };
 
-module.exports = {
+const config = {
   content: [
     './src/pages/**/*.{js,jsx,ts,tsx}',
     './src/components/**/*.{js,jsx,ts,tsx}',
@@ -18,3 +18,5 @@ module.exports = {
   darkMode: 'media', //default os system
   plugins: [require('@tailwindcss/forms')],
 };
+
+export default config;

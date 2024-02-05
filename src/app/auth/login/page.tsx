@@ -142,7 +142,7 @@ const LoginPage: NextPage = (props) => {
 
         <p className="mt-5 p-3 border rounded-md text-center text-gray-700">
           여보야 점심 처음이신가요?&nbsp;
-          <Link href="/auth/SignupPage" className="text-blue-600">
+          <Link href="/auth/signup" className="text-blue-600">
             아이디 만들기
           </Link>
         </p>

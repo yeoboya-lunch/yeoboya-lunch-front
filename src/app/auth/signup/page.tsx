@@ -1,3 +1,5 @@
+'use client';
+
 import type { NextPage } from 'next';
 import { FieldErrors, useForm } from 'react-hook-form';
 import Button from '@components/button';
@@ -119,13 +121,5 @@ const SignupPage: NextPage = () => {
     </div>
   );
 };
-
-export function getServerSideProps() {
-  return {
-    props: {
-      user: 'sign-up',
-    },
-  };
-}
 
 export default SignupPage;
