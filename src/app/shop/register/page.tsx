@@ -66,9 +66,9 @@ const Register: NextPage = () => {
 
   return (
     <Layout canGoBack title="식당등록">
-      <form onSubmit={handleSubmit(onValid, onInvalid)} className="p-4 space-y-4">
+      <form onSubmit={handleSubmit(onValid, onInvalid)} className="space-y-4 p-4">
         <div>
-          <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
+          <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-500 hover:text-orange-500">
             <svg
               className="h-12 w-12"
               stroke="currentColor"
@@ -95,7 +95,7 @@ const Register: NextPage = () => {
           type="text"
         />
 
-        <div className="border rounded-md space-y-4 p-3 divide-y-[2px] divide-dashed">
+        <div className="space-y-4 divide-y-[2px] divide-dashed rounded-md border p-3">
           {inputFields.map((input, index) => {
             return (
               <div key={index} className="space-y-4 pt-4">
@@ -123,7 +123,7 @@ const Register: NextPage = () => {
           <div className="flex justify-evenly pt-4">
             <button
               type="button"
-              className="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
+              className="mb-2 mr-2 rounded-lg border border-green-700 px-5 py-2.5 text-center text-sm font-medium text-green-700 hover:bg-green-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 dark:border-green-500 dark:text-green-500 dark:hover:bg-green-600 dark:hover:text-white dark:focus:ring-green-800"
               onClick={addFields}
             >
               메뉴추가
@@ -131,7 +131,7 @@ const Register: NextPage = () => {
             {inputFields.length > 0 && (
               <button
                 type="button"
-                className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                className="mb-2 mr-2 rounded-lg border border-red-700 px-5 py-2.5 text-center text-sm font-medium text-red-700 hover:bg-red-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900"
                 onClick={removeFields}
               >
                 메뉴삭제

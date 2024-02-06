@@ -15,19 +15,19 @@ const ProfilePage: NextPage = () => {
   return (
     <Layout hasTabBar title="프로필">
       <div className="px-4">
-        <div className="flex items-center mt-4 space-x-3">
-          <div className="w-16 h-16 bg-slate-500 rounded-full" />
+        <div className="mt-4 flex items-center space-x-3">
+          <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
             <span className="text-2xl font-bold text-gray-900">{member?.data.email}</span>
             <span className="text-sm text-gray-500">{member?.data.nickName}</span>
             <span>{member?.data.bio}</span>
           </div>
         </div>
-        <div className="mt-10 flex justify-around pb-5 border-b">
+        <div className="mt-10 flex justify-around border-b pb-5">
           <Link href="/profile/sold" className="flex flex-col items-center">
-            <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
               <svg
-                className="w-6 h-6"
+                className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -41,12 +41,12 @@ const ProfilePage: NextPage = () => {
                 ></path>
               </svg>
             </div>
-            <span className="text-sm mt-2 font-medium text-gray-700">주문내역</span>
+            <span className="mt-2 text-sm font-medium text-gray-700">주문내역</span>
           </Link>
           <Link href="/profile/bought" className="flex flex-col items-center">
-            <div className="w-14 h-14 text-white bg-orange-400 rounded-full flex items-center justify-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
               <svg
-                className="w-6 h-6"
+                className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -60,34 +60,34 @@ const ProfilePage: NextPage = () => {
                 ></path>
               </svg>
             </div>
-            <span className="text-sm mt-2 font-medium text-gray-700">구매내역</span>
+            <span className="mt-2 text-sm font-medium text-gray-700">구매내역</span>
           </Link>
         </div>
 
-        <div className="grid grid-cols-3 grid-rows-3 mt-5 gap-x-5 gap-y-10 p-4">
+        <div className="mt-5 grid grid-cols-3 grid-rows-3 gap-x-5 gap-y-10 p-4">
           <Link href="/profile/edit" className="text-sm text-gray-700">
-            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
               <div className="">사진</div>
               <span>프로필 수정</span>
             </div>
           </Link>
 
           <Link href="/shop/register" className="text-sm text-gray-700">
-            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
               <div className="">사진</div>
               <span>식당등록</span>
             </div>
           </Link>
 
           <Link href="/member" className="text-sm text-gray-700">
-            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
               <div className="">사진</div>
               <span>당직자</span>
             </div>
           </Link>
 
           <Link href="/member" className="text-sm text-gray-700">
-            <div className="text-sm font-medium text-gray-700 flex flex-col justify-center justify-around items-center">
+            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
               <div className="">사진</div>
               <span>상품등록</span>
             </div>

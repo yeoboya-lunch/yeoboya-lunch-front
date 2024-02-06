@@ -1,7 +1,7 @@
-import {recoilPersist} from 'recoil-persist';
-import {atom} from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+import { atom } from 'recoil';
 
-const {persistAtom} = recoilPersist();
+const { persistAtom } = recoilPersist();
 
 interface IMember {
   name?: string;

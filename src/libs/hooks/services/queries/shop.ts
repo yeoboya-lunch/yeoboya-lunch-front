@@ -1,5 +1,5 @@
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
 
 const shopKeys = {
   all: () => ['shop'],
@@ -9,13 +9,13 @@ const shopKeys = {
 };
 
 function useInfiniteShops(options?: {}): any {
-  const {get} = useFetchWrapper();
+  const { get } = useFetchWrapper();
   const size = 10;
 
   return useInfiniteQuery(
     shopKeys.list(),
-    ({pageParam = 1}) =>
-      get({url: `/shop`, params: {size: size, page: pageParam, sort: 'id,desc'}}),
+    ({ pageParam = 1 }) =>
+      get({ url: `/shop`, params: { size: size, page: pageParam, sort: 'id,desc' } }),
     {
       ...options,
       refetchOnMount: true,
@@ -29,4 +29,4 @@ function useInfiniteShops(options?: {}): any {
   );
 }
 
-export {useInfiniteShops};
+export { useInfiniteShops };

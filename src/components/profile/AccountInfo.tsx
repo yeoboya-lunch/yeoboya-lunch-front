@@ -1,9 +1,9 @@
 import Input from '@components/input';
 import Button from '@components/button';
 import React from 'react';
-import {useForm} from 'react-hook-form';
-import {useSettingMember} from '@libs/hooks/services/queries/member';
-import {useAccountInfoUpdate, useAccountSave} from '@libs/hooks/services/mutations/member';
+import { useForm } from 'react-hook-form';
+import { useSettingMember } from '@libs/hooks/services/queries/member';
+import { useAccountInfoUpdate, useAccountSave } from '@libs/hooks/services/mutations/member';
 
 interface AccountForm {
   email: string;
@@ -12,7 +12,7 @@ interface AccountForm {
 }
 
 export default function AccountInfo() {
-  const {data} = useSettingMember();
+  const { data } = useSettingMember();
   const account = useAccountSave();
   const update = useAccountInfoUpdate();
 
@@ -24,7 +24,7 @@ export default function AccountInfo() {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<AccountForm>({
     defaultValues: {
       bankName: data.data.bankName,
@@ -34,8 +34,8 @@ export default function AccountInfo() {
 
   return (
     <>
-      <h2 className="text-2xl py-3 px-4 border-b-2">Account Info</h2>
-      <form onSubmit={handleSubmit(onValidAccount)} className="pt-5 px-4 space-y-4">
+      <h2 className="border-b-2 px-4 py-3 text-2xl">Account Info</h2>
+      <form onSubmit={handleSubmit(onValidAccount)} className="space-y-4 px-4 pt-5">
         <Input
           register={register('bankName', {
             required: '은행명은 필수 입력입니다.',

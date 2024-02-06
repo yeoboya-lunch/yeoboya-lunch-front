@@ -1,13 +1,13 @@
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function useBoardWrite(): any {
-  const {post} = useFetchWrapper();
+  const { post } = useFetchWrapper();
   const cache = useQueryClient();
 
   return useMutation({
     mutationKey: ['board', 'write'],
-    mutationFn: (value: IWriteForm) => post({url: `/board/write`, data: value}),
+    mutationFn: (value: IWriteForm) => post({ url: `/board/write`, data: value }),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {},
     onSettled: (data, error, variables, context) => {
@@ -17,4 +17,4 @@ function useBoardWrite(): any {
   });
 }
 
-export {useBoardWrite};
+export { useBoardWrite };

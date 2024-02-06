@@ -50,12 +50,12 @@ const SignupPage: NextPage = () => {
 
   return (
     <div className="mt-16 px-4">
-      <h3 className="text-3xl font-bold text-center">Welcome to Yeoboya Lunch</h3>
+      <h3 className="text-center text-3xl font-bold">Welcome to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
-          <h5 className="text-sm text-gray-500 font-medium">Enter using:</h5>
+          <h5 className="text-sm font-medium text-gray-500">Enter using:</h5>
         </div>
-        <form onSubmit={handleSubmit(onValid, onInvalid)} className="flex flex-col mt-8 space-y-4">
+        <form onSubmit={handleSubmit(onValid, onInvalid)} className="mt-8 flex flex-col space-y-4">
           <Input
             register={register('email', {
               required: '이메일은 필수 입력입니다.',
