@@ -32,7 +32,7 @@ function useOrderRecruitGroupJoin(): any {
     mutationFn: (value: IRecruitJoin) => post({ url: `/order/recruit/group/join`, data: value }),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {
-      router.reload();
+      router.refresh();
     },
     onSettled: (data, error, variables, context) => {
       return cache.invalidateQueries(orderKeys.list());
@@ -52,7 +52,7 @@ function useOrderRecruitGroupExit(): any {
       axiosDelete({ url: `/order/recruit/group/join/${groupOrderId}` }),
     onMutate: (variables) => {},
     onSuccess: (data, variables, context) => {
-      router.reload();
+      router.refresh();
     },
     onSettled: (data, error, variables, context) => {
       return cache.invalidateQueries(orderKeys.list());

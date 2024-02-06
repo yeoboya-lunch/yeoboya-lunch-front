@@ -20,7 +20,6 @@ const OrderPage: NextPage = () => {
   const { mutate, isSuccess, isError, isLoading, error } = useOrderStartRecruit();
 
   const iMember = useRecoilValue(memberAtom);
-  //console.log(iMember);
 
   useEffect(() => {
     const dateControl = document.querySelector('input[type="datetime-local"]') as HTMLInputElement;
