@@ -1,8 +1,10 @@
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+'use client';
+
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 import memberAtom from '@libs/recoil/member';
-import {useSession} from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 const memberKeys = {
   all: () => ['member'],
@@ -12,13 +14,13 @@ const memberKeys = {
 };
 
 function useSettingMember(options?: {}): any {
-  const {get} = useFetchWrapper();
+  const { get } = useFetchWrapper();
   const setMember = useSetRecoilState(memberAtom);
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
   return useQuery(
     memberKeys.detail(session?.token.subject),
-    () => get({url: `/member/${session?.token.subject}`}),
+    () => get({ url: `/member/${session?.token.subject}` }),
     {
       enabled: !!session?.token.subject,
       refetchOnMount: true,
@@ -41,12 +43,12 @@ function useSettingMember(options?: {}): any {
 }
 
 function useInfiniteMemberList(options?: {}): any {
-  const {get} = useFetchWrapper();
+  const { get } = useFetchWrapper();
   const size = 30;
 
   return useInfiniteQuery(
     memberKeys.list(),
-    ({pageParam = 1}) => get({url: '/member', params: {size: size, page: pageParam}}),
+    ({ pageParam = 1 }) => get({ url: '/member', params: { size: size, page: pageParam } }),
     {
       ...options,
       getNextPageParam: (lastPage) => {
@@ -59,4 +61,4 @@ function useInfiniteMemberList(options?: {}): any {
   );
 }
 
-export {useSettingMember, useInfiniteMemberList};
+export { useSettingMember, useInfiniteMemberList };

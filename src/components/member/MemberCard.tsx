@@ -1,7 +1,9 @@
-import {useRef, useState} from 'react';
+'use client';
+
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import useLocalStorage from 'use-local-storage';
-import {useObserver} from '@libs/client/useObserver';
+import { useObserver } from '@libs/client/useObserver';
 
 type TMember = {
   email: string;
@@ -35,10 +37,10 @@ export default function MemberCard({
   });
 
   return (
-    <div className="w-[calc(50%_-_1rem)] p-1 rounded-xl min-h-7 shadow-2xl flex items-center justify-evenly">
+    <div className="flex min-h-7 w-[calc(50%_-_1rem)] items-center justify-evenly rounded-xl p-1 shadow-2xl">
       <div className="space-y-2">
-        <div className="w-12 h-12 rounded-full bg-slate-500" />
-        <div className="text-gray-700 text-xs text-center">{nickName}</div>
+        <div className="h-12 w-12 rounded-full bg-slate-500" />
+        <div className="text-center text-xs text-gray-700">{nickName}</div>
       </div>
       <div>
         <Link
@@ -49,14 +51,14 @@ export default function MemberCard({
         >
           {visible && (
             <>
-              <div className="text-base mt-2 font-bold">{email}</div>
+              <div className="mt-2 text-base font-bold">{email}</div>
               <div className="flex space-x-1">
-                <div className="text-gray-700 text-sm">{name}</div>
-                <div className="text-gray-700 text-sm">{phoneNumber}</div>
+                <div className="text-sm text-gray-700">{name}</div>
+                <div className="text-sm text-gray-700">{phoneNumber}</div>
               </div>
               <div className="space-x-1">
-                <span className="text-gray-700 text-sm">{bankName}</span>
-                <span className="text-gray-700 text-sm">{accountNumber}</span>
+                <span className="text-sm text-gray-700">{bankName}</span>
+                <span className="text-sm text-gray-700">{accountNumber}</span>
               </div>
             </>
           )}

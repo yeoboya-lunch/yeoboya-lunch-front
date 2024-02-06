@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const session = await getToken({ req, secret, raw: true });
 
   const { pathname } = req.nextUrl;
-  console.log('값 찍힘? ', session);
 
   // console.log('-------------');
   // console.log(pathname);

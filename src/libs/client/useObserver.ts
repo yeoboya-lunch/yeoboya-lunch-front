@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 interface useObserverProps {
   target: React.MutableRefObject<null>;
@@ -23,7 +23,7 @@ export const useObserver = ({
       // callback의 인자로 들어오는 entry는 기본적으로 순환자이기 때문에
       // 복잡한 로직을 필요로 할때가 많다.
       // callback을 선언하는 곳에서 로직을 짜서 통째로 넘기도록 하겠다.
-      observer = new IntersectionObserver(onIntersect, {root, rootMargin, threshold});
+      observer = new IntersectionObserver(onIntersect, { root, rootMargin, threshold });
       observer.observe(target.current);
     }
 

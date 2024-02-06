@@ -1,5 +1,5 @@
-import {useQuery} from '@tanstack/react-query';
-import {useFetchWrapper} from '@libs/client/fetch-wrapper';
+import { useQuery } from '@tanstack/react-query';
+import { useFetchWrapper } from '@libs/client/fetch-wrapper';
 
 const profileKeys = {
   all: () => ['profile'],
@@ -9,8 +9,8 @@ const profileKeys = {
 };
 
 function useProfiles(options: {} = {}) {
-  const {get} = useFetchWrapper();
-  return useQuery(profileKeys.all(), () => get({url: `/member`}), {
+  const { get } = useFetchWrapper();
+  return useQuery(profileKeys.all(), () => get({ url: `/member` }), {
     ...options,
     onSuccess: (data) => {},
     onError: (err) => {},
@@ -19,8 +19,8 @@ function useProfiles(options: {} = {}) {
 }
 
 function useProfileSimple(memberId: string, options: {} = {}) {
-  const {get} = useFetchWrapper();
-  return useQuery(profileKeys.detail(memberId), () => get({url: `/member/${memberId}`}), {
+  const { get } = useFetchWrapper();
+  return useQuery(profileKeys.detail(memberId), () => get({ url: `/member/${memberId}` }), {
     ...options,
     onError: (err) => {
       console.log('err', err);
@@ -30,8 +30,8 @@ function useProfileSimple(memberId: string, options: {} = {}) {
 }
 
 function useProfileAccount(memberId: String, options: {} = {}) {
-  const {get} = useFetchWrapper();
-  return useQuery(['queryKeys.account'], () => get({url: `/member/account/${memberId}`}), {
+  const { get } = useFetchWrapper();
+  return useQuery(['queryKeys.account'], () => get({ url: `/member/account/${memberId}` }), {
     ...options,
     onError: (err: Error) => {
       console.log('err', err);
@@ -42,4 +42,4 @@ function useProfileAccount(memberId: String, options: {} = {}) {
   });
 }
 
-export {useProfiles, useProfileSimple, useProfileAccount};
+export { useProfiles, useProfileSimple, useProfileAccount };

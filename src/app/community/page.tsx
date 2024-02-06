@@ -28,7 +28,7 @@ const Community: NextPage = () => {
   return (
     <Layout hasTabBar title="자유게시판">
       {data.pagination.isEmpty && (
-        <div className="border border-dotted flex flex-col items-center p-10 mt-5">
+        <div className="mt-5 flex flex-col items-center border border-dotted p-10">
           <div>사진</div>
           <Link href="/community/write">
             <div>Create a New Board</div>
@@ -41,14 +41,14 @@ const Community: NextPage = () => {
           <Link
             key={index}
             href={`/community/${content.boardId}`}
-            className="flex cursor-pointer flex-col pt-4 items-start"
+            className="flex cursor-pointer flex-col items-start pt-4"
           >
             <div className="flex">
               {content.hashTags.map((hashTag: IHashTag, index: number) => {
                 return (
                   <span
                     key={index}
-                    className="first:ml-4 px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                    className="rounded-full bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-800 first:ml-4"
                   >
                     {hashTag.tag}
                   </span>
@@ -57,16 +57,16 @@ const Community: NextPage = () => {
             </div>
 
             <div className="mt-2 px-4 text-gray-700">
-              <span className="text-orange-500 font-medium">Q.</span> {content.title}
+              <span className="font-medium text-orange-500">Q.</span> {content.title}
             </div>
-            <div className="mt-5 px-4 flex items-center justify-between w-full text-gray-500 font-medium text-xs">
+            <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
               <span>{content.name}</span>
               <span>{content.createDate}</span>
             </div>
-            <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t   w-full">
-              <span className="flex space-x-2 items-center text-sm">
+            <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
+              <span className="flex items-center space-x-2 text-sm">
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -81,9 +81,9 @@ const Community: NextPage = () => {
                 </svg>
                 <span>공감 1</span>
               </span>
-              <span className="flex space-x-2 items-center text-sm">
+              <span className="flex items-center space-x-2 text-sm">
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -133,7 +133,7 @@ const Community: NextPage = () => {
 
         <FloatingButton href="/community/write">
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

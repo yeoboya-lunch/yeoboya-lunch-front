@@ -11,7 +11,7 @@ const BackButton = () => {
   return (
     <button onClick={onClick} className="absolute left-4">
       <svg
-        className="w-6 h-6"
+        className="h-6 w-6"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

@@ -9,16 +9,16 @@ const NavBar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white max-w-xl text-gray-700 border-t fixed bottom-0 w-full px-10 pb-5 pt-3 flex justify-between text-xs">
+    <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
       <Link
         href="/"
         className={cls(
           'flex flex-col items-center space-y-2 ',
-          pathname === '/' ? 'text-orange-500' : 'hover:text-gray-500 transition-colors',
+          pathname === '/' ? 'text-orange-500' : 'transition-colors hover:text-gray-500',
         )}
       >
         <svg
-          className="w-6 h-6"
+          className="h-6 w-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -37,11 +37,11 @@ const NavBar = () => {
         href="/community"
         className={cls(
           'flex flex-col items-center space-y-2 ',
-          pathname === '/community' ? 'text-orange-500' : 'hover:text-gray-500 transition-colors',
+          pathname === '/community' ? 'text-orange-500' : 'transition-colors hover:text-gray-500',
         )}
       >
         <svg
-          className="w-6 h-6"
+          className="h-6 w-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -110,11 +110,11 @@ const NavBar = () => {
         href="/profile"
         className={cls(
           'flex flex-col items-center space-y-2 ',
-          pathname === '/profile' ? 'text-orange-500' : 'hover:text-gray-500 transition-colors',
+          pathname === '/profile' ? 'text-orange-500' : 'transition-colors hover:text-gray-500',
         )}
       >
         <svg
-          className="w-6 h-6"
+          className="h-6 w-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

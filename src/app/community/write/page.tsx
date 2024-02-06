@@ -39,7 +39,7 @@ const Write: NextPage = () => {
 
   return (
     <Layout canGoBack title="Write Post">
-      <form onSubmit={handleSubmit(onValidBoard, onInvalid)} className="p-4 space-y-4">
+      <form onSubmit={handleSubmit(onValidBoard, onInvalid)} className="space-y-4 p-4">
         <Input
           register={register('title', {
             required: '제목은 필수 입력입니다.',

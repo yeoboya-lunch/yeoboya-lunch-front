@@ -1,8 +1,8 @@
 import Input from '@components/input';
 import Button from '@components/button';
-import {useSettingMember} from '@libs/hooks/services/queries/member';
-import {usePublicProfileUpdate} from '@libs/hooks/services/mutations/member';
-import {FieldErrors, useForm} from 'react-hook-form';
+import { useSettingMember } from '@libs/hooks/services/queries/member';
+import { usePublicProfileUpdate } from '@libs/hooks/services/mutations/member';
+import { FieldErrors, useForm } from 'react-hook-form';
 
 interface PublicProfileForm {
   name: string;
@@ -13,13 +13,13 @@ interface PublicProfileForm {
 }
 
 export default function PublicProfile() {
-  const {data} = useSettingMember();
+  const { data } = useSettingMember();
   const publicProfile = usePublicProfileUpdate();
 
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<PublicProfileForm>({
     defaultValues: {
       name: data.data.name,
@@ -40,13 +40,13 @@ export default function PublicProfile() {
 
   return (
     <>
-      <h2 className="text-2xl py-3 px-4 border-b-2">Public profile</h2>
-      <form onSubmit={handleSubmit(onValidPublic, onInvalid)} className="pt-5 px-4 space-y-4">
+      <h2 className="border-b-2 px-4 py-3 text-2xl">Public profile</h2>
+      <form onSubmit={handleSubmit(onValidPublic, onInvalid)} className="space-y-4 px-4 pt-5">
         <div className="flex items-center space-x-3">
-          <div className="w-14 h-14 rounded-full bg-slate-500" />
+          <div className="h-14 w-14 rounded-full bg-slate-500" />
           <label
             htmlFor="picture"
-            className="cursor-pointer py-2 px-3 border hover:bg-gray-50 border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 text-gray-700"
+            className="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
             Change
             <input id="picture" type="file" className="hidden" accept="image/*" />

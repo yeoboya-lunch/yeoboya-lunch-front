@@ -11,10 +11,9 @@ interface LayoutProps {
 }
 
 export default function Layout({ title, canGoBack, hasTabBar, children }: LayoutProps) {
-  // useMemberInterval();
   return (
-    <section className="w-full max-w-xl mx-auto">
-      <div className="bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium  fixed text-gray-800 border-b top-0  flex items-center">
+    <section className="mx-auto w-full max-w-xl">
+      <div className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center border-b bg-white px-10 text-lg font-medium text-gray-800">
         {canGoBack ? <BackButton /> : null}
         {title ? <span className={cls(canGoBack ? 'mx-auto' : '', '')}>{title}</span> : null}
       </div>

@@ -1,8 +1,10 @@
+'use client';
+
 import axios from 'axios';
-import {useSession} from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 function useFetchWrapper() {
-  const {data: session, status: statue} = useSession();
+  const { data: session, status: statue } = useSession();
 
   axios.defaults.headers.common['Authorization'] =
     session !== null && statue === 'authenticated' ? `Bearer ${session.token.accessToken}` : null;
@@ -12,7 +14,7 @@ function useFetchWrapper() {
     params?: any;
   }
 
-  function get<T = any>({url, params}: GetParams): Promise<any> {
+  function get<T = any>({ url, params }: GetParams): Promise<any> {
     return axios.get(url, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
@@ -30,7 +32,7 @@ function useFetchWrapper() {
     config?: any;
   }
 
-  function post<T = any>({url, data, config}: PostParams): Promise<any> {
+  function post<T = any>({ url, data, config }: PostParams): Promise<any> {
     return axios.post(url, data, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
@@ -49,7 +51,7 @@ function useFetchWrapper() {
     config?: any;
   }
 
-  function patch<T = any>({url, data, config}: PatchParams): Promise<any> {
+  function patch<T = any>({ url, data, config }: PatchParams): Promise<any> {
     return axios.patch(url, data, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
@@ -67,7 +69,7 @@ function useFetchWrapper() {
     config?: any;
   }
 
-  function axiosDelete<T = any>({url, config}: DeleteParams): Promise<any> {
+  function axiosDelete<T = any>({ url, config }: DeleteParams): Promise<any> {
     return axios.delete(url, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
@@ -80,7 +82,7 @@ function useFetchWrapper() {
     });
   }
 
-  return {get, post, patch, axiosDelete};
+  return { get, post, patch, axiosDelete };
 }
 
-export {useFetchWrapper};
+export { useFetchWrapper };

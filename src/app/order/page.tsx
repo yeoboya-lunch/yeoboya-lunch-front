@@ -12,14 +12,14 @@ import dayjs from 'dayjs';
 import { useRecoilValue } from 'recoil';
 import memberAtom from '@libs/recoil/member';
 import { IRecruit } from '../../types/order';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
+  const search = useSearchParams();
   const { mutate, isSuccess, isError, isLoading, error } = useOrderStartRecruit();
 
   const iMember = useRecoilValue(memberAtom);
-  //console.log(iMember);
 
   useEffect(() => {
     const dateControl = document.querySelector('input[type="datetime-local"]') as HTMLInputElement;
@@ -37,7 +37,7 @@ const OrderPage: NextPage = () => {
 
   const onValid = (recruitForm: IRecruit) => {
     recruitForm.email = iMember.email!;
-    recruitForm.shopName = router.query.shopName as string;
+    recruitForm.shopName = search.get('shopName') || '';
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
@@ -63,9 +63,9 @@ const OrderPage: NextPage = () => {
 
   return (
     <Layout canGoBack title="오늘의 주문">
-      <form onSubmit={handleSubmit(onValid, onInvalid)} className="p-4 space-y-4">
+      <form onSubmit={handleSubmit(onValid, onInvalid)} className="space-y-4 p-4">
         <div>
-          <label className="w-full cursor-pointer text-gray-600 hover:border-orange-500 hover:text-orange-500 flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md">
+          <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-500 hover:text-orange-500">
             <svg
               className="h-12 w-12"
               stroke="currentColor"

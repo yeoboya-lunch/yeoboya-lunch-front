@@ -1,22 +1,24 @@
 'use client';
 
-import type { NextPage } from 'next';
 import Layout from '@components/layout';
 import { useRecruitQuery } from '@libs/hooks/services/queries/order';
-import { useRouter } from 'next/navigation';
 import { IItem, IRecruitItem } from '../../../types/order';
 import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
 } from '@libs/hooks/services/mutations/order';
 import { useState } from 'react';
-import { getSession, GetSessionParams, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-const RecruitPost: NextPage = () => {
-  const router = useRouter();
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const RecruitPost = ({ params }: Props) => {
   const { data: session } = useSession();
-
-  const { data: recruit } = useRecruitQuery(router.query.id as string);
+  const { data: recruit } = useRecruitQuery(params.id);
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();
 
@@ -36,13 +38,13 @@ const RecruitPost: NextPage = () => {
   return (
     <Layout title={recruit?.order.title} canGoBack>
       <div>
-        <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
           {recruit?.shop.shopName}
         </span>
-        <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
           {recruit?.order.orderStatus}
         </span>
-        <div className="flex mb-3 px-4 cursor-pointer pb-3 border-b items-center space-x-3">
+        <div className="mb-3 flex cursor-pointer items-center space-x-3 border-b px-4 pb-3">
           <div>
             <p className="text-sm font-medium text-gray-700">{recruit?.order.title}</p>
             <p className="text-xs font-medium text-gray-500">{recruit?.orderMember.name}</p>
@@ -50,19 +52,19 @@ const RecruitPost: NextPage = () => {
         </div>
         <div className="border-b">
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-orange-500 font-medium">마감시간</span>
+            <span className="font-medium text-orange-500">마감시간</span>
             <span className="text-xs font-medium text-gray-500">
               {recruit?.order.lastOrderTime}
             </span>
           </div>
 
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-orange-500 font-medium">배달비</span>
+            <span className="font-medium text-orange-500">배달비</span>
             <span className="text-xs font-medium text-gray-500">{recruit?.order.deliveryFee}</span>
           </div>
 
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-orange-500 font-medium">당직자 메모</span>
+            <span className="font-medium text-orange-500">당직자 메모</span>
             <span className="text-xs font-medium text-gray-500">{recruit?.order.memo}</span>
           </div>
         </div>
@@ -72,11 +74,11 @@ const RecruitPost: NextPage = () => {
               return (
                 <li key={index} className="pb-3 sm:pb-4">
                   <div className="flex items-center space-x-4">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
                         {item.name}
                       </p>
-                      <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                      <p className="truncate text-sm text-gray-500 dark:text-gray-400">
                         {item.price}원
                       </p>
                     </div>
@@ -107,7 +109,7 @@ const RecruitPost: NextPage = () => {
         <div
           onClick={() =>
             orderRecruitJoin.mutate({
-              orderNo: router.query.id,
+              orderNo: params.id,
               email: session?.token.subject,
               orderItems: cart,
             })
@@ -122,7 +124,7 @@ const RecruitPost: NextPage = () => {
               return (
                 <li key={index} className="pb-3 sm:pb-4">
                   <div className="flex items-center space-x-4">
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       파티원 : {group.name}
                       {group.orderItem.map((item: any, index: number) => {
                         return (
@@ -155,19 +157,3 @@ const RecruitPost: NextPage = () => {
 };
 
 export default RecruitPost;
-
-export async function getServerSideProps(context: GetSessionParams) {
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-}
