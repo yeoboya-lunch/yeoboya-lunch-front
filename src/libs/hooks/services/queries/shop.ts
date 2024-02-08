@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import useFetchWrapper from '@libs/client/fetch-wrapper';
 
 const shopKeys = {
   all: () => ['shop'],

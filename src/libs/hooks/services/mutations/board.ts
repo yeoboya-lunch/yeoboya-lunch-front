@@ -1,4 +1,4 @@
-import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import useFetchWrapper from '@libs/client/fetch-wrapper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function useBoardWrite(): any {
