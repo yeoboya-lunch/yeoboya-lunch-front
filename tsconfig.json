@@ -18,7 +18,8 @@
     "paths": {
       "@/*": ["./src/app/*"],
       "@libs/*": ["./src/libs/*"],
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
+      "@types/*": ["./src/types/*"]
     },
     "plugins": [
       {

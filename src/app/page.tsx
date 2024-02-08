@@ -9,6 +9,7 @@ import React, { useEffect, useRef } from 'react';
 import { useInfiniteOrders } from '@libs/hooks/services/queries/order';
 import useLocalStorage from 'use-local-storage';
 import { useObserver } from '@libs/client/useObserver';
+import { PlusIcon } from '@radix-ui/react-icons';
 
 const Home = () => {
   const orders = useInfiniteOrders();
@@ -47,7 +48,7 @@ const Home = () => {
       <div className="space-y-5">
         {orders.status === 'success' &&
           orders.data.pages.map((group: any, index: number) => (
-            <ul key={index}>
+            <ul className="flex flex-col gap-4 p-4" key={index}>
               {group.data.data.list.map((data: IRecruitItem, index: number) => {
                 return (
                   <OrderRecruitCard
@@ -79,21 +80,7 @@ const Home = () => {
       )}
 
       <FloatingButton href="/shop">
-        <svg
-          className="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-          />
-        </svg>
+        <PlusIcon className="h-6 w-6" />
       </FloatingButton>
     </Layout>
   );
