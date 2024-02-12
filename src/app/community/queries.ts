@@ -1,8 +1,15 @@
 import useFetchWrapper from '@libs/client/fetch-wrapper';
 import { useQuery } from '@tanstack/react-query';
-import boardKeys from '@libs/hooks/services/keys/board';
 
-function useBoardQuery(boardId: string, options?: {}): any {
+const boardKeys = {
+  all: () => ['board'],
+  list: () => [...boardKeys.all(), 'list'],
+  ListFilteredByEmail: (email?: string) => [...boardKeys.list(), email],
+  details: () => [...boardKeys.all(), 'detail'],
+  detail: (boardId: string) => [...boardKeys.details(), boardId],
+} as const;
+
+function useBoardQuery(boardId: string, options?: {}) {
   const { get } = useFetchWrapper();
 
   return useQuery(boardKeys.detail(boardId), () => get({ url: `/board/${boardId}` }), {
@@ -21,4 +28,4 @@ function useBoardListQuery(page: number) {
   });
 }
 
-export { useBoardListQuery, useBoardQuery };
+export { boardKeys, useBoardListQuery, useBoardQuery };

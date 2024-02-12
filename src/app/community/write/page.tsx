@@ -5,16 +5,15 @@ import Button from '@components/button';
 import Layout from '@components/layout';
 import TextArea from '@components/textarea';
 import Input from '@components/input';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useBoardWrite } from '@libs/hooks/services/mutations/board';
 import { useSession } from 'next-auth/react';
 import { TagsInput } from 'react-tag-input-component';
-import { any } from 'prop-types';
+import useBoardWrite from '@/community/write/queries';
 
 const Write: NextPage = () => {
   const board = useBoardWrite();
-  const { data: session, status: statue } = useSession();
+  const { data: session } = useSession();
   const [tag, setTag] = useState<string[]>([]);
 
   const onValidBoard = (validForm: IWriteForm) => {
@@ -36,6 +35,8 @@ const Write: NextPage = () => {
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <Layout canGoBack title="Write Post">
