@@ -98,7 +98,6 @@ async function refreshAccessToken(token: JWT) {
       throw new Error(r);
     });
   if (res.data.code === 200) {
-    console.log(res.data.data.refreshToken);
     return res.data.data;
   } else {
     return token;

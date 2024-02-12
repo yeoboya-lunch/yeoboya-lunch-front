@@ -37,44 +37,48 @@ const Community: NextPage = () => {
       )}
 
       <div className="space-y-4 divide-y-[2px]">
-        {data.list.map((content: IBoardContent, index: number) => (
-          <Link
-            key={index}
-            href={`/community/${content.boardId}`}
-            className="flex cursor-pointer flex-col items-start pt-4"
-          >
-            <div className="flex">
-              {content.hashTags.map((hashTag: IHashTag, index: number) => {
-                return (
-                  <span
-                    key={index}
-                    className="rounded-full bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-800 first:ml-4"
-                  >
-                    {hashTag.tag}
-                  </span>
-                );
-              })}
-            </div>
+        {data.list.map((content: IBoardContent) => {
+          const { boardId, title, name, createDate } = content;
+          return (
+            <Link
+              key={boardId}
+              href={`/community/${boardId}`}
+              className="flex cursor-pointer flex-col items-start pt-4"
+            >
+              <div className="flex">
+                {content.hashTags.map((hashTag: IHashTag, index) => {
+                  const { tag } = hashTag;
+                  return (
+                    <span
+                      key={index}
+                      className="rounded-full bg-secondary px-1.5 py-0.5 text-xs font-medium text-gray-800 first:ml-4"
+                    >
+                      {tag}
+                    </span>
+                  );
+                })}
+              </div>
 
-            <div className="mt-2 px-4 text-gray-700">
-              <span className="font-medium text-orange-500">Q.</span> {content.title}
-            </div>
-            <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
-              <span>{content.name}</span>
-              <span>{content.createDate}</span>
-            </div>
-            <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
-              <span className="flex items-center space-x-2 text-sm">
-                <CheckCircledIcon className="h-4 w-4" />
-                <span>공감 1</span>
-              </span>
-              <span className="flex items-center space-x-2 text-sm">
-                <ChatBubbleIcon className="h-4 w-4" />
-                <span>답변 1</span>
-              </span>
-            </div>
-          </Link>
-        ))}
+              <div className="mt-2 px-4">
+                <span className="font-medium text-orange-500">Q.</span> {title}
+              </div>
+              <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
+                <span>{name}</span>
+                <span>{createDate}</span>
+              </div>
+              <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
+                <span className="flex items-center space-x-2 text-sm">
+                  <CheckCircledIcon className="h-4 w-4" />
+                  <span>공감 1</span>
+                </span>
+                <span className="flex items-center space-x-2 text-sm">
+                  <ChatBubbleIcon className="h-4 w-4" />
+                  <span>답변 1</span>
+                </span>
+              </div>
+            </Link>
+          );
+        })}
 
         {!data.pagination.isEmpty && (
           <ReactPaginate
@@ -87,21 +91,13 @@ const Community: NextPage = () => {
             renderOnZeroPageCount={undefined}
             pageRangeDisplayed={data.list.length}
             pageCount={data.pagination.totalPages}
-            containerClassName={'flex justify-center items-center -space-x-px pt-10'}
-            previousClassName={
-              'block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-            }
-            pageClassName={''}
-            pageLinkClassName={
-              'px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-            }
-            activeClassName={''}
-            activeLinkClassName={
-              'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-            }
-            nextClassName={
-              'block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-            }
+            containerClassName="flex justify-center items-center -space-x-px pt-10"
+            previousClassName="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            pageClassName=""
+            pageLinkClassName="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            activeClassName=""
+            activeLinkClassName="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+            nextClassName="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           />
         )}
 
