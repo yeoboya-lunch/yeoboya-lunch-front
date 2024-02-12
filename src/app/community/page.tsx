@@ -5,9 +5,17 @@ import Link from 'next/link';
 import FloatingButton from '@components/floating-button';
 import Layout from '@components/layout';
 import React, { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import { useBoardListQuery } from '@/community/queries';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/_components/ui/pagination';
 
 const Community: NextPage = () => {
   const [page, setPage] = useState(0);
@@ -80,24 +88,22 @@ const Community: NextPage = () => {
         })}
 
         {!data.pagination.isEmpty && (
-          <ReactPaginate
-            breakLabel=""
-            marginPagesDisplayed={0}
-            previousLabel="<"
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            onPageActive={handlePageActive}
-            renderOnZeroPageCount={undefined}
-            pageRangeDisplayed={data.list.length}
-            pageCount={data.pagination.totalPages}
-            containerClassName="flex justify-center items-center -space-x-px pt-10"
-            previousClassName="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            pageClassName=""
-            pageLinkClassName="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            activeClassName=""
-            activeLinkClassName="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            nextClassName="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          />
+          <Pagination className="pt-2">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         )}
 
         <FloatingButton href="/community/write">
