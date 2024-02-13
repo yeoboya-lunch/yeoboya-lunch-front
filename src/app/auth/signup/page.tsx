@@ -6,9 +6,11 @@ import { FieldErrors, useForm } from 'react-hook-form';
 
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { useSignUp } from '@/libs/hooks/services/mutations/user';
 import { ISignUpForm } from '@/types/user';
 import { useRouter } from 'next/navigation';
+import { useSignUp } from '@/libs/hooks/services/mutations/user';
+
+import { User } from '@/domain/user';
 
 const SignupPage: NextPage = () => {
   const { mutate, isSuccess, isError, isPending, error } = useSignUp();
@@ -17,11 +19,11 @@ const SignupPage: NextPage = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<ISignUpForm>({
+  } = useForm<User>({
     mode: 'onSubmit',
   });
 
-  const onValid = (sinUpForm: ISignUpForm) => {
+  const onValid = (sinUpForm: User) => {
     mutate(sinUpForm);
   };
 

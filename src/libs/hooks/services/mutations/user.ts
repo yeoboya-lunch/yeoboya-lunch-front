@@ -7,7 +7,7 @@ import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
-import { ISignUpForm, LoginForm } from '../../../../types/user';
+import { User } from '@/domain/user';
 
 const userKeys = {
   all: () => ['user'],
@@ -22,7 +22,7 @@ function useSignUp() {
 
   return useMutation({
     mutationKey: userKeys.insert(),
-    mutationFn: (value: ISignUpForm) => post({ url: `/user/sign-up`, data: value }),
+    mutationFn: (value: User) => post({ url: `/user/sign-up`, data: value }),
   });
 }
 
@@ -31,8 +31,8 @@ function useLogin() {
   const setMember = useSetRecoilState(memberAtom);
 
   return useMutation({
-    mutationFn: (value: LoginForm) => post({ url: '/user/sign-in', data: value }),
-    onMutate: () => {},
+    mutationFn: (value: Partial<User> & Pick<User, 'password'>) =>
+      post({ url: '/user/sign-in', data: value }),
     onSuccess: (data) => {
       if (data.status === 200) {
         setMember({
@@ -43,7 +43,7 @@ function useLogin() {
   });
 }
 
-function useLogout(): any {
+function useLogout() {
   const { post } = useFetchWrapper();
   const router = useRouter();
   const resetMember = useResetRecoilState(memberAtom);
