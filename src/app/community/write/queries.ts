@@ -1,6 +1,6 @@
 import useFetchWrapper from '@libs/client/fetch-wrapper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { boardKeys } from '@/community/queries';
+import { boardKeys } from '@app/community/queries';
 
 const queryKeys = {
   insert: () => [...boardKeys.all(), 'write'],
@@ -12,7 +12,7 @@ function useBoardWrite() {
 
   return useMutation({
     mutationKey: queryKeys.insert(),
-    mutationFn: (value: IWriteForm) => post({ url: `/board/write`, data: value }),
+    mutationFn: (value: WriteFormData) => post({ url: `/board/write`, data: value }),
     onSettled: () => {
       return cache.invalidateQueries(queryKeys.insert());
     },

@@ -1,15 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import { cls } from '@libs/client/utils';
 import React from 'react';
-import { usePathname } from 'next/navigation';
 import { HomeIcon, ListBulletIcon, PersonIcon } from '@radix-ui/react-icons';
-import NavItem from '@/_components/ui/nav/NavItem';
+import NavItem from '@app/_components/ui/nav/NavItem';
 
 const NavBar = () => {
-  const pathname = usePathname();
-
   return (
     <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
       <NavItem to="/">

@@ -17,10 +17,10 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/app/*"],
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
       "@libs/*": ["./src/libs/*"],
       "@components/*": ["./src/components/*"],
-      "@types/*": ["./src/types/*"]
     },
     "plugins": [
       {

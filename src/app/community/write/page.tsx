@@ -9,14 +9,14 @@ import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useSession } from 'next-auth/react';
 import { TagsInput } from 'react-tag-input-component';
-import useBoardWrite from '@/community/write/queries';
+import useBoardWrite from '@app/community/write/queries';
 
-const Write: NextPage = () => {
+const WritePage: NextPage = () => {
   const board = useBoardWrite();
   const { data: session } = useSession();
   const [tag, setTag] = useState<string[]>([]);
 
-  const onValidBoard = (validForm: IWriteForm) => {
+  const onValidBoard = (validForm: WriteFormData) => {
     validForm.email = session?.token.subject;
     validForm.hashTag = tag;
     console.log(validForm);
@@ -28,7 +28,7 @@ const Write: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IWriteForm>({
+  } = useForm<WriteFormData>({
     defaultValues: {},
   });
 
@@ -91,7 +91,7 @@ const Write: NextPage = () => {
           value={tag}
           onChange={setTag}
           onBlur={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const { value } = e.target;
             if (!tag.includes(value) && value !== '') {
               setTag([...tag, value]);
               e.target.value = '';
@@ -114,4 +114,4 @@ const Write: NextPage = () => {
   );
 };
 
-export default Write;
+export default WritePage;

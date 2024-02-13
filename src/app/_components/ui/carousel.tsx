@@ -4,8 +4,8 @@ import * as React from 'react';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 
-import { cn } from '@/_lib/utils';
-import { Button } from '@/_components/ui/button';
+import { cn } from '@app/_lib/utils';
+import { Button } from '@app/_components/ui/button';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -110,7 +110,7 @@ const Carousel = React.forwardRef<
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         opts,
         orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollPrev,
