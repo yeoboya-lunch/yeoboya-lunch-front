@@ -15,7 +15,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@app/_components/ui/pagination';
+} from '@app/_components/ui/Pagination';
 
 const Community: NextPage = () => {
   const [page, setPage] = useState(0);

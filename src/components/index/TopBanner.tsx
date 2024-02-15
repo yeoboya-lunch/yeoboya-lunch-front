@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, CarouselContent, CarouselItem } from '@app/_components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@app/_components/ui/Carousel';
 
 export default function TopBanner() {
   return (
