@@ -1,6 +1,6 @@
-import useFetchWrapper from '@libs/client/fetch-wrapper';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { orderKeys } from '@libs/hooks/services/keys/order';
+import { orderKeys } from '@/libs/hooks/services/keys/order';
 import { IRecruit, IRecruitJoin } from '../../../../types/order';
 import { useRouter } from 'next/navigation';
 

@@ -1,15 +1,16 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Button from '@components/button';
-import Layout from '@components/layout';
-import TextArea from '@components/textarea';
-import Input from '@components/input';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useSession } from 'next-auth/react';
 import { TagsInput } from 'react-tag-input-component';
-import useBoardWrite from '@app/community/write/queries';
+
+import useBoardWrite from '@/app/community/write/queries';
+import Button from '@/components/button';
+import Input from '@/components/input';
+import Layout from '@/components/layout';
+import TextArea from '@/components/textarea';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();

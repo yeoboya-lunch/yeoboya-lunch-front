@@ -8,8 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@app/_components/ui/Card';
-import { Badge } from '@app/_components/ui/Badge';
+} from '@/app/_components/ui/Card';
+import { Badge } from '@/app/_components/ui/Badge';
 import profilePic from '../../../public/image-4@2x.jpg';
 
 interface IRecruitProps {

@@ -2,11 +2,11 @@
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import FloatingButton from '@components/floating-button';
-import Layout from '@components/layout';
+import FloatingButton from '@/components/floating-button';
+import Layout from '@/components/layout';
 import React, { useEffect, useState } from 'react';
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
-import { useBoardListQuery } from '@app/community/queries';
+import { useBoardListQuery } from '@/app/community/queries';
 import {
   Pagination,
   PaginationContent,
@@ -15,7 +15,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@app/_components/ui/Pagination';
+} from '@/app/_components/ui/Pagination';
 
 const Community: NextPage = () => {
   const [page, setPage] = useState(0);

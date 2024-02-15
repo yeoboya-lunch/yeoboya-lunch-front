@@ -1,8 +1,8 @@
 'use client';
 
 import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import useFetchWrapper from '@libs/client/fetch-wrapper';
-import { orderKeys } from '@libs/hooks/services/keys/order';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import { orderKeys } from '@/libs/hooks/services/keys/order';
 import dayjs from 'dayjs';
 
 interface IOrderSearch {

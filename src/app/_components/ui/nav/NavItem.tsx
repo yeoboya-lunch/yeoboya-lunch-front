@@ -1,4 +1,4 @@
-import { cls } from '@libs/client/utils';
+import { cls } from '@/libs/client/utils';
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';

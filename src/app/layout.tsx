@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { cn } from '@app/_lib/utils';
+import { cn } from '@/app/_lib/utils';
 import ReactQueryProvider from './_components/ReactQueryProvider';
 import AuthProvider from './_components/AuthProvider';
 import StateProvider from './_components/StateProvider';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { HomeIcon, ListBulletIcon, PersonIcon } from '@radix-ui/react-icons';
-import NavItem from '@app/_components/ui/nav/NavItem';
+import NavItem from '@/app/_components/ui/nav/NavItem';
 
 const NavBar = () => {
   return (

@@ -1,9 +1,9 @@
 'use client';
 
-import useFetchWrapper from '@libs/client/fetch-wrapper';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useMutation } from '@tanstack/react-query';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import memberAtom from '@/libs/recoil/member';
 import { useRouter } from 'next/navigation';
 import { ISignUpForm, LoginForm } from '../../../../types/user';
 
