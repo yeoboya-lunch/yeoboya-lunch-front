@@ -6,7 +6,6 @@ import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
 import React, { useEffect, useState } from 'react';
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
-import { useBoardListQuery } from '@/app/community/queries';
 import {
   Pagination,
   PaginationContent,
@@ -16,6 +15,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/app/_components/ui/Pagination';
+import { useBoardListQuery } from '@/app/community/queries';
 
 const Community: NextPage = () => {
   const [page, setPage] = useState(0);
