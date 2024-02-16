@@ -19,7 +19,7 @@ const font = localFont({
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={cn('font-pretendard', font.variable)}>
+      <body className={cn('h-lvh font-pretendard', font.variable)}>
         <ReactQueryProvider>
           <AuthProvider>
             <StateProvider>{children}</StateProvider>

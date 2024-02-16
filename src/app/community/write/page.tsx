@@ -2,15 +2,15 @@
 
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
+import React, { FocusEventHandler, KeyboardEventHandler, useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { TagsInput } from 'react-tag-input-component';
 
 import useBoardWrite from '@/app/community/write/queries';
 import Button from '@/components/button';
-import Input from '@/components/input';
 import Layout from '@/components/layout';
-import TextArea from '@/components/textarea';
+import { Input } from '@/app/_components/ui/Input';
+import { Textarea } from '@/app/_components/ui/Textarea';
+import { TagInput } from '@/app/_components/ui/TagInput';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();
@@ -20,8 +20,6 @@ const WritePage: NextPage = () => {
   const onValidBoard = (validForm: WriteFormData) => {
     validForm.email = session?.token.subject;
     validForm.hashTag = tag;
-    console.log(validForm);
-
     board.mutate(validForm);
   };
 
@@ -37,49 +35,64 @@ const WritePage: NextPage = () => {
     console.log(errors);
   };
 
+  const createTag = (value: string) => {
+    if (!tag.includes(value) && value !== '') {
+      setTag([...tag, value]);
+    }
+  };
+
+  const handleBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+    createTag(event.target.value);
+    event.target.value = '';
+  };
+
+  const handleEnter: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (!(event.target instanceof HTMLInputElement)) return;
+    if (event.nativeEvent.key === 'Enter') {
+      event.preventDefault();
+      createTag(event.target.value);
+      event.target.value = '';
+    }
+  };
+
   useEffect(() => {}, []);
 
   return (
     <Layout canGoBack title="Write Post">
-      <form onSubmit={handleSubmit(onValidBoard, onInvalid)} className="space-y-4 p-4">
+      <form
+        onSubmit={handleSubmit(onValidBoard, onInvalid)}
+        className="flex h-full flex-col space-y-4 p-4"
+      >
         <Input
-          register={register('title', {
+          variant="borderNone"
+          className="border-b-[1px] pb-1 text-2xl"
+          {...register('title', {
             required: '제목은 필수 입력입니다.',
           })}
-          required
-          label="제목"
-          name="title"
+          placeholder="제목을 입력해주세요."
           type="text"
+          required
         />
         {errors.title && (
           <p role="alert" className="text-sm text-red-500">
             {errors.title?.message}
           </p>
         )}
-        <Input
-          register={register('pin', {
-            pattern: {
-              value: /\d{3,4}/,
-              message: '3자리 또는 4자리 숫자',
-            },
-          })}
-          required
-          label="비밀번호 (숫자 3~4자리)"
-          name="pin"
-          type="password"
-        />
-        {errors.pin && (
-          <p role="alert" className="text-sm text-red-500">
-            {errors.pin?.message}
-          </p>
-        )}
 
-        <TextArea
-          register={register('content', {
+        <TagInput
+          {...register('hashTag', {})}
+          tags={tag}
+          onKeyDown={handleEnter}
+          onBlur={handleBlur}
+          name="hashTag"
+          placeholder="태그를 입력해주세요."
+        />
+
+        <Textarea
+          {...register('content', {
             required: '내용은 필수 입력입니다.',
           })}
-          label="내용"
-          name="content"
+          className="h-full border-none p-0 text-lg shadow-none focus-visible:ring-0 "
         />
         {errors.content && (
           <p role="alert" className="text-sm text-red-500">
@@ -87,28 +100,6 @@ const WritePage: NextPage = () => {
           </p>
         )}
 
-        <TagsInput
-          {...register('hashTag', {})}
-          value={tag}
-          onChange={setTag}
-          onBlur={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const { value } = e.target;
-            if (!tag.includes(value) && value !== '') {
-              setTag([...tag, value]);
-              e.target.value = '';
-            }
-          }}
-          name="hashTag"
-          placeHolder="해시태그 입력"
-          classNames={{
-            tag: '!bg-red-100',
-            input:
-              'grow placeholder-gray-300 ' +
-              'ring-0 border-none ' +
-              'focus:ring-0 focus:border-none',
-          }}
-        />
-        <Input label="비공개" name="secret" kind="checkbox" type="checkbox" />
         <Button text={board.isLoading ? 'Loading' : 'Write'} />
       </form>
     </Layout>
