@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 function useFetchWrapper() {
   const { data: session, status: statue } = useSession();
 
-  axios.defaults.headers.common['Authorization'] =
+  axios.defaults.headers.common.Authorization =
     session !== null && statue === 'authenticated' ? `Bearer ${session.token.accessToken}` : null;
 
   interface GetParams {
@@ -85,4 +85,4 @@ function useFetchWrapper() {
   return { get, post, patch, axiosDelete };
 }
 
-export { useFetchWrapper };
+export default useFetchWrapper;

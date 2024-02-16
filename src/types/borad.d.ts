@@ -1,4 +1,4 @@
-interface IWriteForm {
+interface WriteFormData {
   email: string | undefined;
   title: string;
   content: string;

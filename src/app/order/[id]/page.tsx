@@ -1,12 +1,12 @@
 'use client';
 
-import Layout from '@components/layout';
-import { useRecruitQuery } from '@libs/hooks/services/queries/order';
+import Layout from '@/components/layout';
+import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
 import { IItem, IRecruitItem } from '../../../types/order';
 import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
-} from '@libs/hooks/services/mutations/order';
+} from '@/libs/hooks/services/mutations/order';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 

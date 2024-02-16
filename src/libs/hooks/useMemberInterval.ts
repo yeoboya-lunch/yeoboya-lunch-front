@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useFetchWrapper } from '@libs/client/fetch-wrapper';
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
-import memberAtom from '@libs/recoil/member';
+import memberAtom from '@/libs/recoil/member';
 
 function useMemberInterval() {
   const [refreshStop, setRefreshStop] = useState(false);

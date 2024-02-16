@@ -1,16 +1,16 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Button from '@components/button';
-import Input from '@components/input';
-import Layout from '@components/layout';
-import TextArea from '@components/textarea';
-import { useOrderStartRecruit } from '@libs/hooks/services/mutations/order';
+import Button from '@/components/button';
+import Input from '@/components/input';
+import Layout from '@/components/layout';
+import TextArea from '@/components/textarea';
+import { useOrderStartRecruit } from '@/libs/hooks/services/mutations/order';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import dayjs from 'dayjs';
 import { useRecoilValue } from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import memberAtom from '@/libs/recoil/member';
 import { IRecruit } from '../../types/order';
 import { useRouter, useSearchParams } from 'next/navigation';
 
