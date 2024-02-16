@@ -1,14 +1,13 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Layout from '@components/layout';
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import Input from '@components/input';
-import Button from '@components/button';
+import Layout from '@/components/layout';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import Input from '@/components/input';
+import Button from '@/components/button';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useShopRegister } from '@libs/hooks/services/mutations/shop';
-import { scalarOptions } from 'yaml';
+import { useShopRegister } from '@/libs/hooks/services/mutations/shop';
 import { IShop } from '../../../types/shop';
 
 const Register: NextPage = () => {

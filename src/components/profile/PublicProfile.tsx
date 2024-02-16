@@ -1,7 +1,7 @@
-import Input from '@components/input';
-import Button from '@components/button';
-import { useSettingMember } from '@libs/hooks/services/queries/member';
-import { usePublicProfileUpdate } from '@libs/hooks/services/mutations/member';
+import Input from '@/components/input';
+import Button from '@/components/button';
+import { useSettingMember } from '@/libs/hooks/services/queries/member';
+import { usePublicProfileUpdate } from '@/libs/hooks/services/mutations/member';
 import { FieldErrors, useForm } from 'react-hook-form';
 
 interface PublicProfileForm {

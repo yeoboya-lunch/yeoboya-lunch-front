@@ -1,9 +1,9 @@
-import Input from '@components/input';
-import Button from '@components/button';
+import Input from '@/components/input';
+import Button from '@/components/button';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSettingMember } from '@libs/hooks/services/queries/member';
-import { useAccountInfoUpdate, useAccountSave } from '@libs/hooks/services/mutations/member';
+import { useSettingMember } from '@/libs/hooks/services/queries/member';
+import { useAccountInfoUpdate, useAccountSave } from '@/libs/hooks/services/mutations/member';
 
 interface AccountForm {
   email: string;

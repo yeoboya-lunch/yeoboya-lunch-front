@@ -1,12 +1,12 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Layout from '@components/layout';
-import { useInfiniteMemberList } from '@libs/hooks/services/queries/member';
+import Layout from '@/components/layout';
+import { useInfiniteMemberList } from '@/libs/hooks/services/queries/member';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
-import { useObserver } from '@libs/client/useObserver';
-import MemberCard from '@components/member/MemberCard';
+import { useObserver } from '@/libs/client/useObserver';
+import MemberCard from '@/components/member/MemberCard';
 
 type TMember = {
   email: string;
