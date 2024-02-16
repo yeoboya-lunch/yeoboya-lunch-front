@@ -2,11 +2,12 @@
 
 import type { NextPage } from 'next';
 import { FieldErrors, useForm } from 'react-hook-form';
-import Button from '@components/button';
-import Input from '@components/input';
+import Button from '@/components/button';
+import Input from '@/components/input';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSignUp } from '@libs/hooks/services/mutations/user';
+import { useSignUp } from '@/libs/hooks/services/mutations/user';
+
 import { ISignUpForm } from '../../../types/user';
 
 const SignupPage: NextPage = () => {

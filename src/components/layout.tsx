@@ -1,7 +1,7 @@
 import React from 'react';
-import { cls } from '@libs/client/utils';
-import NavBar from '@components/NavBar';
-import BackButton from '@components/BackButton';
+import { cls } from '@/libs/client/utils';
+import NavBar from '@/components/NavBar';
+import BackButton from '@/components/BackButton';
 
 interface LayoutProps {
   title?: string;
@@ -12,12 +12,12 @@ interface LayoutProps {
 
 export default function Layout({ title, canGoBack, hasTabBar, children }: LayoutProps) {
   return (
-    <section className="mx-auto w-full max-w-xl">
+    <section className="mx-auto h-full w-full max-w-xl">
       <div className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center border-b bg-white px-10 text-lg font-medium text-gray-800">
         {canGoBack ? <BackButton /> : null}
         {title ? <span className={cls(canGoBack ? 'mx-auto' : '', '')}>{title}</span> : null}
       </div>
-      <div className={cls('pt-12', hasTabBar ? 'pb-24' : '')}>{children}</div>
+      <div className={cls('h-full pt-12', hasTabBar ? 'pb-24' : '')}>{children}</div>
       {hasTabBar ? <NavBar /> : null}
     </section>
   );

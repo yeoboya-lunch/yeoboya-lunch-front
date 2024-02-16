@@ -1,12 +1,12 @@
-import { cls } from '@libs/client/utils';
+import { cls } from '@/libs/client/utils';
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
-import { RoutesString } from '@types/brandingTypes';
 import { usePathname } from 'next/navigation';
+import { Route } from '@/utils/brandingTypes';
 
 type Props = {
   children: ReactNode;
-  to: RoutesString;
+  to: Route;
 };
 
 const NavItem = ({ children, to }: Props) => {

@@ -1,12 +1,12 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Layout from '@components/layout';
-import { useInfiniteShops } from '@libs/hooks/services/queries/shop';
+import Layout from '@/components/layout';
+import { useInfiniteShops } from '@/libs/hooks/services/queries/shop';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
-import { useObserver } from '@libs/client/useObserver';
-import ShopCard from '@components/shop/ShopCard';
+import { useObserver } from '@/libs/client/useObserver';
+import ShopCard from '@/components/shop/ShopCard';
 
 type TShop = {
   shopName: string;

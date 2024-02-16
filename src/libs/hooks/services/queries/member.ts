@@ -1,9 +1,9 @@
 'use client';
 
-import { useFetchWrapper } from '@libs/client/fetch-wrapper';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import memberAtom from '@/libs/recoil/member';
 import { useSession } from 'next-auth/react';
 
 const memberKeys = {

@@ -2,11 +2,11 @@
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import Layout from '@components/layout';
-import Button from '@components/button';
-import { useSettingMember } from '@libs/hooks/services/queries/member';
+import Layout from '@/components/layout';
+import Button from '@/components/button';
+import { useSettingMember } from '@/libs/hooks/services/queries/member';
 import { signOut } from 'next-auth/react';
-import { useLogout } from '@libs/hooks/services/mutations/user';
+import { useLogout } from '@/libs/hooks/services/mutations/user';
 
 const ProfilePage: NextPage = () => {
   const { data: member, isLoading } = useSettingMember({ suspense: true });

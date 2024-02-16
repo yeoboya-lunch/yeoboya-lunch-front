@@ -3,14 +3,14 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import Button from '@components/button';
-import Input from '@components/input';
-import { cls } from '@libs/client/utils';
+import Button from '@/components/button';
+import Input from '@/components/input';
+import { cls } from '@/libs/client/utils';
 import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useSetRecoilState } from 'recoil';
-import memberAtom from '@libs/recoil/member';
+import memberAtom from '@/libs/recoil/member';
 
 interface LoginForm {
   email?: string;
