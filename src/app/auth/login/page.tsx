@@ -63,7 +63,7 @@ const LoginPage: NextPage = (props) => {
   };
 
   return (
-    <div className="mt-16 px-4">
+    (<div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
@@ -173,7 +173,7 @@ const LoginPage: NextPage = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

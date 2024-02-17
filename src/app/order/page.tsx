@@ -64,7 +64,7 @@ const OrderPage: NextPage = () => {
   };
 
   return (
-    <Layout canGoBack title="오늘의 주문">
+    (<Layout canGoBack title="오늘의 주문">
       <form onSubmit={handleSubmit(onValid, onInvalid)} className="space-y-4 p-4">
         <div>
           <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-500 hover:text-orange-500">
@@ -122,7 +122,7 @@ const OrderPage: NextPage = () => {
         <TextArea register={register('memo', {})} name="memo" label="주문요청사항" />
         <Button text="주문시작" />
       </form>
-    </Layout>
+    </Layout>)
   );
 };
 

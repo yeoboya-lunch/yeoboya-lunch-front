@@ -19,49 +19,44 @@ function useSettingMember(options?: {}): any {
   const setMember = useSetRecoilState(memberAtom);
   const { data: session } = useSession();
 
-  return useQuery(
-    {
-      queryKey: memberKeys.detail(session?.token.subject),
-      queryFn: () => get({ url: `/member/${session?.token.subject}` }),
+  return useQuery({
+    queryKey: memberKeys.detail(session?.token.subject),
+    queryFn: () => get({ url: `/member/${session?.token.subject}` }),
+    enabled: !!session?.token.subject,
+    refetchOnMount: true,
+    select: (data) => data.data,
+    onSuccess: (data) => {
+      if (data.code === 200) {
+        setMember({
+          name: data.data.name,
+          email: data.data.email,
+          bankName: data.data.bankName,
+          nickName: data.data.nickName,
+          accountNumber: data.data.accountNumber,
+          phoneNumber: data.data.phoneNumber,
+          bio: data.data.bio,
+        });
+      }
     },
-    {
-      enabled: !!session?.token.subject,
-      refetchOnMount: true,
-      select: (data) => data.data,
-      onSuccess: (data) => {
-        if (data.code === 200) {
-          setMember({
-            name: data.data.name,
-            email: data.data.email,
-            bankName: data.data.bankName,
-            nickName: data.data.nickName,
-            accountNumber: data.data.accountNumber,
-            phoneNumber: data.data.phoneNumber,
-            bio: data.data.bio,
-          });
-        }
-      },
-    },
-  );
+  });
 }
 
 function useInfiniteMemberList(options?: {}): any {
   const { get } = useFetchWrapper();
   const size = 30;
 
-  return useInfiniteQuery(
-    memberKeys.list(),
-    ({ pageParam = 1 }) => get({ url: '/member', params: { size: size, page: pageParam } }),
-    {
-      ...options,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
-      },
-      getPreviousPageParam: (firstPage) => {
-        if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
-      },
+  return useInfiniteQuery({
+    queryKey: memberKeys.list(),
+    queryFn: ({ pageParam }) => get({ url: '/member', params: { size: size, page: pageParam } }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
     },
-  );
+    getPreviousPageParam: (firstPage) => {
+      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+    },
+    ...options,
+  });
 }
 
 export { useSettingMember, useInfiniteMemberList };
