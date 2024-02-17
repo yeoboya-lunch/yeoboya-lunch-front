@@ -14,7 +14,7 @@ function useBoardWrite() {
     mutationKey: queryKeys.insert(),
     mutationFn: (value: WriteFormData) => post({ url: `/board/write`, data: value }),
     onSettled: () => {
-      return cache.invalidateQueries(queryKeys.insert());
+      return cache.invalidateQueries({ queryKey: queryKeys.insert() });
     },
   });
 }

@@ -10,7 +10,10 @@ const profileKeys = {
 
 function useProfiles(options: {} = {}) {
   const { get } = useFetchWrapper();
-  return useQuery(profileKeys.all(), () => get({ url: `/member` }), {
+  return useQuery({
+    queryKey: profileKeys.all(),
+    queryFn: () => get({ url: `/member` })
+  }, {
     ...options,
     onSuccess: (data) => {},
     onError: (err) => {},
@@ -20,7 +23,10 @@ function useProfiles(options: {} = {}) {
 
 function useProfileSimple(memberId: string, options: {} = {}) {
   const { get } = useFetchWrapper();
-  return useQuery(profileKeys.detail(memberId), () => get({ url: `/member/${memberId}` }), {
+  return useQuery({
+    queryKey: profileKeys.detail(memberId),
+    queryFn: () => get({ url: `/member/${memberId}` })
+  }, {
     ...options,
     onError: (err) => {
       console.log('err', err);
@@ -31,14 +37,18 @@ function useProfileSimple(memberId: string, options: {} = {}) {
 
 function useProfileAccount(memberId: String, options: {} = {}) {
   const { get } = useFetchWrapper();
-  return useQuery(['queryKeys.account'], () => get({ url: `/member/account/${memberId}` }), {
+  return useQuery({
+    queryKey: ['queryKeys.account'],
+    queryFn: () => get({ url: `/member/account/${memberId}` }),
     ...options,
+
     onError: (err: Error) => {
       console.log('err', err);
     },
+
     onSettled: () => {
       console.log('blue check');
-    },
+    }
   });
 }
 

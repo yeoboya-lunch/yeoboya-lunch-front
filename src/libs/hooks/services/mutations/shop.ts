@@ -10,13 +10,9 @@ function useShopRegister(options?: {}): any {
   return useMutation({
     mutationKey: shopKeys.insert(),
     mutationFn: (value: IShop) => post({ url: `/shop/create`, data: value }),
-    onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {},
-    onSettled: (data, error, variables, context) => {
-      console.log('지웁니다');
+    onSettled: () => {
       return cache.invalidateQueries({ queryKey: shopKeys.list() });
     },
-    onError: (error, variables, context) => {},
   });
 }
 

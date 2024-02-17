@@ -100,7 +100,7 @@ const WritePage: NextPage = () => {
           </p>
         )}
 
-        <Button text={board.isLoading ? 'Loading' : 'Write'} />
+        <Button text={board.isPending ? 'Loading' : 'Write'} />
       </form>
     </Layout>
   );

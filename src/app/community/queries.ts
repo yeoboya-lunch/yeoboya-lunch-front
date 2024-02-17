@@ -12,9 +12,11 @@ const boardKeys = {
 function useBoardQuery(boardId: string, options?: {}) {
   const { get } = useFetchWrapper();
 
-  return useQuery(boardKeys.detail(boardId), () => get({ url: `/board/${boardId}` }), {
-    ...options,
+  return useQuery({
+    queryKey: boardKeys.detail(boardId),
+    queryFn: () => get({ url: `/board/${boardId}` }),
     select: (data) => data.data.data,
+    ...options,
   });
 }
 
@@ -22,9 +24,11 @@ function useBoardListQuery(page: number) {
   const { get } = useFetchWrapper();
   const size = 10;
 
-  return useQuery(boardKeys.list(), () => get({ url: '/board', params: { size, page } }), {
-    refetchOnMount: true,
+  return useQuery({
+    queryKey: boardKeys.list(),
+    queryFn: () => get({ url: '/board', params: { size, page } }),
     select: (data) => data.data.data,
+    refetchOnMount: true,
   });
 }
 

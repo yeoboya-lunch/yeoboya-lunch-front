@@ -50,7 +50,7 @@ const SignupPage: NextPage = () => {
   };
 
   return (
-    <div className="mt-16 px-4">
+    (<div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Welcome to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
@@ -119,7 +119,7 @@ const SignupPage: NextPage = () => {
           <Button text={isLoading ? 'Loading' : 'sign-up'} />
         </form>
       </div>
-    </div>
+    </div>)
   );
 };
 
