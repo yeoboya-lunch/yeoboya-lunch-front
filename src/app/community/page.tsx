@@ -1,11 +1,10 @@
 'use client';
 
+import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import FloatingButton from '@/components/floating-button';
-import Layout from '@/components/layout';
 import React, { useEffect, useState } from 'react';
-import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
+
 import {
   Pagination,
   PaginationContent,
@@ -16,6 +15,8 @@ import {
   PaginationPrevious,
 } from '@/app/_components/ui/Pagination';
 import { useBoardListQuery } from '@/app/community/queries';
+import FloatingButton from '@/components/floating-button';
+import Layout from '@/components/layout';
 
 const Community: NextPage = () => {
   const [page, setPage] = useState(0);

@@ -1,6 +1,7 @@
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 interface UpdateForm {
   email: string;

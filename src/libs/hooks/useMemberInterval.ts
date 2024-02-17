@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
-import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
 function useMemberInterval() {
@@ -29,23 +30,24 @@ function useMemberInterval() {
     enabled: !!member.email,
     select: (data) => data.data.data,
 
-    onSuccess: (data) => {
-      setMember({
-        name: data.name,
-        email: data.email,
-        bankName: data.bankName,
-        nickName: data.nickName,
-        accountNumber: data.accountNumber,
-        phoneNumber: data.phoneNumber,
-        bio: data.bio,
-      });
-    },
-
-    onError: () => {
-      setRefreshStop(true);
-      resetMember();
-      router.push('/');
-    }
+    // 5에서 사라짐
+    // onSuccess: (data) => {
+    //   setMember({
+    //     name: data.name,
+    //     email: data.email,
+    //     bankName: data.bankName,
+    //     nickName: data.nickName,
+    //     accountNumber: data.accountNumber,
+    //     phoneNumber: data.phoneNumber,
+    //     bio: data.bio,
+    //   });
+    // },
+    //
+    // onError: () => {
+    //   setRefreshStop(true);
+    //   resetMember();
+    //   router.push('/');
+    // }
   });
 }
 

@@ -1,9 +1,10 @@
 'use client';
 
 import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { orderKeys } from '@/libs/hooks/services/keys/order';
-import dayjs from 'dayjs';
 
 interface IOrderSearch {
   orderEmail?: string;
@@ -13,8 +14,8 @@ interface IOrderSearch {
 function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
   const { get } = useFetchWrapper();
   const size = 6;
-  let today = dayjs().format('YYYYMMDD');
-  let startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
+  const today = dayjs().format('YYYYMMDD');
+  const startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
   return useInfiniteQuery({
     queryKey: orderKeys.ListFilteredByEmail(params?.orderEmail),

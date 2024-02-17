@@ -1,10 +1,13 @@
+import './globals.css';
+
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
+
 import { cn } from '@/app/_lib/utils';
-import ReactQueryProvider from './_components/ReactQueryProvider';
+
 import AuthProvider from './_components/AuthProvider';
+import ReactQueryProvider from './_components/ReactQueryProvider';
 import StateProvider from './_components/StateProvider';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: '점심 파티 모집',

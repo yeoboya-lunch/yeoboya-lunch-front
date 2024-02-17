@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SVGAttributes, SVGProps } from 'react';
+import { SVGAttributes } from 'react';
 
 const TwoPerson = (props: SVGAttributes<SVGElement>) => (
   <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" {...props}>

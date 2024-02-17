@@ -1,15 +1,16 @@
 'use client';
 
 import type { NextPage } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
 import { cls } from '@/libs/client/utils';
-import Link from 'next/link';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useSetRecoilState } from 'recoil';
 import memberAtom from '@/libs/recoil/member';
 
 interface LoginForm {
@@ -62,7 +63,7 @@ const LoginPage: NextPage = (props) => {
   };
 
   return (
-    (<div className="mt-16 px-4">
+    <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
@@ -172,7 +173,7 @@ const LoginPage: NextPage = (props) => {
           </div>
         </div>
       </div>
-    </div>)
+    </div>
   );
 };
 

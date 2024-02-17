@@ -1,11 +1,13 @@
 'use client';
 
 import type { NextPage } from 'next';
+import { useRecoilValue } from 'recoil';
+
 import Item from '@/components/item';
 import Layout from '@/components/layout';
-import { useRecoilValue } from 'recoil';
-import memberAtom from '@/libs/recoil/member';
 import { useInfinitePurchaseRecruits } from '@/libs/hooks/services/queries/order';
+import memberAtom from '@/libs/recoil/member';
+
 import { IRecruitItem } from '../../../types/order';
 
 const Bought: NextPage = () => {

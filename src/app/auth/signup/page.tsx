@@ -1,14 +1,14 @@
 'use client';
 
 import type { NextPage } from 'next';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/libs/hooks/services/mutations/user';
-
-import { ISignUpForm } from '../../../types/user';
+import { ISignUpForm } from '@/types/user';
 
 const SignupPage: NextPage = () => {
   const { mutate, isSuccess, isError, isLoading, error } = useSignUp();
@@ -50,7 +50,7 @@ const SignupPage: NextPage = () => {
   };
 
   return (
-    (<div className="mt-16 px-4">
+    <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Welcome to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
@@ -119,7 +119,7 @@ const SignupPage: NextPage = () => {
           <Button text={isLoading ? 'Loading' : 'sign-up'} />
         </form>
       </div>
-    </div>)
+    </div>
   );
 };
 

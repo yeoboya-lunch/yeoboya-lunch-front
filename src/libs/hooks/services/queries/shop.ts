@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 const shopKeys = {

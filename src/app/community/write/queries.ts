@@ -1,6 +1,7 @@
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { boardKeys } from '@/app/community/queries';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 const queryKeys = {
   insert: () => [...boardKeys.all(), 'write'],

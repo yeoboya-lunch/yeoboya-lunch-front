@@ -1,5 +1,6 @@
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useQuery } from '@tanstack/react-query';
+
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 const boardKeys = {
   all: () => ['board'],

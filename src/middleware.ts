@@ -1,4 +1,4 @@
-import type { NextRequest, NextFetchEvent } from 'next/server';
+import type { NextFetchEvent, NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 export { default } from 'next-auth/middleware';
 import { getToken } from 'next-auth/jwt';

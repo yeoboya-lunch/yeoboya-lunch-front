@@ -1,14 +1,16 @@
 'use client';
 
-import TopBanner from '@/components/index/TopBanner';
-import OrderRecruitCard from '@/components/order/OrderRecruitCard';
-import FloatingButton from '@/components/floating-button';
-import Layout from '@/components/layout';
-import React, { useEffect, useRef } from 'react';
-import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
-import useLocalStorage from 'use-local-storage';
-import { useObserver } from '@/libs/client/useObserver';
 import { PlusIcon } from '@radix-ui/react-icons';
+import React, { useEffect, useRef } from 'react';
+import useLocalStorage from 'use-local-storage';
+
+import FloatingButton from '@/components/floating-button';
+import TopBanner from '@/components/index/TopBanner';
+import Layout from '@/components/layout';
+import OrderRecruitCard from '@/components/order/OrderRecruitCard';
+import { useObserver } from '@/libs/client/useObserver';
+import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
+
 import { IRecruitItem } from '../types/order';
 
 const Home = () => {

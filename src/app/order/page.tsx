@@ -1,18 +1,20 @@
 'use client';
 
+import dayjs from 'dayjs';
 import type { NextPage } from 'next';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
 import TextArea from '@/components/textarea';
 import { useOrderStartRecruit } from '@/libs/hooks/services/mutations/order';
-import { FieldErrors, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
-import dayjs from 'dayjs';
-import { useRecoilValue } from 'recoil';
 import memberAtom from '@/libs/recoil/member';
+
 import { IRecruit } from '../../types/order';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
@@ -62,7 +64,7 @@ const OrderPage: NextPage = () => {
   };
 
   return (
-    (<Layout canGoBack title="오늘의 주문">
+    <Layout canGoBack title="오늘의 주문">
       <form onSubmit={handleSubmit(onValid, onInvalid)} className="space-y-4 p-4">
         <div>
           <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-500 hover:text-orange-500">
@@ -120,7 +122,7 @@ const OrderPage: NextPage = () => {
         <TextArea register={register('memo', {})} name="memo" label="주문요청사항" />
         <Button text="주문시작" />
       </form>
-    </Layout>)
+    </Layout>
   );
 };
 

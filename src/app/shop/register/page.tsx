@@ -1,13 +1,15 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Layout from '@/components/layout';
-import { SyntheticEvent, useEffect, useState } from 'react';
-import Input from '@/components/input';
-import Button from '@/components/button';
-import { FieldErrors, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
+
+import Button from '@/components/button';
+import Input from '@/components/input';
+import Layout from '@/components/layout';
 import { useShopRegister } from '@/libs/hooks/services/mutations/shop';
+
 import { IShop } from '../../../types/shop';
 
 const Register: NextPage = () => {
@@ -49,14 +51,14 @@ const Register: NextPage = () => {
 
   const addFields = (e: SyntheticEvent) => {
     e.preventDefault();
-    let newField = {};
+    const newField = {};
     // @ts-ignore
     setInputFields([...inputFields, newField]);
   };
 
   const removeFields = (e: SyntheticEvent) => {
     e.preventDefault();
-    let data = [...inputFields];
+    const data = [...inputFields];
     unregister(`items.${data.length - 1}.itemName`);
     unregister(`items.${data.length - 1}.price`);
     data.splice(data.length - 1, 1);

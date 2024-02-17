@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
+
+import { Badge } from '@/app/_components/ui/Badge';
 import {
   Card,
   CardContent,
@@ -9,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/_components/ui/Card';
-import { Badge } from '@/app/_components/ui/Badge';
+
 import profilePic from '../../../public/image-4@2x.jpg';
 
 interface IRecruitProps {
