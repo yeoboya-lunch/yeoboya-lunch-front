@@ -39,7 +39,7 @@ const MemberPage: NextPage = () => {
 
   return (
     <Layout canGoBack title="당직자">
-      {member.status === 'loading' && <p>불러오는 중</p>}
+      {member.status === 'pending' && <p>불러오는 중</p>}
 
       {member.status === 'success' &&
         member.data.pages.map((group: any, index: number) => (

@@ -14,7 +14,7 @@ export const authOptions: AuthOptions = {
         email: { label: 'email', type: 'text', placeholder: '이메일을 입력해주세요.' },
         password: { label: 'password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const payload = { email: credentials?.email, password: credentials?.password };
 
         const res = await axios
@@ -79,6 +79,7 @@ export const authOptions: AuthOptions = {
       // console.log('1', session);
       // console.log('2', user);
       // console.log('3', token);
+      console.log(session, token);
       session.token = token;
       return session;
     },

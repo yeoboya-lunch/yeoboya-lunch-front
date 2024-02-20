@@ -1,11 +1,11 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useSetRecoilState } from 'recoil';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { QueryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
-import memberAtom from '@/libs/recoil/member';
+
+type Props = QueryOptions;
 
 const memberKeys = {
   all: () => ['member'],
@@ -14,9 +14,8 @@ const memberKeys = {
   detail: (email: string | undefined) => [...memberKeys.details(), email],
 };
 
-function useSettingMember(options?: {}): any {
+function useSettingMember(options: Props) {
   const { get } = useFetchWrapper();
-  const setMember = useSetRecoilState(memberAtom);
   const { data: session } = useSession();
 
   return useQuery({
@@ -25,23 +24,11 @@ function useSettingMember(options?: {}): any {
     enabled: !!session?.token.subject,
     refetchOnMount: true,
     select: (data) => data.data,
-    onSuccess: (data) => {
-      if (data.code === 200) {
-        setMember({
-          name: data.data.name,
-          email: data.data.email,
-          bankName: data.data.bankName,
-          nickName: data.data.nickName,
-          accountNumber: data.data.accountNumber,
-          phoneNumber: data.data.phoneNumber,
-          bio: data.data.bio,
-        });
-      }
-    },
+    ...options,
   });
 }
 
-function useInfiniteMemberList(options?: {}): any {
+function useInfiniteMemberList() {
   const { get } = useFetchWrapper();
   const size = 30;
 
@@ -55,7 +42,6 @@ function useInfiniteMemberList(options?: {}): any {
     getPreviousPageParam: (firstPage) => {
       if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
     },
-    ...options,
   });
 }
 

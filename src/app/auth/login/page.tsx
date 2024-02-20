@@ -19,7 +19,7 @@ interface LoginForm {
   password: string;
 }
 
-const LoginPage: NextPage = (props) => {
+const LoginPage: NextPage = () => {
   const {
     register,
     handleSubmit,
@@ -41,12 +41,14 @@ const LoginPage: NextPage = (props) => {
 
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
-    const response: any = await signIn('email-password-credential', {
+    const response = await signIn('email-password-credential', {
       email: validForm.email,
       password: validForm.password,
       callbackUrl: '/',
       redirect: false,
     });
+
+    console.log('로그인: ', response);
 
     if (response?.error) {
       console.log(response);
@@ -54,7 +56,7 @@ const LoginPage: NextPage = (props) => {
       setMember({
         email: validForm.email,
       });
-      await router.push(response.url);
+      router.push(response.url);
     }
   };
 
@@ -63,7 +65,7 @@ const LoginPage: NextPage = (props) => {
   };
 
   return (
-    (<div className="mt-16 px-4">
+    <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Yeoboya Lunch</h3>
       <div className="mt-12">
         <div className="flex flex-col items-center">
@@ -173,7 +175,7 @@ const LoginPage: NextPage = (props) => {
           </div>
         </div>
       </div>
-    </div>)
+    </div>
   );
 };
 

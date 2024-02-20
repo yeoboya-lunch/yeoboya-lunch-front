@@ -1,17 +1,15 @@
-import type { NextFetchEvent, NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-export { default } from 'next-auth/middleware';
 import { getToken } from 'next-auth/jwt';
+
+export { default } from 'next-auth/middleware';
 
 const secret = process.env.SECRET;
 
-export async function middleware(req: NextRequest, event: NextFetchEvent) {
+export async function middleware(req: NextRequest) {
   const session = await getToken({ req, secret, raw: true });
 
   const { pathname } = req.nextUrl;
-
-  // console.log('-------------');
-  // console.log(pathname);
 
   if (pathname.startsWith('/auth/login') || pathname.startsWith('/auth/sign-up')) {
     if (session) {
