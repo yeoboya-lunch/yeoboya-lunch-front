@@ -14,7 +14,7 @@ const memberKeys = {
   detail: (email: string | undefined) => [...memberKeys.details(), email],
 };
 
-function useSettingMember(options: Props) {
+function useSettingMember(options?: Props) {
   const { get } = useFetchWrapper();
   const { data: session } = useSession();
 

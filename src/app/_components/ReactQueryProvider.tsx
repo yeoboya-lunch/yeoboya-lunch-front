@@ -7,7 +7,6 @@ import React, { ReactNode } from 'react';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense: true,
       // staleTime: 0,
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -24,7 +23,7 @@ const ReactQueryProvider = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };

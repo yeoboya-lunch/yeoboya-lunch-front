@@ -48,8 +48,6 @@ const LoginPage: NextPage = () => {
       redirect: false,
     });
 
-    console.log('로그인: ', response);
-
     if (response?.error) {
       console.log(response);
     } else {

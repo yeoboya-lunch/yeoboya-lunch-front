@@ -36,7 +36,7 @@ const Community: NextPage = () => {
 
   return (
     <Layout hasTabBar title="자유게시판">
-      {data.pagination.isEmpty && (
+      {data?.pagination.isEmpty && (
         <div className="mt-5 flex flex-col items-center border border-dotted p-10">
           <div>사진</div>
           <Link href="/community/write">

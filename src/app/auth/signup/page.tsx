@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation';
 
 const SignupPage: NextPage = () => {
   const { mutate, isSuccess, isError, isPending, error } = useSignUp();
-  console.log('에러', isError);
   const {
     register,
     handleSubmit,
