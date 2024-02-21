@@ -13,6 +13,7 @@ import { IRecruitItem } from '../../../types/order';
 const Sold: NextPage = () => {
   const member = useRecoilValue(memberAtom);
   const orders = useInfiniteOrders({
+    page: 1,
     orderEmail: member.email,
   });
 

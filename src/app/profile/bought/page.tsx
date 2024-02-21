@@ -14,6 +14,7 @@ const Bought: NextPage = () => {
   const member = useRecoilValue(memberAtom);
   const orders = useInfinitePurchaseRecruits({
     orderEmail: member.email,
+    page: 1,
   });
 
   return (

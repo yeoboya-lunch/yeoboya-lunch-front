@@ -38,10 +38,11 @@ export default function OrderRecruitCard({
     <Link href={`/order/${orderId}`} ref={target}>
       <Card className="flex h-full w-full border-0 shadow-none">
         <Image
-          className="flex-[1_1_0] rounded-xl object-cover"
+          className="m-auto h-auto flex-[1_1_0] rounded-xl object-cover"
           src={profilePic}
           width={160}
           height={160}
+          priority
           alt="기본이미지"
         />
         <div className="ml-2 flex-[3_1_0]">

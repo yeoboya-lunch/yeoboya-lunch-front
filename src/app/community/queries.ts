@@ -4,7 +4,7 @@ import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 const boardKeys = {
   all: () => ['board'],
-  list: (page: number, size: number) => [...boardKeys.all(), 'list', size, page],
+  list: (filter: { page: number; size: number }) => [...boardKeys.all(), 'list', filter],
   // ListFilteredByEmail: (email?: string) => [...boardKeys.list(), email],
   details: () => [...boardKeys.all(), 'detail'],
   detail: (boardId: string) => [...boardKeys.details(), boardId],
@@ -26,7 +26,7 @@ function useBoardListQuery(page: number) {
   const size = 10;
 
   return useSuspenseQuery({
-    queryKey: boardKeys.list(page, size),
+    queryKey: boardKeys.list({ page, size }),
     queryFn: () => get({ url: '/board', params: { size, page } }),
     select: (data) => data.data.data,
     refetchOnMount: true,

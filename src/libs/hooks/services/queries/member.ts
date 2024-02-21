@@ -1,20 +1,18 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { QueryOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
-type Props = QueryOptions;
-
 const memberKeys = {
   all: () => ['member'],
-  list: () => [...memberKeys.all(), 'list'],
+  list: (filter: { page: number; size: number }) => [...memberKeys.all(), 'list', filter],
   details: () => [...memberKeys.all(), 'detail'],
   detail: (email: string | undefined) => [...memberKeys.details(), email],
 };
 
-function useSettingMember(options?: Props) {
+function useSettingMember(options?: UndefinedInitialDataOptions) {
   const { get } = useFetchWrapper();
   const { data: session } = useSession();
 
@@ -28,12 +26,12 @@ function useSettingMember(options?: Props) {
   });
 }
 
-function useInfiniteMemberList() {
+function useInfiniteMemberList(page = 0) {
   const { get } = useFetchWrapper();
   const size = 30;
 
   return useInfiniteQuery({
-    queryKey: memberKeys.list(),
+    queryKey: memberKeys.list({ page, size }),
     queryFn: ({ pageParam }) => get({ url: '/member', params: { size: size, page: pageParam } }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

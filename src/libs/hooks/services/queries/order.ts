@@ -1,6 +1,6 @@
 'use client';
 
-import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
@@ -10,20 +10,30 @@ interface IOrderSearch {
   orderEmail?: string;
   startDate?: string;
   endDate?: string;
+  page: number;
 }
-function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
+function useInfiniteOrders(params?: IOrderSearch) {
   const { get } = useFetchWrapper();
-  const size = 6;
+  const defaultKey: Parameters<typeof orderKeys.list>[0] = {
+    size: 6,
+    page: 1,
+  };
+  const queryKey = Object.assign(
+    defaultKey,
+    params?.orderEmail ? { email: params?.orderEmail } : {},
+  );
   const today = dayjs().format('YYYYMMDD');
   const startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
   return useInfiniteQuery({
-    queryKey: orderKeys.ListFilteredByEmail(params?.orderEmail),
+    queryKey: orderKeys.list({
+      size: queryKey.size,
+      page: 1,
+    }),
     queryFn: ({ pageParam }) =>
       get({
         url: `/order/recruits`,
         params: {
-          size: size,
           page: pageParam,
           orderEmail: params?.orderEmail,
           // orderStatus:
@@ -39,16 +49,18 @@ function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
     getPreviousPageParam: (firstPage) => {
       if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
     },
-    ...options,
   });
 }
 
-function useInfinitePurchaseRecruits(params?: IOrderSearch, options?: {}): any {
+function useInfinitePurchaseRecruits(params?: IOrderSearch) {
   const { get } = useFetchWrapper();
   const size = 30;
 
   return useInfiniteQuery({
-    queryKey: orderKeys.list(),
+    queryKey: orderKeys.list({
+      size,
+      page: 1,
+    }),
     queryFn: ({ pageParam }) =>
       get({
         url: `/order/purchase-recruits`,
@@ -67,11 +79,10 @@ function useInfinitePurchaseRecruits(params?: IOrderSearch, options?: {}): any {
     getPreviousPageParam: (firstPage) => {
       if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
     },
-    ...options,
   });
 }
 
-function useRecruitQuery(orderNo: string, options?: {}): any {
+function useRecruitQuery(orderNo: string, options?: UndefinedInitialDataOptions) {
   const { get } = useFetchWrapper();
 
   return useQuery({
