@@ -18,7 +18,7 @@ export default function Layout({ title, canGoBack, hasTabBar, children }: Layout
         {canGoBack ? <BackButton /> : null}
         {title ? <span className={cls(canGoBack ? 'mx-auto' : '', '')}>{title}</span> : null}
       </div>
-      <div className={cls('h-full pt-12', hasTabBar ? 'pb-24' : '')}>{children}</div>
+      <div className={cls('h-full px-4 pt-12', hasTabBar ? 'pb-24' : '')}>{children}</div>
       {hasTabBar ? <NavBar /> : null}
     </section>
   );

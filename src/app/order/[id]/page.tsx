@@ -11,6 +11,7 @@ import {
 import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
 
 import { IItem, IRecruitItem } from '../../../types/order';
+import { Badge } from '@/app/_components/ui/Badge';
 
 type Props = {
   params: {
@@ -38,19 +39,16 @@ const RecruitPost = ({ params }: Props) => {
   };
 
   return (
-    <Layout title={recruit?.order.title} canGoBack>
-      <div>
-        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-          {recruit?.shop.shopName}
-        </span>
-        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-          {recruit?.order.orderStatus}
-        </span>
-        <div className="mb-3 flex cursor-pointer items-center space-x-3 border-b px-4 pb-3">
-          <div>
-            <p className="text-sm font-medium text-gray-700">{recruit?.order.title}</p>
-            <p className="text-xs font-medium text-gray-500">{recruit?.orderMember.name}</p>
-          </div>
+    <Layout title="주문 파티 모집" canGoBack>
+      <div className="flex flex-col items-center">
+        <h2 className="text-3xl">{recruit?.order.title}</h2>
+        <div className="flex w-full items-center justify-center gap-2 font-semibold text-muted-foreground">
+          <span className="text-xl">{recruit?.shop.shopName}</span>
+          {' | '}
+          <Badge>{recruit?.order.orderStatus}</Badge>
+        </div>
+        <div className="mb-3 flex cursor-pointer items-center">
+          <p className="font-medium text-muted-foreground">{recruit?.orderMember.name}</p>
         </div>
         <div className="border-b">
           <div className="mt-2 px-4 text-gray-700">
