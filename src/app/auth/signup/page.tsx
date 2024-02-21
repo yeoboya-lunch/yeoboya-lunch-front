@@ -1,18 +1,17 @@
 'use client';
 
 import type { NextPage } from 'next';
+import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/libs/hooks/services/mutations/user';
-
-import { ISignUpForm } from '../../../types/user';
+import { ISignUpForm } from '@/types/user';
+import { useRouter } from 'next/navigation';
 
 const SignupPage: NextPage = () => {
-  const { mutate, isSuccess, isError, isLoading, error } = useSignUp();
-
+  const { mutate, isSuccess, isError, isPending, error } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -29,21 +28,12 @@ const SignupPage: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (isError) {
-      setError(
-        'email',
-        { type: 'focus', message: error.response.data.message },
-        { shouldFocus: true },
-      );
+      setError('email', { type: 'focus', message: error.message }, { shouldFocus: true });
     }
     if (isSuccess) {
-      router.push({
-        pathname: '/auth/login',
-        query: {
-          init: true,
-        },
-      });
+      router.push('/auth/login?init=true');
     }
-  }, [isLoading]);
+  }, [isPending]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -116,7 +106,7 @@ const SignupPage: NextPage = () => {
               {errors.name?.message}
             </p>
           )}
-          <Button text={isLoading ? 'Loading' : 'sign-up'} />
+          <Button text={isPending ? 'Loading' : 'sign-up'} />
         </form>
       </div>
     </div>

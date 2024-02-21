@@ -1,7 +1,8 @@
-import { cls } from '@/libs/client/utils';
 import Link from 'next/link';
-import React, { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
+import React, { ReactNode } from 'react';
+
+import { cls } from '@/libs/client/utils';
 import { Route } from '@/utils/brandingTypes';
 
 type Props = {

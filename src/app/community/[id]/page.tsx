@@ -1,13 +1,14 @@
 'use client';
 
+import type { Property } from 'csstype';
 import type { NextPage } from 'next';
 import { ChangeEventHandler, useState } from 'react';
-import Layout from '@/components/layout';
-import { Badge } from '@/app/_components/ui/Badge';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';
-import { Textarea } from '@/app/_components/ui/Textarea';
+import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
-import type { Property } from 'csstype';
+import { Textarea } from '@/app/_components/ui/Textarea';
+import Layout from '@/components/layout';
 
 const tagList = ['1234', '하이루', 'Hello'];
 

@@ -1,28 +1,39 @@
 'use client';
 
-import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { orderKeys } from '@/libs/hooks/services/keys/order';
-import dayjs from 'dayjs';
 
 interface IOrderSearch {
   orderEmail?: string;
   startDate?: string;
   endDate?: string;
+  page: number;
 }
-function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
+function useInfiniteOrders(params?: IOrderSearch) {
   const { get } = useFetchWrapper();
-  const size = 6;
-  let today = dayjs().format('YYYYMMDD');
-  let startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
+  const defaultKey: Parameters<typeof orderKeys.list>[0] = {
+    size: 6,
+    page: 1,
+  };
+  const queryKey = Object.assign(
+    defaultKey,
+    params?.orderEmail ? { email: params?.orderEmail } : {},
+  );
+  const today = dayjs().format('YYYYMMDD');
+  const startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
-  return useInfiniteQuery(
-    orderKeys.ListFilteredByEmail(params?.orderEmail),
-    ({ pageParam = 1 }) =>
+  return useInfiniteQuery({
+    queryKey: orderKeys.list({
+      size: queryKey.size,
+      page: 1,
+    }),
+    queryFn: ({ pageParam }) =>
       get({
         url: `/order/recruits`,
         params: {
-          size: size,
           page: pageParam,
           orderEmail: params?.orderEmail,
           // orderStatus:
@@ -30,33 +41,27 @@ function useInfiniteOrders(params?: IOrderSearch, options?: {}): any {
           endDate: today,
         },
       }),
-    {
-      ...options,
-      refetchOnMount: true,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
-      },
-      getPreviousPageParam: (firstPage) => {
-        if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
-      },
-      onSuccess: (result: InfiniteData<any>) => {
-        // console.log('==== Request 리스트 조회 성공 ====');
-        // console.log(result);
-      },
+    initialPageParam: 1,
+    refetchOnMount: true,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
     },
-  );
+    getPreviousPageParam: (firstPage) => {
+      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+    },
+  });
 }
 
-function useInfinitePurchaseRecruits(params?: IOrderSearch, options?: {}): any {
+function useInfinitePurchaseRecruits(params?: IOrderSearch) {
   const { get } = useFetchWrapper();
-  const queryClient = useQueryClient();
   const size = 30;
-  let today = dayjs().format('YYYYMMDD');
-  let startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
-  return useInfiniteQuery(
-    orderKeys.list(),
-    ({ pageParam = 1 }) =>
+  return useInfiniteQuery({
+    queryKey: orderKeys.list({
+      size,
+      page: 1,
+    }),
+    queryFn: ({ pageParam }) =>
       get({
         url: `/order/purchase-recruits`,
         params: {
@@ -65,32 +70,26 @@ function useInfinitePurchaseRecruits(params?: IOrderSearch, options?: {}): any {
           orderEmail: params?.orderEmail,
         },
       }),
-    {
-      ...options,
-      // cacheTime: 1,
-      refetchOnMount: 'always',
-      refetchOnReconnect: true,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
-      },
-      getPreviousPageParam: (firstPage) => {
-        if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
-      },
-      onSuccess: (result: InfiniteData<any>) => {
-        // console.log('==== Request 리스트 조회 성공 ====');
-        // console.log(result);
-      },
+    initialPageParam: 1,
+    refetchOnMount: 'always',
+    refetchOnReconnect: true,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
     },
-  );
+    getPreviousPageParam: (firstPage) => {
+      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+    },
+  });
 }
 
-function useRecruitQuery(orderNo: string, options?: {}): any {
+function useRecruitQuery(orderNo: string, options?: UndefinedInitialDataOptions) {
   const { get } = useFetchWrapper();
 
-  return useQuery(orderKeys.detail(orderNo), () => get({ url: `/order/recruit/${orderNo}` }), {
-    ...options,
+  return useQuery({
+    queryKey: orderKeys.detail(orderNo),
+    queryFn: () => get({ url: `/order/recruit/${orderNo}` }),
     select: (data) => data.data.data,
-    onSuccess: (data) => {},
+    ...options,
   });
 }
 

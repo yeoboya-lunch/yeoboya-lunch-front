@@ -1,7 +1,8 @@
 import React from 'react';
-import { cls } from '@/libs/client/utils';
-import NavBar from '@/components/NavBar';
+
 import BackButton from '@/components/BackButton';
+import NavBar from '@/components/NavBar';
+import { cls } from '@/libs/client/utils';
 
 interface LayoutProps {
   title?: string;

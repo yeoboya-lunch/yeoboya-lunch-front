@@ -1,7 +1,7 @@
 'use client';
 
-import { RecoilRoot } from 'recoil';
 import { ReactNode } from 'react';
+import { RecoilRoot } from 'recoil';
 
 type Props = {
   children: ReactNode;

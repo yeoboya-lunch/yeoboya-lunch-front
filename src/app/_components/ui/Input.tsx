@@ -1,7 +1,7 @@
+import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/app/_lib/utils';
-import { cva, type VariantProps } from 'class-variance-authority';
 
 export const inputVariants = cva(
   'flex h-9 w-full bg-transparent text-sm transition-colors file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',

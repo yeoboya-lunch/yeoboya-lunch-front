@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { HomeIcon, ListBulletIcon, PersonIcon } from '@radix-ui/react-icons';
+import React from 'react';
+
 import NavItem from '@/app/_components/ui/nav/NavItem';
 
 const NavBar = () => {

@@ -1,6 +1,7 @@
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 interface UpdateForm {
   email: string;
@@ -27,8 +28,6 @@ function usePublicProfileUpdate(): any {
     onSuccess: (data, variables, context) => {
       return router.push('/profile');
     },
-    onSettled: (data, error, variables, context) => {},
-    onError: (error, variables, context) => {},
   });
 }
 
@@ -40,29 +39,19 @@ function useAccountSave(): any {
   return useMutation({
     mutationKey: memberKeys.update('saveAccount'),
     mutationFn: (value: UpdateForm) => post({ url: `/member/account`, data: value }),
-    onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       return router.push('/profile');
     },
-    onSettled: (data, error, variables, context) => {},
-    onError: (error, variables, context) => {},
   });
 }
 
 function useAccountInfoUpdate(): any {
   const { patch } = useFetchWrapper();
-  const router = useRouter();
 
   return useMutation({
     mutationKey: memberKeys.update('temp'),
     mutationFn: (value: UpdateForm) =>
       patch({ url: `/member/account/${value.email}`, data: value }),
-    onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {
-      // return router.push('/profile');
-    },
-    onSettled: (data, error, variables, context) => {},
-    onError: (error, variables, context) => {},
   });
 }
 

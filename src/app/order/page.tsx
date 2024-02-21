@@ -1,23 +1,25 @@
 'use client';
 
+import dayjs from 'dayjs';
 import type { NextPage } from 'next';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
 import TextArea from '@/components/textarea';
 import { useOrderStartRecruit } from '@/libs/hooks/services/mutations/order';
-import { FieldErrors, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
-import dayjs from 'dayjs';
-import { useRecoilValue } from 'recoil';
 import memberAtom from '@/libs/recoil/member';
+
 import { IRecruit } from '../../types/order';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
   const search = useSearchParams();
-  const { mutate, isSuccess, isError, isLoading, error } = useOrderStartRecruit();
+  const { mutate, isSuccess, isError, isPending, error } = useOrderStartRecruit();
 
   const iMember = useRecoilValue(memberAtom);
 
@@ -46,16 +48,12 @@ const OrderPage: NextPage = () => {
 
   useEffect(() => {
     if (isError) {
-      setError(
-        'deliveryFee',
-        { type: 'focus', message: error.response.data.message },
-        { shouldFocus: true },
-      );
+      setError('deliveryFee', { type: 'focus', message: error.message }, { shouldFocus: true });
     }
     if (isSuccess) {
       router.push('/');
     }
-  }, [isLoading]);
+  }, [isPending]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);

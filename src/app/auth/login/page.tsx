@@ -1,15 +1,16 @@
 'use client';
 
 import type { NextPage } from 'next';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
+
 import Button from '@/components/button';
 import Input from '@/components/input';
 import { cls } from '@/libs/client/utils';
-import Link from 'next/link';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useSetRecoilState } from 'recoil';
 import memberAtom from '@/libs/recoil/member';
 
 interface LoginForm {
@@ -18,7 +19,7 @@ interface LoginForm {
   password: string;
 }
 
-const LoginPage: NextPage = (props) => {
+const LoginPage: NextPage = () => {
   const {
     register,
     handleSubmit,
@@ -40,7 +41,7 @@ const LoginPage: NextPage = (props) => {
 
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
-    const response: any = await signIn('email-password-credential', {
+    const response = await signIn('email-password-credential', {
       email: validForm.email,
       password: validForm.password,
       callbackUrl: '/',
@@ -53,7 +54,7 @@ const LoginPage: NextPage = (props) => {
       setMember({
         email: validForm.email,
       });
-      await router.push(response.url);
+      router.push(response.url);
     }
   };
 

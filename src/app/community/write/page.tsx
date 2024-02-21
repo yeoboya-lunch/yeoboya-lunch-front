@@ -5,12 +5,12 @@ import { useSession } from 'next-auth/react';
 import React, { FocusEventHandler, KeyboardEventHandler, useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
+import { Input } from '@/app/_components/ui/Input';
+import { TagInput } from '@/app/_components/ui/TagInput';
+import { Textarea } from '@/app/_components/ui/Textarea';
 import useBoardWrite from '@/app/community/write/queries';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
-import { Input } from '@/app/_components/ui/Input';
-import { Textarea } from '@/app/_components/ui/Textarea';
-import { TagInput } from '@/app/_components/ui/TagInput';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();
@@ -100,7 +100,7 @@ const WritePage: NextPage = () => {
           </p>
         )}
 
-        <Button text={board.isLoading ? 'Loading' : 'Write'} />
+        <Button text={board.isPending ? 'Loading' : 'Write'} />
       </form>
     </Layout>
   );

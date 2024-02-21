@@ -1,10 +1,11 @@
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
-import { useQuery } from '@tanstack/react-query';
 
 const boardKeys = {
   all: () => ['board'],
-  list: () => [...boardKeys.all(), 'list'],
-  ListFilteredByEmail: (email?: string) => [...boardKeys.list(), email],
+  list: (filter: { page: number; size: number }) => [...boardKeys.all(), 'list', filter],
+  // ListFilteredByEmail: (email?: string) => [...boardKeys.list(), email],
   details: () => [...boardKeys.all(), 'detail'],
   detail: (boardId: string) => [...boardKeys.details(), boardId],
 } as const;
@@ -12,9 +13,11 @@ const boardKeys = {
 function useBoardQuery(boardId: string, options?: {}) {
   const { get } = useFetchWrapper();
 
-  return useQuery(boardKeys.detail(boardId), () => get({ url: `/board/${boardId}` }), {
-    ...options,
+  return useQuery({
+    queryKey: boardKeys.detail(boardId),
+    queryFn: () => get({ url: `/board/${boardId}` }),
     select: (data) => data.data.data,
+    ...options,
   });
 }
 
@@ -22,9 +25,11 @@ function useBoardListQuery(page: number) {
   const { get } = useFetchWrapper();
   const size = 10;
 
-  return useQuery(boardKeys.list(), () => get({ url: '/board', params: { size, page } }), {
-    refetchOnMount: true,
+  return useSuspenseQuery({
+    queryKey: boardKeys.list({ page, size }),
+    queryFn: () => get({ url: '/board', params: { size, page } }),
     select: (data) => data.data.data,
+    refetchOnMount: true,
   });
 }
 

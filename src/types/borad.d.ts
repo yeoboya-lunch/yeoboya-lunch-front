@@ -4,7 +4,7 @@ interface WriteFormData {
   content: string;
   pin: number;
   secret: boolean;
-  hashTag: String[];
+  hashTag: string[];
 }
 
 interface IPagination {

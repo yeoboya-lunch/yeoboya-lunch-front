@@ -1,9 +1,10 @@
 'use client';
 
 import type { NextPage } from 'next';
-import Layout from '@/components/layout';
-import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+import Layout from '@/components/layout';
 
 const EditProfile: NextPage = () => {
   const AccountInfo = dynamic(() => import('@/components/profile/AccountInfo'), {

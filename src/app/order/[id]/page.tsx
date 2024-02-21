@@ -1,14 +1,16 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+
 import Layout from '@/components/layout';
-import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
-import { IItem, IRecruitItem } from '../../../types/order';
 import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
 } from '@/libs/hooks/services/mutations/order';
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
+
+import { IItem, IRecruitItem } from '../../../types/order';
 
 type Props = {
   params: {
@@ -70,7 +72,7 @@ const RecruitPost = ({ params }: Props) => {
         </div>
         <div>
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {recruit?.shop.items.map((item: IItem, index: number) => {
+            {recruit?.shop.items?.map((item: IItem, index: number) => {
               return (
                 <li key={index} className="pb-3 sm:pb-4">
                   <div className="flex items-center space-x-4">
