@@ -22,12 +22,14 @@ const font = localFont({
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={cn('h-lvh font-pretendard', font.variable)}>
-        <ReactQueryProvider>
-          <AuthProvider>
-            <StateProvider>{children}</StateProvider>
-          </AuthProvider>
-        </ReactQueryProvider>
+      <body className={cn('font-pretendard', font.variable)}>
+        <main className="m-auto h-lvh max-w-xl">
+          <ReactQueryProvider>
+            <AuthProvider>
+              <StateProvider>{children}</StateProvider>
+            </AuthProvider>
+          </ReactQueryProvider>
+        </main>
       </body>
     </html>
   );

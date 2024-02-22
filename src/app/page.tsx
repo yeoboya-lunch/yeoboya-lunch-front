@@ -47,28 +47,26 @@ const Home = () => {
         </div>
       )}
 
-      <div className="space-y-5">
-        {orders.status === 'success' &&
-          orders.data.pages.map((group: any, index: number) => (
-            <ul className="flex flex-col gap-4 p-4" key={index}>
-              {group.data.data.list.map((data: IRecruitItem, index: number) => {
-                return (
-                  <OrderRecruitCard
-                    key={index}
-                    orderId={data.orderId}
-                    orderMemberName={data.orderMemberName}
-                    shopName={data.shopName}
-                    title={data.title}
-                    lastOrderTime={data.lastOrderTime}
-                    orderStatus={data.orderStatus}
-                    groupCount={data.groupCount}
-                  />
-                );
-              })}
-            </ul>
-          ))}
-        <div ref={bottom} />
-      </div>
+      {orders.status === 'success' &&
+        orders.data.pages.map((group: any, index: number) => (
+          <ul className="flex flex-col gap-4 p-4" key={index}>
+            {group.data.data.list.map((data: IRecruitItem, index: number) => {
+              return (
+                <OrderRecruitCard
+                  key={index}
+                  orderId={data.orderId}
+                  orderMemberName={data.orderMemberName}
+                  shopName={data.shopName}
+                  title={data.title}
+                  lastOrderTime={data.lastOrderTime}
+                  orderStatus={data.orderStatus}
+                  groupCount={data.groupCount}
+                />
+              );
+            })}
+          </ul>
+        ))}
+      <div ref={bottom} />
 
       {orders.isFetchingNextPage && (
         <div className="flex items-center justify-center">
