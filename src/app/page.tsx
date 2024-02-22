@@ -49,7 +49,7 @@ const Home = () => {
 
       {orders.status === 'success' &&
         orders.data.pages.map((group: any, index: number) => (
-          <ul className="flex flex-col gap-4 p-4" key={index}>
+          <ul className="flex flex-col gap-4" key={index}>
             {group.data.data.list.map((data: IRecruitItem, index: number) => {
               return (
                 <OrderRecruitCard
