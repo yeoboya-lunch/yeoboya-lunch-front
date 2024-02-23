@@ -68,7 +68,7 @@ const RecruitPost = ({ params }: Props) => {
           </Button>
         </div>
         <div>
-          <h4 className="text-xl">주문 목록</h4>
+          <h4 className="mb-2 text-xl">주문 목록</h4>
           <ul className="flex flex-col">
             <OrderCard />
           </ul>

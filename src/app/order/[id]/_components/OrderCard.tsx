@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardTitle } from '@/app/_components/ui/Card';
 import defaultImg from '/public/image-4@2x.jpg';
-import UserProfile from '@/app/_components/ui/user/UserProfile';
+import OverlapProfileGroup from '@/app/order/[id]/_components/OverlapProfileGroup';
 
 const users = [
   {
@@ -25,22 +25,17 @@ const users = [
 const OrderCard = () => {
   return (
     <Card className="flex overflow-hidden">
-      <Image className="w-1/5" src={defaultImg} alt="메뉴 사진" />
-      <CardContent className="flex flex-grow flex-col gap-2 pt-4">
+      <Image className="w-1/4 object-cover" src={defaultImg} alt="메뉴 사진" />
+      <CardContent className="flex flex-grow flex-col gap-1 pt-4">
         <CardTitle>메뉴 이름</CardTitle>
-        <CardDescription>₩ 메뉴 가격</CardDescription>
-        <ul className="flex items-center justify-between">
-          <li className="flex space-x-[-16px]">
-            {users.map((user, index, array) => (
-              <UserProfile
-                image={user.image}
-                alt={user.name}
-                style={{ zIndex: array.length - index }}
-              />
-            ))}
-          </li>
-          <li>합계: 가격</li>
-        </ul>
+        <CardDescription className="mb-2 flex justify-between">
+          <span>₩ 메뉴 가격</span>
+          <span>인원 수 명</span>
+        </CardDescription>
+        <div className="flex items-center justify-between">
+          <OverlapProfileGroup users={users} count={3} />
+          <span className="text-primary">₩ 가격</span>
+        </div>
       </CardContent>
     </Card>
   );

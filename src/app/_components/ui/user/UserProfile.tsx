@@ -1,17 +1,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/app/_lib/utils';
 
 type Props = {
-  image: string;
+  image?: string;
   alt: string;
+  children?: ReactNode;
 } & HTMLAttributes<HTMLImageElement>;
 
-const UserProfile = ({ image, alt, className, ...rest }: Props) => {
+const UserProfile = ({ image, alt, className, children, ...rest }: Props) => {
   return (
     <Avatar className={cn('h-8 w-8 cursor-pointer', className)} {...rest}>
       <AvatarImage src={image} alt={alt} />
-      <AvatarFallback />
+      <AvatarFallback>{children}</AvatarFallback>
     </Avatar>
   );
 };
