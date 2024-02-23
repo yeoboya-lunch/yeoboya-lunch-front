@@ -1,3 +1,3 @@
-import auth from '@/nextAuth';
+import auth from '@/auth';
 
 export { auth as GET, auth as POST };

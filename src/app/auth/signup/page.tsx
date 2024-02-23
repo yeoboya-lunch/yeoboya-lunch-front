@@ -6,7 +6,6 @@ import { FieldErrors, useForm } from 'react-hook-form';
 
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { ISignUpForm } from '@/types/user';
 import { useRouter } from 'next/navigation';
 import { useSignUp } from '@/libs/hooks/services/mutations/user';
 
