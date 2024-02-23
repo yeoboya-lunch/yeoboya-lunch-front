@@ -10,7 +10,10 @@ import {
 } from '@/libs/hooks/services/mutations/order';
 import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
 
-import { IItem, IRecruitItem } from '../../../types/order';
+import { IRecruitItem } from '../../../types/order';
+import { Badge } from '@/app/_components/ui/Badge';
+import { Button } from '@/app/_components/ui/Button';
+import OrderCard from '@/app/order/[id]/_components/OrderCard';
 
 type Props = {
   params: {
@@ -26,131 +29,48 @@ const RecruitPost = ({ params }: Props) => {
 
   const [cart, setCart] = useState<IRecruitItem[]>([]);
 
-  const addCart = (item: any) => {
+  const addCart = (item) => {
     // @ts-ignore
     setCart([...cart, { itemName: item.name, orderQuantity: 1 }]);
   };
 
-  const deleteCart = (value: any) => {
+  const deleteCart = (value) => {
     setCart((oldValues) => {
       return oldValues.filter((item) => item != value);
     });
   };
 
   return (
-    <Layout title={recruit?.order.title} canGoBack>
-      <div>
-        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-          {recruit?.shop.shopName}
-        </span>
-        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-          {recruit?.order.orderStatus}
-        </span>
-        <div className="mb-3 flex cursor-pointer items-center space-x-3 border-b px-4 pb-3">
-          <div>
-            <p className="text-sm font-medium text-gray-700">{recruit?.order.title}</p>
-            <p className="text-xs font-medium text-gray-500">{recruit?.orderMember.name}</p>
-          </div>
+    <Layout title="주문 파티 모집" canGoBack>
+      <div className="flex flex-col gap-2">
+        <div className="flex w-full items-center gap-2 font-semibold text-muted-foreground">
+          <Badge>{recruit?.order.orderStatus}</Badge>
+          <span className="text-sm">{recruit?.shop.shopName}</span>
         </div>
-        <div className="border-b">
-          <div className="mt-2 px-4 text-gray-700">
-            <span className="font-medium text-orange-500">마감시간</span>
-            <span className="text-xs font-medium text-gray-500">
-              {recruit?.order.lastOrderTime}
-            </span>
-          </div>
-
-          <div className="mt-2 px-4 text-gray-700">
-            <span className="font-medium text-orange-500">배달비</span>
-            <span className="text-xs font-medium text-gray-500">{recruit?.order.deliveryFee}</span>
-          </div>
-
-          <div className="mt-2 px-4 text-gray-700">
-            <span className="font-medium text-orange-500">당직자 메모</span>
-            <span className="text-xs font-medium text-gray-500">{recruit?.order.memo}</span>
-          </div>
+        <h2 className="mb-2 text-3xl">{recruit?.order.title}</h2>
+        <p className="flex font-medium">
+          <span className="w-1/4 font-medium">작성자</span>
+          <span className="flex-grow">{recruit?.orderMember.name}</span>
+        </p>
+        <div className="flex items-center">
+          <span className="w-1/4 font-medium">배달비</span>
+          <span className="flex-grow">{recruit?.order.deliveryFee}원</span>
+        </div>
+        <div className="flex">
+          <span className="w-1/4 font-medium">종료 시간</span>
+          <span className="flex-grow">{recruit?.order.lastOrderTime} </span>
+        </div>
+        <span className="my-4 text-center">현재 {cart.length}명 신청 중이에요!</span>
+        <div className="mb-8 flex justify-center gap-8">
+          <Button className="text-base">주문하기</Button>
+          <Button variant="secondary" className="text-base">
+            취소하기
+          </Button>
         </div>
         <div>
-          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {recruit?.shop.items?.map((item: IItem, index: number) => {
-              return (
-                <li key={index} className="pb-3 sm:pb-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                        {item.name}
-                      </p>
-                      <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                        {item.price}원
-                      </p>
-                    </div>
-                    <button
-                      className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                      onClick={() => addCart(item)}
-                    >
-                      장바구니 담기
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div>
-          <p>{cart.length}</p>
-          {cart.map((item, index) => {
-            return (
-              <div key={index}>
-                <p>{item.itemName}</p>
-                <button onClick={() => deleteCart(item)}>카트 삭제</button>
-              </div>
-            );
-          })}
-        </div>
-        ---------------------
-        <div
-          onClick={() =>
-            orderRecruitJoin.mutate({
-              orderNo: params.id,
-              email: session?.token.subject,
-              orderItems: cart,
-            })
-          }
-        >
-          주문서 넣기
-        </div>
-        ---------------------
-        <div>
-          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {recruit?.group.map((group: any, index: number) => {
-              return (
-                <li key={index} className="pb-3 sm:pb-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="min-w-0 flex-1">
-                      파티원 : {group.name}
-                      {group.orderItem.map((item: any, index: number) => {
-                        return (
-                          <div key={index}>
-                            <p>itemName: {item.itemName}</p>
-                            <p>orderQuantity: {item.orderQuantity}</p>
-                          </div>
-                        );
-                      })}
-                      {group.totalPrice}
-                    </div>
-                  </div>
-                  {session?.token.subject === group.email && (
-                    <button
-                      onClick={() => {
-                        orderRecruitExit.mutate(group.groupOrderId);
-                      }}
-                    >
-                      주문취소
-                    </button>
-                  )}
-                </li>
-              );
-            })}
+          <h4 className="mb-2 text-xl">주문 목록</h4>
+          <ul className="flex flex-col">
+            <OrderCard />
           </ul>
         </div>
       </div>
