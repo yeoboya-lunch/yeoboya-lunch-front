@@ -1,26 +1,12 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
+import { IRecruitJoin } from '@/domain/order';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import { orderKeys } from '@/libs/hooks/services/keys/order';
-import { IRecruit, IRecruitJoin } from '@/types/order';
-
-function useOrderStartRecruit() {
-  const { post } = useFetchWrapper();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationKey: orderKeys.insert(),
-    mutationFn: (value: IRecruit) => post({ url: `/order/recruit`, data: value }),
-    onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: orderKeys.list() });
-    },
-  });
-}
 
 function useOrderRecruitGroupJoin() {
   const { post } = useFetchWrapper();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
@@ -29,15 +15,11 @@ function useOrderRecruitGroupJoin() {
     onSuccess: () => {
       router.refresh();
     },
-    onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: orderKeys.list() });
-    },
   });
 }
 
 function useOrderRecruitGroupExit() {
   const { axiosDelete } = useFetchWrapper();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
@@ -47,10 +29,7 @@ function useOrderRecruitGroupExit() {
     onSuccess: () => {
       router.refresh();
     },
-    onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: orderKeys.list() });
-    },
   });
 }
 
-export { useOrderStartRecruit, useOrderRecruitGroupJoin, useOrderRecruitGroupExit };
+export { useOrderRecruitGroupJoin, useOrderRecruitGroupExit };

@@ -11,10 +11,10 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
 import TextArea from '@/components/textarea';
-import { useOrderStartRecruit } from '@/libs/hooks/services/mutations/order';
 import memberAtom from '@/libs/recoil/member';
 
-import { IRecruit } from '../../types/order';
+import type { Recruit } from '@/domain/order';
+import { useOrderStartRecruit } from '@/app/order/queries';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();
@@ -33,11 +33,11 @@ const OrderPage: NextPage = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<IRecruit>({
+  } = useForm<Recruit>({
     mode: 'onSubmit',
   });
 
-  const onValid = (recruitForm: IRecruit) => {
+  const onValid = (recruitForm: Recruit) => {
     recruitForm.email = iMember.email!;
     recruitForm.shopName = search.get('shopName') || '';
     recruitForm.lastOrderTime = (

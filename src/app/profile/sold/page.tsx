@@ -8,7 +8,7 @@ import Layout from '@/components/layout';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 import memberAtom from '@/libs/recoil/member';
 
-import { IRecruitItem } from '../../../types/order';
+import { IRecruitItem } from '@/domain/order';
 
 const Sold: NextPage = () => {
   const member = useRecoilValue(memberAtom);

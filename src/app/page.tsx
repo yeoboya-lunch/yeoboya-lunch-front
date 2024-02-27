@@ -12,7 +12,7 @@ import OrderRecruitCard from '@/components/order/OrderRecruitCard';
 import { useObserver } from '@/libs/client/useObserver';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 
-import { IRecruitItem } from '../types/order';
+import { IRecruitItem } from '@/domain/order';
 
 const Home = () => {
   const orders = useInfiniteOrders();

@@ -9,7 +9,7 @@ export interface IRecruitItem {
   groupCount: number;
 }
 
-export interface IRecruit {
+export interface Recruit {
   email: string;
   shopName: string;
   title: string;
