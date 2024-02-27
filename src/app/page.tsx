@@ -1,6 +1,7 @@
 'use client';
 
 import { PlusIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
@@ -12,7 +13,6 @@ import { useObserver } from '@/libs/client/useObserver';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 
 import { IRecruitItem } from '../types/order';
-import Link from 'next/link';
 
 const Home = () => {
   const orders = useInfiniteOrders();
@@ -34,7 +34,7 @@ const Home = () => {
     }
   }, []);
   return (
-    <Layout title="오늘의주문" hasTabBar>
+    <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />
 
       {orders.status === 'pending' && (

@@ -1,3 +1,6 @@
+import Image from 'next/image';
+
+import defaultImg from '/public/image-4@2x.jpg';
 import { Badge } from '@/app/_components/ui/Badge';
 import {
   Card,
@@ -6,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/_components/ui/Card';
-import Image from 'next/image';
-import defaultImg from '/public/image-4@2x.jpg';
 
 interface IRecruitProps {
   orderMemberName: string;
@@ -27,7 +28,7 @@ export default function OrderRecruitCard({
   groupCount,
 }: IRecruitProps) {
   return (
-    <Card className="flex h-full w-full flex-col border-0 shadow-none">
+    <Card className="flex h-full w-full flex-col">
       <CardHeader className="flex flex-row justify-between gap-2">
         <div className="flex flex-grow flex-col gap-2 text-ellipsis">
           <div className="flex items-center gap-2">
