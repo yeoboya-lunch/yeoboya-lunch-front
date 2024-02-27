@@ -5,6 +5,6 @@ export interface IShop {
 }
 
 interface Item {
-  itemName: string;
+  name: string;
   price: number;
 }

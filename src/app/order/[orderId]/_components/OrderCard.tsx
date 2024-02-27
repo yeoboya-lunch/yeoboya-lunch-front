@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardTitle } from '@/app/_components/ui/Card';
 import defaultImg from '/public/image-4@2x.jpg';
-import OverlapProfileGroup from '@/app/order/[id]/_components/OverlapProfileGroup';
+import OverlapProfileGroup from '@/app/order/[orderId]/_components/OverlapProfileGroup';
 
 const users = [
   {
@@ -34,7 +34,7 @@ const OrderCard = () => {
         </CardDescription>
         <div className="flex items-center justify-between">
           <OverlapProfileGroup users={users} count={3} />
-          <span className="text-primary">₩ 가격</span>
+          <span className="font-semibold">₩ 가격</span>
         </div>
       </CardContent>
     </Card>

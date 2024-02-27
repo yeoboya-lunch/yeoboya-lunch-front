@@ -10,7 +10,7 @@ import { useLogout } from '@/libs/hooks/services/mutations/user';
 import { useSettingMember } from '@/libs/hooks/services/queries/member';
 
 const ProfilePage: NextPage = () => {
-  const { data: member } = useSettingMember({ suspense: true });
+  const { data: member } = useSettingMember();
   const logout = useLogout();
 
   return (

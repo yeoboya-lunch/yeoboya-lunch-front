@@ -12,6 +12,7 @@ import { useObserver } from '@/libs/client/useObserver';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 
 import { IRecruitItem } from '../types/order';
+import Link from 'next/link';
 
 const Home = () => {
   const orders = useInfiniteOrders();
@@ -52,16 +53,16 @@ const Home = () => {
           <ul className="flex flex-col gap-4" key={index}>
             {group.data.data.list.map((data: IRecruitItem, index: number) => {
               return (
-                <OrderRecruitCard
-                  key={index}
-                  orderId={data.orderId}
-                  orderMemberName={data.orderMemberName}
-                  shopName={data.shopName}
-                  title={data.title}
-                  lastOrderTime={data.lastOrderTime}
-                  orderStatus={data.orderStatus}
-                  groupCount={data.groupCount}
-                />
+                <Link href={`/order/${data.orderId}`} key={index}>
+                  <OrderRecruitCard
+                    orderMemberName={data.orderMemberName}
+                    shopName={data.shopName}
+                    title={data.title}
+                    lastOrderTime={data.lastOrderTime}
+                    orderStatus={data.orderStatus}
+                    groupCount={data.groupCount}
+                  />
+                </Link>
               );
             })}
           </ul>
