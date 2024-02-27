@@ -1,6 +1,7 @@
 'use client';
 
 import { PlusIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
@@ -33,7 +34,7 @@ const Home = () => {
     }
   }, []);
   return (
-    <Layout title="오늘의주문" hasTabBar>
+    <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />
 
       {orders.status === 'pending' && (
@@ -52,16 +53,16 @@ const Home = () => {
           <ul className="flex flex-col gap-4" key={index}>
             {group.data.data.list.map((data: IRecruitItem, index: number) => {
               return (
-                <OrderRecruitCard
-                  key={index}
-                  orderId={data.orderId}
-                  orderMemberName={data.orderMemberName}
-                  shopName={data.shopName}
-                  title={data.title}
-                  lastOrderTime={data.lastOrderTime}
-                  orderStatus={data.orderStatus}
-                  groupCount={data.groupCount}
-                />
+                <Link href={`/order/${data.orderId}`} key={index}>
+                  <OrderRecruitCard
+                    orderMemberName={data.orderMemberName}
+                    shopName={data.shopName}
+                    title={data.title}
+                    lastOrderTime={data.lastOrderTime}
+                    orderStatus={data.orderStatus}
+                    groupCount={data.groupCount}
+                  />
+                </Link>
               );
             })}
           </ul>

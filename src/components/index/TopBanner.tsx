@@ -1,23 +1,33 @@
+import { DotFilledIcon } from '@radix-ui/react-icons';
+import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';
 import { Carousel, CarouselContent, CarouselItem } from '@/app/_components/ui/Carousel';
 
 export default function TopBanner() {
   return (
-    <Carousel>
+    <Carousel opts={{ loop: true }} plugins={[Autoplay()]}>
       <CarouselContent>
-        <CarouselItem>
-          <section className="container mx-auto mt-1 flex w-full flex-col items-center justify-center">
-            <div className="mb-2 w-full rounded-md border bg-white px-4 py-5 shadow dark:bg-gray-800 sm:px-6">
-              <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-                여보야 점심메뉴 시스템
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
-                점심 같이 먹어요~
-              </p>
-            </div>
-          </section>
-        </CarouselItem>
+        {Array.from({ length: 2 }).map((_, index) => (
+          <CarouselItem key={index}>
+            <Card className="m-4">
+              <CardHeader>
+                <CardTitle className="text-xl">디자이너 구함미다 ㅠㅅㅠ</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul>
+                  <li className="flex items-center gap-2">
+                    <DotFilledIcon /> 같이 디자인시스템을 구축하실 분
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <DotFilledIcon /> 못생긴 디자인 함께 뜯어 고치실 분
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        ))}
       </CarouselContent>
     </Carousel>
   );

@@ -1,8 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
+import { Badge } from '@/app/_components/ui/Badge';
+import { Button } from '@/app/_components/ui/Button';
+import OrderCard from '@/app/order/[orderId]/_components/OrderCard';
 import Layout from '@/components/layout';
 import {
   useOrderRecruitGroupExit,
@@ -11,19 +15,16 @@ import {
 import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
 
 import { IRecruitItem } from '../../../types/order';
-import { Badge } from '@/app/_components/ui/Badge';
-import { Button } from '@/app/_components/ui/Button';
-import OrderCard from '@/app/order/[id]/_components/OrderCard';
 
 type Props = {
   params: {
-    id: string;
+    orderId: string;
   };
 };
 
 const RecruitPost = ({ params }: Props) => {
   const { data: session } = useSession();
-  const { data: recruit } = useRecruitQuery(params.id);
+  const { data: recruit } = useRecruitQuery(params.orderId);
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();
 
@@ -62,13 +63,15 @@ const RecruitPost = ({ params }: Props) => {
         </div>
         <span className="my-4 text-center">현재 {cart.length}명 신청 중이에요!</span>
         <div className="mb-8 flex justify-center gap-8">
-          <Button className="text-base">주문하기</Button>
-          <Button variant="secondary" className="text-base">
+          <Link href={`/order/${params.orderId}/item`}>
+            <Button className="text-base">메뉴 담기</Button>
+          </Link>
+          <Button variant="outline" className="bg-muted text-base text-muted-foreground">
             취소하기
           </Button>
         </div>
         <div>
-          <h4 className="mb-2 text-xl">주문 목록</h4>
+          <h4 className="mb-2 text-xl">주문할 메뉴 목록</h4>
           <ul className="flex flex-col">
             <OrderCard />
           </ul>
