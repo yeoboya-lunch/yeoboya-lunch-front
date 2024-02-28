@@ -3,7 +3,8 @@
 import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import { Recruit } from '@/domain/order';
+import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
 import { orderKeys } from '@/libs/hooks/services/keys/order';
 
 interface IOrderSearch {
@@ -14,24 +15,18 @@ interface IOrderSearch {
 }
 function useInfiniteOrders(params?: IOrderSearch) {
   const { get } = useFetchWrapper();
-  const defaultKey: Parameters<typeof orderKeys.list>[0] = {
-    size: 6,
-    page: 1,
-  };
-  const queryKey = Object.assign(
-    defaultKey,
-    params?.orderEmail ? { email: params?.orderEmail } : {},
-  );
+
   const today = dayjs().format('YYYYMMDD');
   const startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
   return useInfiniteQuery({
     queryKey: orderKeys.list({
-      size: queryKey.size,
+      size: 6,
       page: 1,
+      email: params?.orderEmail,
     }),
-    queryFn: ({ pageParam }) =>
-      get({
+    queryFn: ({ pageParam, queryKey }) =>
+      get<List<Recruit>>({
         url: `/order/recruits`,
         params: {
           page: pageParam,
@@ -40,14 +35,14 @@ function useInfiniteOrders(params?: IOrderSearch) {
           startDate: startDay,
           endDate: today,
         },
-      }),
+      }).then(({ data }) => data),
     initialPageParam: 1,
     refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
+      if (lastPage.data.hasNext) return lastPage.data.pageNo + 1;
     },
     getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+      if (firstPage.data.hasPrevious) return firstPage.data.pageNo - 1;
     },
   });
 }

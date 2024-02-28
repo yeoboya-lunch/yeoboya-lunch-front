@@ -1,28 +1,25 @@
-export interface IRecruitItem {
+import { Shop } from '@/domain/shop';
+import { User } from '@/domain/user';
+
+export interface Order {
   orderId: number;
-  orderMemberName: string;
-  orderMemberEmail: string;
-  shopName: string;
   title: string;
+  orderMemberName: User['name'];
+  orderMemberEmail: User['email'];
+  shopName: Shop['shopName'];
   lastOrderTime: string;
-  orderStatus: string;
+  orderStatus: '모집시작' | '모집종료' | '주문완료' | '주문취소';
   groupCount: number;
 }
 
-export interface Recruit {
-  email: string;
-  shopName: string;
+export type Recruit = {
+  email: User['name'];
+  shopName: Shop['shopName'];
   title: string;
   deliveryFee: number;
   lastOrderTime: string;
   memo: string;
-}
-
-export interface IRecruitJoin {
-  orderNo: string;
-  email: string;
-  orderItems: IRecruitItem[];
-}
+};
 
 export interface IRecruitItem {
   itemName: string;

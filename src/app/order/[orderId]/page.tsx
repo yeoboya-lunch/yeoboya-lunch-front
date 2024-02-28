@@ -8,7 +8,7 @@ import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
 import OrderCard from '@/app/order/[orderId]/_components/OrderCard';
 import Layout from '@/components/layout';
-import { IRecruitItem } from '@/domain/order';
+import { Order } from '@/domain/order';
 import {
   useOrderRecruitGroupExit,
   useOrderRecruitGroupJoin,
@@ -27,7 +27,7 @@ const RecruitPost = ({ params }: Props) => {
   const orderRecruitJoin = useOrderRecruitGroupJoin();
   const orderRecruitExit = useOrderRecruitGroupExit();
 
-  const [cart, setCart] = useState<IRecruitItem[]>([]);
+  const [cart, setCart] = useState<Order[]>([]);
 
   const addCart = (item) => {
     // @ts-ignore

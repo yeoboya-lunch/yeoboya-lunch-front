@@ -9,10 +9,9 @@ import FloatingButton from '@/components/floating-button';
 import TopBanner from '@/components/index/TopBanner';
 import Layout from '@/components/layout';
 import OrderRecruitCard from '@/components/order/OrderRecruitCard';
+import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
-
-import { IRecruitItem } from '@/domain/order';
 
 const Home = () => {
   const orders = useInfiniteOrders();
@@ -51,7 +50,7 @@ const Home = () => {
       {orders.status === 'success' &&
         orders.data.pages.map((group: any, index: number) => (
           <ul className="flex flex-col gap-4" key={index}>
-            {group.data.data.list.map((data: IRecruitItem, index: number) => {
+            {group.data.list.map((data: Order, index: number) => {
               return (
                 <Link href={`/order/${data.orderId}`} key={index}>
                   <OrderRecruitCard

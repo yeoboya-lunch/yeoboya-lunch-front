@@ -5,10 +5,9 @@ import { useRecoilValue } from 'recoil';
 
 import Item from '@/components/item';
 import Layout from '@/components/layout';
+import { Order } from '@/domain/order';
 import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 import memberAtom from '@/libs/recoil/member';
-
-import { IRecruitItem } from '@/domain/order';
 
 const Sold: NextPage = () => {
   const member = useRecoilValue(memberAtom);
@@ -27,7 +26,7 @@ const Sold: NextPage = () => {
         {orders.status === 'success' &&
           orders.data.pages.map((group: any, index: number) => (
             <ul key={index}>
-              {group.data.data.list.map((data: IRecruitItem, index: number) => {
+              {group.data.data.list.map((data: Order, index: number) => {
                 return (
                   <Item
                     id={index}

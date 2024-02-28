@@ -8,9 +8,8 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
+import { Shop } from '@/domain/shop';
 import { useShopRegister } from '@/libs/hooks/services/mutations/shop';
-
-import { IShop } from '../../../types/shop';
 
 const Register: NextPage = () => {
   const shopRegister = useShopRegister();
@@ -20,11 +19,11 @@ const Register: NextPage = () => {
     unregister,
     handleSubmit,
     formState: { errors },
-  } = useForm<IShop>({
+  } = useForm<Shop>({
     mode: 'onSubmit',
   });
 
-  const onValid = (shopForm: IShop) => {
+  const onValid = (shopForm: Shop) => {
     shopRegister.mutate(shopForm);
   };
 
