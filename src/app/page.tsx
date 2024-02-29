@@ -11,7 +11,7 @@ import Layout from '@/components/layout';
 import OrderRecruitCard from '@/components/order/OrderRecruitCard';
 import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
-import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
+import { useInfiniteOrders } from '@/app/_features/order/orderQueries';
 
 const Home = () => {
   const orders = useInfiniteOrders();

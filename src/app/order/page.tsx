@@ -11,10 +11,9 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
 import TextArea from '@/components/textarea';
-import memberAtom from '@/libs/recoil/member';
-
 import type { Recruit } from '@/domain/order';
-import { useOrderStartRecruit } from '@/app/order/queries';
+import memberAtom from '@/libs/recoil/member';
+import { useOrderStartRecruit } from '@/app/_features/order/orderMutations';
 
 const OrderPage: NextPage = () => {
   const router = useRouter();

@@ -9,11 +9,8 @@ import { Button } from '@/app/_components/ui/Button';
 import OrderCard from '@/app/order/[orderId]/_components/OrderCard';
 import Layout from '@/components/layout';
 import { Order } from '@/domain/order';
-import {
-  useOrderRecruitGroupExit,
-  useOrderRecruitGroupJoin,
-} from '@/libs/hooks/services/mutations/order';
-import { useRecruitQuery } from '@/libs/hooks/services/queries/order';
+import { useOrderRecruitGroupExit, useOrderRecruitGroupJoin } from '@/app/_features/order/orderMutations';
+import { useRecruitQuery } from '@/app/_features/order/orderQueries';
 
 type Props = {
   params: {

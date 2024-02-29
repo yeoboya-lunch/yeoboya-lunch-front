@@ -2,7 +2,7 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
-const boardKeys = {
+export const boardKeys = {
   all: () => ['board'],
   list: (filter: { page: number; size: number }) => [...boardKeys.all(), 'list', filter],
   // ListFilteredByEmail: (email?: string) => [...boardKeys.list(), email],
@@ -10,7 +10,7 @@ const boardKeys = {
   detail: (boardId: string) => [...boardKeys.details(), boardId],
 } as const;
 
-function useBoardQuery(boardId: string, options?: {}) {
+export function useBoardQuery(boardId: string, options?: {}) {
   const { get } = useFetchWrapper();
 
   return useQuery({
@@ -21,7 +21,7 @@ function useBoardQuery(boardId: string, options?: {}) {
   });
 }
 
-function useBoardListQuery(page: number) {
+export function useBoardListQuery(page: number) {
   const { get } = useFetchWrapper();
   const size = 10;
 
@@ -32,5 +32,3 @@ function useBoardListQuery(page: number) {
     refetchOnMount: true,
   });
 }
-
-export { boardKeys, useBoardListQuery, useBoardQuery };

@@ -3,10 +3,9 @@
 import type { NextPage } from 'next';
 import { useRecoilValue } from 'recoil';
 
+import { useInfiniteOrders } from '@/app/_features/order/orderQueries';
 import Item from '@/components/item';
 import Layout from '@/components/layout';
-import { Order } from '@/domain/order';
-import { useInfiniteOrders } from '@/libs/hooks/services/queries/order';
 import memberAtom from '@/libs/recoil/member';
 
 const Sold: NextPage = () => {
@@ -19,14 +18,10 @@ const Sold: NextPage = () => {
   return (
     <Layout title="주문내역" canGoBack>
       <div className="flex flex-col space-y-5 divide-y  pb-10">
-        {/*{[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (*/}
-        {/*  <Item id={i} key={i} title="iPhone 14" price={99} comments={1} hearts={1} />*/}
-        {/*))}*/}
-
         {orders.status === 'success' &&
-          orders.data.pages.map((group: any, index: number) => (
+          orders.data.pages.map((group, index: number) => (
             <ul key={index}>
-              {group.data.data.list.map((data: Order, index: number) => {
+              {group.data.list.map((data, index: number) => {
                 return (
                   <Item
                     id={index}

@@ -6,8 +6,8 @@ import { useRecoilValue } from 'recoil';
 import Item from '@/components/item';
 import Layout from '@/components/layout';
 import { Order } from '@/domain/order';
-import { useInfinitePurchaseRecruits } from '@/libs/hooks/services/queries/order';
 import memberAtom from '@/libs/recoil/member';
+import { useInfinitePurchaseRecruits } from '@/app/_features/order/orderQueries';
 
 const Bought: NextPage = () => {
   const member = useRecoilValue(memberAtom);
