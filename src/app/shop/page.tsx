@@ -4,17 +4,12 @@ import type { NextPage } from 'next';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
+import { useInfiniteShops } from '@/app/_features/shop/shopQueries';
 import Layout from '@/components/layout';
 import ShopCard from '@/components/shop/ShopCard';
 import { useObserver } from '@/libs/client/useObserver';
-import { useInfiniteShops } from '@/libs/hooks/services/queries/shop';
 
-type TShop = {
-  shopName: string;
-  image: string;
-};
-
-const Index: NextPage = () => {
+const ShopPage: NextPage = () => {
   const shop = useInfiniteShops();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('shop_list_scroll', 0);
@@ -35,12 +30,12 @@ const Index: NextPage = () => {
 
   return (
     <Layout canGoBack title="식당선택">
-      {shop.status === 'loading' && <p>불러오는 중</p>}
+      {shop.status === 'pending' && <p>불러오는 중</p>}
 
       {shop.status === 'success' &&
-        shop.data.pages.map((group: any, index: number) => (
+        shop.data.pages.map((group, index: number) => (
           <div className="mb-2 flex flex-wrap gap-4" key={index}>
-            {group.data.data.list.map((data: TShop, index: number) => {
+            {group.data.list.map((data, index: number) => {
               return <ShopCard key={index} shopName={data.shopName} image={''} />;
             })}
           </div>
@@ -61,4 +56,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default Index;
+export default ShopPage;
