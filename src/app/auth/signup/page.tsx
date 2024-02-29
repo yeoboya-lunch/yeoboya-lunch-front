@@ -1,14 +1,13 @@
 'use client';
 
 import type { NextPage } from 'next';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
+import { useSignUp } from '@/app/_features/auth/authMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { useRouter } from 'next/navigation';
-import { useSignUp } from '@/libs/hooks/services/mutations/user';
-
 import { User } from '@/domain/user';
 
 const SignupPage: NextPage = () => {

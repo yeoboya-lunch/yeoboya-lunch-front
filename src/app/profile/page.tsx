@@ -4,10 +4,10 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
+import { useLogout } from '@/app/_features/auth/authMutations';
+import { useSettingMember } from '@/app/_features/user/userQueries';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
-import { useLogout } from '@/libs/hooks/services/mutations/user';
-import { useSettingMember } from '@/libs/hooks/services/queries/member';
 
 const ProfilePage: NextPage = () => {
   const { data: member } = useSettingMember();
@@ -19,9 +19,9 @@ const ProfilePage: NextPage = () => {
         <div className="mt-4 flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-gray-900">{member?.data.email}</span>
-            <span className="text-sm text-gray-500">{member?.data.nickName}</span>
-            <span>{member?.data.bio}</span>
+            <span className="text-2xl font-bold text-gray-900">{member?.email}</span>
+            <span className="text-sm text-gray-500">{member?.name}</span>
+            <span>{member?.phoneNumber}</span>
           </div>
         </div>
         <div className="mt-10 flex justify-around border-b pb-5">

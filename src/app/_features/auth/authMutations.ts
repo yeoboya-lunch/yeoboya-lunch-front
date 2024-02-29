@@ -1,13 +1,10 @@
-'use client';
-
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
-import memberAtom from '@/libs/recoil/member';
+import { useResetRecoilState } from 'recoil';
 
 import { User } from '@/domain/user';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import memberAtom from '@/libs/recoil/member';
 
 const userKeys = {
   all: () => ['user'],
@@ -17,7 +14,7 @@ const userKeys = {
   insert: () => ['sign-up'],
 };
 
-function useSignUp() {
+export function useSignUp() {
   const { post } = useFetchWrapper();
 
   return useMutation({
@@ -26,24 +23,7 @@ function useSignUp() {
   });
 }
 
-function useLogin() {
-  const { post } = useFetchWrapper();
-  const setMember = useSetRecoilState(memberAtom);
-
-  return useMutation({
-    mutationFn: (value: Partial<User> & Pick<User, 'password'>) =>
-      post({ url: '/user/sign-in', data: value }),
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        setMember({
-          email: data.data.data.subject,
-        });
-      }
-    },
-  });
-}
-
-function useLogout() {
+export function useLogout() {
   const { post } = useFetchWrapper();
   const router = useRouter();
   const resetMember = useResetRecoilState(memberAtom);
@@ -65,5 +45,3 @@ function useLogout() {
     },
   });
 }
-
-export { useSignUp, useLogin, useLogout };
