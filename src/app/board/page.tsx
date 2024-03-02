@@ -3,7 +3,7 @@
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Pagination,
@@ -14,48 +14,37 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/app/_components/ui/Pagination';
-import { useBoardListQuery } from '@/app/community/queries';
+import { useBoardListQuery } from '@/app/_features/board/boardQueries';
 import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
+import { HashTag } from '@/domain/board';
 
-const Community: NextPage = () => {
+const BoardPage: NextPage = () => {
   const [page, setPage] = useState(0);
-  const { data, refetch } = useBoardListQuery(page);
-
-  const handlePageClick = (event: { selected: number }) => {
-    setPage(event.selected + 1);
-  };
-
-  const handlePageActive = () => {
-    console.log('활성이벤트');
-  };
-
-  useEffect(() => {
-    refetch();
-  }, [page]);
+  const { data } = useBoardListQuery(page);
 
   return (
     <Layout hasTabBar title="자유게시판">
       {data?.pagination.isEmpty && (
         <div className="mt-5 flex flex-col items-center border border-dotted p-10">
           <div>사진</div>
-          <Link href="/community/write">
+          <Link href="/board/write">
             <div>Create a New Board</div>
           </Link>
         </div>
       )}
 
       <div className="divide-y-[2px]">
-        {data.list.map((content: IBoardContent) => {
+        {data.list.map((content: Board) => {
           const { boardId, title, name, createDate } = content;
           return (
             <Link
               key={boardId}
-              href={`/community/${boardId}`}
+              href={`/board/${boardId}`}
               className="flex cursor-pointer flex-col items-start p-4"
             >
               <div className="mt-2 flex">
-                {content.hashTags.map((hashTag: IHashTag, index) => {
+                {content.hashTags.map((hashTag: HashTag, index) => {
                   const { tag } = hashTag;
                   return (
                     <span
@@ -107,7 +96,7 @@ const Community: NextPage = () => {
           </Pagination>
         )}
 
-        <FloatingButton href="/community/write">
+        <FloatingButton href="/board/write">
           <Pencil1Icon className="h-6 w-6" />
         </FloatingButton>
       </div>
@@ -115,4 +104,4 @@ const Community: NextPage = () => {
   );
 };
 
-export default Community;
+export default BoardPage;
