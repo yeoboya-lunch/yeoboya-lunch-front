@@ -5,26 +5,20 @@ import { useRouter } from 'next/navigation';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
+import { useShopRegister } from '@/app/_features/shop/shopMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
-import { useShopRegister } from '@/libs/hooks/services/mutations/shop';
+import { Shop } from '@/domain/shop';
 
-import { IShop } from '../../../types/shop';
-
-const Register: NextPage = () => {
+const ShopRegisterPage: NextPage = () => {
   const shopRegister = useShopRegister();
 
-  const {
-    register,
-    unregister,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IShop>({
+  const { register, unregister, handleSubmit } = useForm<Shop>({
     mode: 'onSubmit',
   });
 
-  const onValid = (shopForm: IShop) => {
+  const onValid = (shopForm: Shop) => {
     shopRegister.mutate(shopForm);
   };
 
@@ -40,7 +34,7 @@ const Register: NextPage = () => {
     if (shopRegister.isSuccess) {
       router.push('/');
     }
-  }, [shopRegister.isLoading]);
+  }, [shopRegister.isPending]);
 
   const [inputFields, setInputFields] = useState([
     {
@@ -147,4 +141,4 @@ const Register: NextPage = () => {
   );
 };
 
-export default Register;
+export default ShopRegisterPage;

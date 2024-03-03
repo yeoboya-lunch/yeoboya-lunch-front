@@ -1,58 +1,47 @@
-'use client';
-
 import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
-import { orderKeys } from '@/libs/hooks/services/keys/order';
+import { orderKeys, OrderListFilter } from '@/app/_features/order/orderQueryKeys';
+import { Order } from '@/domain/order';
+import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
 
-interface IOrderSearch {
-  orderEmail?: string;
-  startDate?: string;
-  endDate?: string;
-  page: number;
-}
-function useInfiniteOrders(params?: IOrderSearch) {
+export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
+  const { orderEmail, endDate, startDate, size, page } = filters;
   const { get } = useFetchWrapper();
-  const defaultKey: Parameters<typeof orderKeys.list>[0] = {
-    size: 6,
-    page: 1,
-  };
-  const queryKey = Object.assign(
-    defaultKey,
-    params?.orderEmail ? { email: params?.orderEmail } : {},
-  );
+
   const today = dayjs().format('YYYYMMDD');
-  const startDay = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
+  const lastWeek = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
   return useInfiniteQuery({
     queryKey: orderKeys.list({
-      size: queryKey.size,
-      page: 1,
+      size: size ?? 6,
+      page,
+      orderEmail,
+      startDate: startDate ?? lastWeek,
+      endDate: endDate ?? today,
     }),
-    queryFn: ({ pageParam }) =>
-      get({
+    queryFn: async ({ pageParam, queryKey }) => {
+      const [, , { orderEmail, startDate, endDate }] = queryKey;
+      const { data } = await get<List<Order>>({
         url: `/order/recruits`,
         params: {
           page: pageParam,
-          orderEmail: params?.orderEmail,
-          // orderStatus:
-          startDate: startDay,
-          endDate: today,
+          orderEmail,
+          startDate,
+          endDate,
         },
-      }),
+      });
+      return data;
+    },
     initialPageParam: 1,
     refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
-    },
-    getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+      if (lastPage.data.hasNext) return lastPage.data.pageNo + 1;
     },
   });
-}
+};
 
-function useInfinitePurchaseRecruits(params?: IOrderSearch) {
+export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) => {
   const { get } = useFetchWrapper();
   const size = 30;
 
@@ -80,9 +69,8 @@ function useInfinitePurchaseRecruits(params?: IOrderSearch) {
       if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
     },
   });
-}
-
-function useRecruitQuery(orderNo: string, options?: UndefinedInitialDataOptions) {
+};
+export const useRecruitQuery = (orderNo: string, options?: UndefinedInitialDataOptions) => {
   const { get } = useFetchWrapper();
 
   return useQuery({
@@ -91,6 +79,4 @@ function useRecruitQuery(orderNo: string, options?: UndefinedInitialDataOptions)
     select: (data) => data.data.data,
     ...options,
   });
-}
-
-export { useInfiniteOrders, useRecruitQuery, useInfinitePurchaseRecruits };
+};

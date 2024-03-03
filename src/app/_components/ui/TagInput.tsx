@@ -4,9 +4,10 @@ import { InputHTMLAttributes } from 'react';
 
 import { Badge } from '@/app/_components/ui/Badge';
 import { Input } from '@/app/_components/ui/Input';
+import { Board } from '@/domain/board';
 
 type Props = {
-  tags: WriteFormData['hashTag'];
+  tags: Board['hashTags'];
   // 당장은 구현 X
   deleteTag?: () => void;
 } & InputHTMLAttributes<HTMLInputElement>;

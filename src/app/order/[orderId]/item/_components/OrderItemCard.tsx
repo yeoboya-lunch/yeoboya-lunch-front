@@ -14,10 +14,10 @@ import {
   CardTitle,
 } from '@/app/_components/ui/Card';
 import Counter from '@/app/_components/ui/Counter';
-import { Item } from '@/types/shop';
+import { ShopItem } from '@/domain/shop';
 
 type Props = {
-  item: Item;
+  item: ShopItem;
 };
 
 const OrderItemCard = ({ item }: Props) => {

@@ -10,7 +10,7 @@ const NavBar = () => {
         <HomeIcon className="h-6 w-6" />
         <span>오늘의주문</span>
       </NavItem>
-      <NavItem to="/community">
+      <NavItem to="/board">
         <ListBulletIcon className="h-6 w-6" />
         <span>자유게시판</span>
       </NavItem>

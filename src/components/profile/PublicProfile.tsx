@@ -1,9 +1,9 @@
 import { FieldErrors, useForm } from 'react-hook-form';
 
+import { usePublicProfileUpdate } from '@/app/_features/user/userMutations';
+import { useSettingMember } from '@/app/_features/user/userQueries';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { usePublicProfileUpdate } from '@/libs/hooks/services/mutations/member';
-import { useSettingMember } from '@/libs/hooks/services/queries/member';
 
 interface PublicProfileForm {
   name: string;
@@ -23,11 +23,11 @@ export default function PublicProfile() {
     formState: { errors },
   } = useForm<PublicProfileForm>({
     defaultValues: {
-      name: data.data.name,
-      email: data.data.email,
-      phoneNumber: data.data.phoneNumber,
-      nickName: data.data.nickName,
-      bio: data.data.bio,
+      name: data?.name,
+      email: data?.email,
+      phoneNumber: data?.phoneNumber,
+      nickName: data?.nickName,
+      bio: data?.bio,
     },
   });
 

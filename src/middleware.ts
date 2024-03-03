@@ -4,7 +4,7 @@ import { getToken } from 'next-auth/jwt';
 
 export { default } from 'next-auth/middleware';
 
-const secret = process.env.SECRET;
+const secret = process.env.NEXTAUTH_SECRET;
 
 export async function middleware(req: NextRequest) {
   const session = await getToken({ req, secret, raw: true });
@@ -25,11 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/auth/:path*',
-    '/profile/:path*',
-    '/order/:path*',
-    '/shop/:path*',
-    '/community/:path*',
-  ],
+  matcher: ['/auth/:path*', '/profile/:path*', '/order/:path*', '/shop/:path*', '/board/:path*'],
 };

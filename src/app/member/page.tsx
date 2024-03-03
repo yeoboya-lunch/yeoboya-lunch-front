@@ -4,10 +4,10 @@ import type { NextPage } from 'next';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
+import { useInfiniteMemberList } from '@/app/_features/user/userQueries';
 import Layout from '@/components/layout';
 import MemberCard from '@/components/member/MemberCard';
 import { useObserver } from '@/libs/client/useObserver';
-import { useInfiniteMemberList } from '@/libs/hooks/services/queries/member';
 
 type TMember = {
   email: string;

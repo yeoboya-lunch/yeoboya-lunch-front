@@ -2,24 +2,25 @@
 
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import React, { FocusEventHandler, KeyboardEventHandler, useEffect, useState } from 'react';
+import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
 import { Input } from '@/app/_components/ui/Input';
 import { TagInput } from '@/app/_components/ui/TagInput';
 import { Textarea } from '@/app/_components/ui/Textarea';
-import useBoardWrite from '@/app/community/write/queries';
+import { useBoardWrite } from '@/app/_features/board/boardMutations';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
+import { Board } from '@/domain/board';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();
   const { data: session } = useSession();
-  const [tag, setTag] = useState<string[]>([]);
+  const [tag, setTag] = useState<Board['hashTags']>([]);
 
-  const onValidBoard = (validForm: WriteFormData) => {
+  const onValidBoard = (validForm: Board) => {
     validForm.email = session?.token.subject;
-    validForm.hashTag = tag;
+    validForm.hashTags = tag;
     board.mutate(validForm);
   };
 
@@ -27,7 +28,7 @@ const WritePage: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<WriteFormData>({
+  } = useForm<Board>({
     defaultValues: {},
   });
 
@@ -55,8 +56,6 @@ const WritePage: NextPage = () => {
     }
   };
 
-  useEffect(() => {}, []);
-
   return (
     <Layout canGoBack title="Write Post">
       <form
@@ -80,7 +79,7 @@ const WritePage: NextPage = () => {
         )}
 
         <TagInput
-          {...register('hashTag', {})}
+          {...register('hashTags', {})}
           tags={tag}
           onKeyDown={handleEnter}
           onBlur={handleBlur}

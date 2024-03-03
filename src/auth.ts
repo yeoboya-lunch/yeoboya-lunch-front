@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
             withCredentials: true,
             responseType: 'json',
           })
-          .catch((r) => {
+          .catch(() => {
             throw new Error('계정확인');
           });
 

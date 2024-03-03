@@ -9,50 +9,38 @@ interface UpdateForm {
   bio: string;
 }
 
-const memberKeys = {
-  update: (key: string) => ['member-update', key],
-  detail: (key: string) => ['member-detail', key],
-  save: () => ['member-save'],
-};
-
 //회원정보 수정(public profile)
-function usePublicProfileUpdate(): any {
+export const usePublicProfileUpdate = () => {
   const { patch } = useFetchWrapper();
   const router = useRouter();
 
   return useMutation({
-    mutationKey: memberKeys.update('publicProfile'),
     mutationFn: (value: UpdateForm) =>
       patch({ url: `/member/setting/info/${value.email}`, data: value }),
-    onMutate: (variables) => {},
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       return router.push('/profile');
     },
   });
-}
+};
 
 //회원정보 수정(account)
-function useAccountSave(): any {
+export const useAccountSave = () => {
   const { post } = useFetchWrapper();
   const router = useRouter();
 
   return useMutation({
-    mutationKey: memberKeys.update('saveAccount'),
     mutationFn: (value: UpdateForm) => post({ url: `/member/account`, data: value }),
     onSuccess: () => {
       return router.push('/profile');
     },
   });
-}
+};
 
-function useAccountInfoUpdate(): any {
+export const useAccountInfoUpdate = () => {
   const { patch } = useFetchWrapper();
 
   return useMutation({
-    mutationKey: memberKeys.update('temp'),
     mutationFn: (value: UpdateForm) =>
       patch({ url: `/member/account/${value.email}`, data: value }),
   });
-}
-
-export { usePublicProfileUpdate, useAccountInfoUpdate, useAccountSave };
+};
