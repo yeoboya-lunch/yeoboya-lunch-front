@@ -12,9 +12,9 @@ export const useOrderStartRecruit = () => {
 
   return useMutation({
     mutationKey: orderKeys.insert(),
-    mutationFn: (value: Recruit) => post({ url: `/order/recruit`, data: value }),
+    mutationFn: (value: Recruit) => post({ url: `/order/recruit/start`, data: value }),
     onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: orderKeys.list() });
+      return queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
     },
   });
 };
