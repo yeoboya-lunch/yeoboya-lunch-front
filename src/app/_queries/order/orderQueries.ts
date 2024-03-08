@@ -1,7 +1,7 @@
 import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import { orderKeys, OrderListFilter } from '@/app/_features/order/orderQueryKeys';
+import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
 import { Order } from '@/domain/order';
 import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
 

@@ -8,7 +8,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { Input } from '@/app/_components/ui/Input';
 import { TagInput } from '@/app/_components/ui/TagInput';
 import { Textarea } from '@/app/_components/ui/Textarea';
-import { useBoardWrite } from '@/app/_features/board/boardMutations';
+import { useBoardWrite } from '@/app/_queries/board/boardMutations';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
 import { Board } from '@/domain/board';

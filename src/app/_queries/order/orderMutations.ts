@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-import { orderKeys } from '@/app/_features/order/orderQueryKeys';
+import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
 import { Order, Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';

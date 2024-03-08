@@ -3,7 +3,7 @@
 import type { NextPage } from 'next';
 import { useRecoilValue } from 'recoil';
 
-import { useInfiniteOrders } from '@/app/_features/order/orderQueries';
+import { useInfiniteOrders } from '@/app/_queries/order/orderQueries';
 import Item from '@/components/item';
 import Layout from '@/components/layout';
 import memberAtom from '@/libs/recoil/member';

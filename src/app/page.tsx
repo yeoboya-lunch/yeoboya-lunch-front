@@ -5,13 +5,13 @@ import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
+import { useInfiniteOrders } from '@/app/_queries/order/orderQueries';
 import FloatingButton from '@/components/floating-button';
 import TopBanner from '@/components/index/TopBanner';
 import Layout from '@/components/layout';
 import OrderRecruitCard from '@/components/order/OrderRecruitCard';
 import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
-import { useInfiniteOrders } from '@/app/_features/order/orderQueries';
 
 const Home = () => {
   const orders = useInfiniteOrders();

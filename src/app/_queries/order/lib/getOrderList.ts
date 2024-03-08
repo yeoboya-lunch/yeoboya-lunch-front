@@ -1,6 +1,6 @@
 import { List } from '@/libs/client/fetch-wrapper';
 import { Order } from '@/domain/order';
-import { OrderListFilter } from '@/app/_features/order/orderQueryKeys';
+import { OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
 import createApiClient from '@/libs/client/use-fetch-wrapper';
 
 const getOrderList = async ({}: OrderListFilter) => {

@@ -14,7 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/app/_components/ui/Pagination';
-import { useBoardListQuery } from '@/app/_features/board/boardQueries';
+import { useBoardListQuery } from '@/app/_queries/board/boardQueries';
 import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
 import { HashTag } from '@/domain/board';

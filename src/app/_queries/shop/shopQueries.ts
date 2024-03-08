@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { shopKeys, ShopListFilter } from '@/app/_features/shop/shopQueryKeys';
+import { shopKeys, ShopListFilter } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
 import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
 
