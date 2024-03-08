@@ -16,7 +16,7 @@ export const useSettingMember = () => {
 
   return useQuery({
     queryKey: userKeys.detail(session?.token.subject),
-    queryFn: () => get<Profile>({ url: `/member/${session?.token.subject}` }),
+    queryFn: () => get<Profile>({ url: `/member/${session?.token.subject}/summary` }),
     enabled: !!session?.token.subject,
     select: (data) => data.data.data,
   });

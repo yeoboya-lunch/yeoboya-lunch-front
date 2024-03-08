@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
-import { useOrderStartRecruit } from '@/app/_queries/order/orderMutations';
+import { useStartOrderRecruit } from '@/app/_queries/order/orderMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';
@@ -18,7 +18,7 @@ import memberAtom from '@/libs/recoil/member';
 const OrderPage: NextPage = () => {
   const router = useRouter();
   const search = useSearchParams();
-  const { mutate, isSuccess, isError, isPending, error } = useOrderStartRecruit();
+  const { mutate, isSuccess, isError, isPending, error } = useStartOrderRecruit();
 
   const iMember = useRecoilValue(memberAtom);
 

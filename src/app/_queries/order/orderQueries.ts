@@ -1,4 +1,4 @@
-import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
@@ -70,13 +70,13 @@ export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) =
     },
   });
 };
-export const useRecruitQuery = (orderNo: string, options?: UndefinedInitialDataOptions) => {
+
+export const useRecruitQuery = (orderNo: string) => {
   const { get } = useFetchWrapper();
 
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
     queryFn: () => get({ url: `/order/recruit/${orderNo}` }),
     select: (data) => data.data.data,
-    ...options,
   });
 };
