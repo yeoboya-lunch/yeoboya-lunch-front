@@ -3,7 +3,9 @@ import dayjs from 'dayjs';
 
 import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
 import { Order } from '@/domain/order';
-import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
+import { Shop, ShopItem } from '@/domain/shop';
+import { User } from '@/domain/user';
+import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
@@ -22,7 +24,7 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
     }),
     queryFn: async ({ pageParam, queryKey }) => {
       const [, , { orderEmail, startDate, endDate }] = queryKey;
-      const { data } = await get<List<Order>>({
+      const { data } = await get<InfiniteScrollData<Order>>({
         url: `/order/recruits`,
         params: {
           page: pageParam,
@@ -71,12 +73,52 @@ export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) =
   });
 };
 
+type RecruitResponse = {
+  group: {
+    groupOrderId: number;
+    orderId: number;
+    title: string;
+    orderItem: {
+      itemName: ShopItem['name'];
+      orderPrice: ShopItem['price'];
+      orderQuantity: number;
+      totalPrice: number;
+    }[];
+    email: User['email'];
+    name: User['name'];
+    totalPrice: number;
+  }[];
+  order: {
+    deliveryFee: 1500;
+    memo: string;
+    joinMember: {
+      orderId: number;
+      groupOrderId: number;
+      title: string;
+      email: string;
+      name: string;
+      orderItem: {
+        itemName: string;
+        orderPrice: number;
+        orderQuantity: number;
+        totalPrice: number;
+      }[];
+      totalPrice: number;
+    }[];
+  } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title' | 'orderId'>;
+  orderMember: User;
+  shop: Omit<Shop, 'image'>;
+};
+
 export const useRecruitQuery = (orderNo: string) => {
   const { get } = useFetchWrapper();
 
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
-    queryFn: () => get({ url: `/order/recruit/${orderNo}` }),
-    select: (data) => data.data.data,
+    queryFn: () => get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
+    select: (data) => {
+      console.log(data);
+      return data.data.data;
+    },
   });
 };

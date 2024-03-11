@@ -15,7 +15,7 @@ type Token = {
 
 export type Session = {
   token: Token;
-  user?: Partial<User>;
+  user?: Partial<User & { password: string }>;
 };
 
 export type JWT = {

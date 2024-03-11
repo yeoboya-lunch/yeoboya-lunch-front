@@ -1,7 +1,7 @@
 import { Shop } from '@/domain/shop';
 import { User } from '@/domain/user';
 
-export interface Order {
+export type Order = {
   orderId: number;
   title: string;
   orderMemberName: User['name'];
@@ -10,7 +10,11 @@ export interface Order {
   lastOrderTime: string;
   orderStatus: '모집시작' | '모집종료' | '주문완료' | '주문취소';
   groupCount: number;
-}
+};
+
+export type GroupOrder = {};
+
+export type OrderItem = {};
 
 export type Recruit = {
   email: User['name'];
@@ -20,13 +24,3 @@ export type Recruit = {
   lastOrderTime: string;
   memo: string;
 };
-
-export interface IRecruitItem {
-  itemName: string;
-  orderQuantity: number;
-}
-
-export interface IItem {
-  name: string;
-  price: number;
-}

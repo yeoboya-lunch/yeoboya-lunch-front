@@ -8,7 +8,7 @@ export type Board = {
   files: File[];
   hashTags: HashTag[];
   secret: boolean;
-} & Omit<User, 'password'>;
+} & Pick<User, 'email' | 'name'>;
 
 export type HashTag = {
   tag: string;
