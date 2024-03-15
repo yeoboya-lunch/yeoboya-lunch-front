@@ -3,7 +3,8 @@
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 
 import {
   Pagination,
@@ -20,8 +21,10 @@ import Layout from '@/components/layout';
 import { HashTag } from '@/domain/board';
 
 const BoardPage: NextPage = () => {
-  const [page, setPage] = useState(0);
-  const { data } = useBoardListQuery(page);
+  const seartch = useSearchParams();
+  console.log();
+
+  const { data } = useBoardListQuery({ page: 0 });
 
   return (
     <Layout hasTabBar title="자유게시판">

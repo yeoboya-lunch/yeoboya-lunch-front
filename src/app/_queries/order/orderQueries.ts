@@ -36,9 +36,8 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
       return data;
     },
     initialPageParam: 1,
-    refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.hasNext) return lastPage.data.pageNo + 1;
+      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
     },
   });
 };
@@ -73,39 +72,37 @@ export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) =
   });
 };
 
-type RecruitResponse = {
-  group: {
-    groupOrderId: number;
-    orderId: number;
-    title: string;
-    orderItem: {
-      itemName: ShopItem['name'];
-      orderPrice: ShopItem['price'];
-      orderQuantity: number;
-      totalPrice: number;
-    }[];
-    email: User['email'];
-    name: User['name'];
-    totalPrice: number;
-  }[];
+export type UserOrder = {
+  orderId: number;
+  groupOrderId: number;
+  title: string;
+  email: string;
+  name: string;
+  orderItem: OrderItem[];
+  totalPrice: number;
+};
+export type OrderItem = {
+  itemName: ShopItem['name'];
+  orderPrice: ShopItem['price'];
+  orderQuantity: number;
+  totalPrice: number;
+};
+export type GroupOrder = {
+  groupOrderId: number;
+  orderId: number;
+  title: string;
+  orderItem: OrderItem[];
+  email: User['email'];
+  name: User['name'];
+  totalPrice: number;
+};
+export type RecruitResponse = {
+  group: GroupOrder[];
   order: {
     deliveryFee: 1500;
     memo: string;
-    joinMember: {
-      orderId: number;
-      groupOrderId: number;
-      title: string;
-      email: string;
-      name: string;
-      orderItem: {
-        itemName: string;
-        orderPrice: number;
-        orderQuantity: number;
-        totalPrice: number;
-      }[];
-      totalPrice: number;
-    }[];
-  } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title' | 'orderId'>;
+    joinMember: UserOrder[];
+  } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title'>;
   orderMember: User;
   shop: Omit<Shop, 'image'>;
 };
@@ -116,9 +113,6 @@ export const useRecruitQuery = (orderNo: string) => {
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
     queryFn: () => get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
-    select: (data) => {
-      console.log(data);
-      return data.data.data;
-    },
+    select: (data) => data.data.data,
   });
 };

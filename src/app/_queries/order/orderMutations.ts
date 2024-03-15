@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
-import { Order, Recruit } from '@/domain/order';
+import { Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
@@ -12,8 +12,8 @@ export const useStartOrderRecruit = () => {
 
   return useMutation({
     mutationFn: (value: Recruit) => post({ url: `/order/recruit/start`, data: value }),
-    onSettled: () => {
-      return queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
     },
   });
 };
@@ -22,27 +22,29 @@ export const useEndOrderRecruit = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (groupOrderId: number) =>
-      patch({ url: `/order/recruit/group/join/${groupOrderId}`, data: { status: 'END' } }),
+    mutationFn: (groupOrderId: string) =>
+      patch({ url: `/order/recruit/${groupOrderId}`, data: { status: 'END' } }),
     onSuccess: () => {
-      router.refresh();
+      router.replace('/');
     },
   });
 };
-export type RecruitJoinResponse = {
+export type RecruitJoinBody = {
   orderNo: string;
   email: User['name'];
-  orderItems: Order[];
+  orderItems: Cart[];
 };
+export type Cart = { itemName: string; orderQuantity: number };
 export const useOrderRecruitGroupJoin = () => {
   const { post } = useFetchWrapper();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (value: RecruitJoinResponse) =>
-      post({ url: `/order/recruit/group/join`, data: value }),
-    onSuccess: () => {
-      router.refresh();
+    mutationFn: (value: RecruitJoinBody) => post({ url: `/order/recruit/join`, data: value }),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.detail(variables.orderNo) });
+      router.replace(`/order/${variables.orderNo}`);
     },
   });
 };

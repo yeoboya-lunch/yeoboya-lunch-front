@@ -1,10 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 
 import defaultImg from '/public/image-4@2x.jpg';
-import { Button } from '@/app/_components/ui/Button';
 import {
   Card,
   CardContent,
@@ -17,23 +15,11 @@ import Counter from '@/app/_components/ui/Counter';
 import { ShopItem } from '@/domain/shop';
 
 type Props = {
-  item: ShopItem;
+  item: ShopItem & { orderQuantity: number };
+  updateQuantity: (quantity: number) => void;
 };
 
-const OrderItemCard = ({ item }: Props) => {
-  const [itemCount, setItemCount] = useState(0);
-
-  const handlePlusClick = () => {
-    setItemCount((prev) => prev + 1);
-  };
-
-  const handleMinusClick = () => {
-    setItemCount((prev) => {
-      if (prev === 0) return prev;
-      return prev - 1;
-    });
-  };
-
+const OrderItemCard = ({ item, updateQuantity }: Props) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -59,8 +45,8 @@ const OrderItemCard = ({ item }: Props) => {
       </CardContent>
       <CardFooter className="justify-end">
         <div className="flex gap-2">
-          <Button variant="outline">옵션 변경</Button>
-          <Counter value={itemCount} onIncrement={handlePlusClick} onDecrement={handleMinusClick} />
+          {/*<Button variant="outline">옵션 변경</Button>*/}
+          <Counter value={item.orderQuantity} updateValue={(value) => updateQuantity(value)} />
         </div>
       </CardFooter>
     </Card>
