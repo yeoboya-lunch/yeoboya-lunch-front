@@ -3,11 +3,11 @@
 import type { NextPage } from 'next';
 import { useRecoilValue } from 'recoil';
 
+import { useInfinitePurchaseRecruits } from '@/app/_queries/order/orderQueries';
 import Item from '@/components/item';
 import Layout from '@/components/layout';
 import { Order } from '@/domain/order';
 import memberAtom from '@/libs/recoil/member';
-import { useInfinitePurchaseRecruits } from '@/app/_features/order/orderQueries';
 
 const Bought: NextPage = () => {
   const member = useRecoilValue(memberAtom);

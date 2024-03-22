@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { boardKeys } from '@/app/_features/board/boardQueryKeys';
+import { boardKeys } from '@/app/_queries/board/boardQueryKeys';
 import { PaginationOptions } from '@/client/ApiClient';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 

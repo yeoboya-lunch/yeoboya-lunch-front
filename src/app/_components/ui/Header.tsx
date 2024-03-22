@@ -1,8 +1,9 @@
 'use client';
 
+import React from 'react';
+
 import BackButton from '@/components/BackButton';
 import { cls } from '@/libs/client/utils';
-import React from 'react';
 
 type Props = {
   canGoBack?: boolean;

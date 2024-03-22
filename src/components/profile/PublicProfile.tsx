@@ -1,7 +1,7 @@
 import { FieldErrors, useForm } from 'react-hook-form';
 
-import { usePublicProfileUpdate } from '@/app/_features/user/userMutations';
-import { useSettingMember } from '@/app/_features/user/userQueries';
+import { usePublicProfileUpdate } from '@/app/_queries/user/userMutations';
+import { useSettingMember } from '@/app/_queries/user/userQueries';
 import Button from '@/components/button';
 import Input from '@/components/input';
 

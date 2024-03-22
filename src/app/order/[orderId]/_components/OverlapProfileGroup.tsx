@@ -14,7 +14,7 @@ const OverlapProfileGroup = ({ users, count }: Props) => {
       {showGroup.map((user, index, array) => (
         <UserProfile
           key={index}
-          image={user.image}
+          src={user.image}
           alt={user.name}
           className="h-6 w-6"
           style={{ zIndex: array.length - index }}

@@ -1,9 +1,11 @@
-import { UndefinedInitialDataOptions, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import { orderKeys, OrderListFilter } from '@/app/_features/order/orderQueryKeys';
+import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
 import { Order } from '@/domain/order';
-import useFetchWrapper, { List } from '@/libs/client/fetch-wrapper';
+import { Shop, ShopItem } from '@/domain/shop';
+import { User } from '@/domain/user';
+import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
@@ -22,7 +24,7 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
     }),
     queryFn: async ({ pageParam, queryKey }) => {
       const [, , { orderEmail, startDate, endDate }] = queryKey;
-      const { data } = await get<List<Order>>({
+      const { data } = await get<InfiniteScrollData<Order>>({
         url: `/order/recruits`,
         params: {
           page: pageParam,
@@ -34,9 +36,8 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
       return data;
     },
     initialPageParam: 1,
-    refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.hasNext) return lastPage.data.pageNo + 1;
+      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
     },
   });
 };
@@ -70,13 +71,48 @@ export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) =
     },
   });
 };
-export const useRecruitQuery = (orderNo: string, options?: UndefinedInitialDataOptions) => {
+
+export type UserOrder = {
+  orderId: number;
+  groupOrderId: number;
+  title: string;
+  email: string;
+  name: string;
+  orderItem: OrderItem[];
+  totalPrice: number;
+};
+export type OrderItem = {
+  itemName: ShopItem['name'];
+  orderPrice: ShopItem['price'];
+  orderQuantity: number;
+  totalPrice: number;
+};
+export type GroupOrder = {
+  groupOrderId: number;
+  orderId: number;
+  title: string;
+  orderItem: OrderItem[];
+  email: User['email'];
+  name: User['name'];
+  totalPrice: number;
+};
+export type RecruitResponse = {
+  group: GroupOrder[];
+  order: {
+    deliveryFee: 1500;
+    memo: string;
+    joinMember: UserOrder[];
+  } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title'>;
+  orderMember: User;
+  shop: Omit<Shop, 'image'>;
+};
+
+export const useRecruitQuery = (orderNo: string) => {
   const { get } = useFetchWrapper();
 
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
-    queryFn: () => get({ url: `/order/recruit/${orderNo}` }),
+    queryFn: () => get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
     select: (data) => data.data.data,
-    ...options,
   });
 };

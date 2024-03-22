@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
-import { useSignUp } from '@/app/_features/auth/authMutations';
+import { useSignUp } from '@/app/_queries/auth/authMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import { User } from '@/domain/user';

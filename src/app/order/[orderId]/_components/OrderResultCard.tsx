@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import defaultImg from 'public/image-4@2x.jpg';
+
 import { Card, CardContent, CardDescription, CardTitle } from '@/app/_components/ui/Card';
-import defaultImg from '/public/image-4@2x.jpg';
 import OverlapProfileGroup from '@/app/order/[orderId]/_components/OverlapProfileGroup';
 
 const users = [
@@ -22,7 +23,7 @@ const users = [
   },
 ];
 
-const OrderCard = () => {
+const OrderResultCard = () => {
   return (
     <Card className="flex overflow-hidden">
       <Image className="w-1/4 object-cover" src={defaultImg} alt="메뉴 사진" />
@@ -41,4 +42,4 @@ const OrderCard = () => {
   );
 };
 
-export default OrderCard;
+export default OrderResultCard;

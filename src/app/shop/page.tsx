@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
-import { useInfiniteShops } from '@/app/_features/shop/shopQueries';
+import { useInfiniteShops } from '@/app/_queries/shop/shopQueries';
 import Layout from '@/components/layout';
 import ShopCard from '@/components/shop/ShopCard';
 import { useObserver } from '@/libs/client/useObserver';

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
-import { useShopRegister } from '@/app/_features/shop/shopMutations';
+import { useShopRegister } from '@/app/_queries/shop/shopMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import Layout from '@/components/layout';

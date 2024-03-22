@@ -1,6 +1,6 @@
 import Image from 'next/image';
+import defaultImg from 'public/image-4@2x.jpg';
 
-import defaultImg from '/public/image-4@2x.jpg';
 import { Badge } from '@/app/_components/ui/Badge';
 import {
   Card,
@@ -9,15 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@/app/_components/ui/Card';
+import { Order } from '@/domain/order';
 
-interface IRecruitProps {
+type IRecruitProps = {
   orderMemberName: string;
   shopName: string;
   title: string;
   lastOrderTime: string;
-  orderStatus: string;
+  orderStatus: Order;
   groupCount: number;
-}
+};
 
 export default function OrderRecruitCard({
   orderMemberName,
@@ -26,13 +27,15 @@ export default function OrderRecruitCard({
   lastOrderTime,
   orderStatus,
   groupCount,
-}: IRecruitProps) {
+}: Omit<Order, 'orderId' | 'email'>) {
   return (
     <Card className="flex h-full w-full flex-col">
       <CardHeader className="flex flex-row justify-between gap-2">
-        <div className="flex flex-grow flex-col gap-2 text-ellipsis">
+        <div className="flex flex-grow-[3] flex-col gap-2 text-ellipsis">
           <div className="flex items-center gap-2">
-            <Badge>{orderStatus}</Badge>
+            <Badge variant={`${orderStatus === '모집종료' ? 'secondary' : 'default'}`}>
+              {orderStatus}
+            </Badge>
             <CardTitle className="flex-grow text-lg">{shopName}</CardTitle>
           </div>
           <div className="flex justify-between">
@@ -41,20 +44,16 @@ export default function OrderRecruitCard({
               <b className="text-sm text-gray-600">{groupCount}</b>명 모집 중이에요!
             </div>
           </div>
-          <CardDescription className="line-clamp-3 h-16 max-h-20 max-h-full">
-            {title}
-          </CardDescription>
+          <CardDescription className="line-clamp-3 h-16 max-h-20">{title}</CardDescription>
         </div>
-        <div>
-          <Image
-            className="m-auto h-auto flex-[1_1_0] rounded-xl object-cover"
-            src={defaultImg}
-            width={120}
-            height={120}
-            priority
-            alt="기본이미지"
-          />
-        </div>
+        <Image
+          className="m-auto h-auto flex-[1_1_0] rounded-xl object-cover"
+          src={defaultImg}
+          width={120}
+          height={120}
+          priority
+          alt="기본이미지"
+        />
       </CardHeader>
       <CardFooter className="flex w-full justify-between">
         <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm">{orderMemberName}</p>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useAccountInfoUpdate, useAccountSave } from '@/app/_features/user/userMutations';
-import { useSettingMember } from '@/app/_features/user/userQueries';
+import { useAccountInfoUpdate, useAccountSave } from '@/app/_queries/user/userMutations';
+import { useSettingMember } from '@/app/_queries/user/userQueries';
 import Button from '@/components/button';
 import Input from '@/components/input';
 

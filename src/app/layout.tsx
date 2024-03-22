@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="ko">
       <body className={cn('font-pretendard', font.variable)}>
-        <main className="m-auto h-lvh max-w-xl">
+        <main className="m-auto flex h-lvh max-w-xl flex-col">
           <ReactQueryProvider>
             <AuthProvider>
               <StateProvider>{children}</StateProvider>

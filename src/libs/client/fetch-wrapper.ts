@@ -29,13 +29,30 @@ type Response<T = unknown> = {
   code: number;
   message: string;
 };
-export type List<T> = {
-  list: T[];
+type InfiniteScroll = {
   pageNo: number;
-  hasNext: boolean;
+  size: number;
+  numberOfElements: number;
   isFirst: boolean;
-  hasPrevious: boolean;
   isLast: boolean;
+  hasNext: boolean;
+  hasPrevious: boolean;
+};
+type Pagination = {
+  page: number;
+  isFirst: boolean;
+  isLast: boolean;
+  isEmpty: boolean;
+  totalPages: number;
+  totalElements: number;
+};
+export type InfiniteScrollData<T> = {
+  list: T[];
+  pagination: InfiniteScroll;
+};
+export type PaginationData<T> = {
+  list: T[];
+  pagination: Pagination;
 };
 
 function useFetchWrapper() {

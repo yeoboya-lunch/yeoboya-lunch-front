@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { shopKeys } from '@/app/_features/shop/shopQueryKeys';
+import { shopKeys } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 

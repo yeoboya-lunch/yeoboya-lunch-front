@@ -1,5 +1,7 @@
 export type User = {
   email: string;
-  password: string;
   name: string;
+  nickName: string;
+  phoneNumber: string;
+  account: boolean;
 };

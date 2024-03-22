@@ -4,8 +4,8 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
-import { useLogout } from '@/app/_features/auth/authMutations';
-import { useSettingMember } from '@/app/_features/user/userQueries';
+import { useLogout } from '@/app/_queries/auth/authMutations';
+import { useSettingMember } from '@/app/_queries/user/userQueries';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
 
