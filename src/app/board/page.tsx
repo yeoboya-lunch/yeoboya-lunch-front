@@ -3,7 +3,6 @@
 import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import {
@@ -18,12 +17,9 @@ import {
 import { useBoardListQuery } from '@/app/_queries/board/boardQueries';
 import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
-import { HashTag } from '@/domain/board';
+import { Board, HashTag } from '@/domain/board';
 
 const BoardPage: NextPage = () => {
-  const seartch = useSearchParams();
-  console.log();
-
   const { data } = useBoardListQuery({ page: 0 });
 
   return (
@@ -38,7 +34,7 @@ const BoardPage: NextPage = () => {
       )}
 
       <div className="divide-y-[2px]">
-        {data.list.map((content: Board) => {
+        {data?.list?.map((content: Board) => {
           const { boardId, title, name, createDate } = content;
           return (
             <Link
@@ -80,7 +76,7 @@ const BoardPage: NextPage = () => {
           );
         })}
 
-        {!data.pagination.isEmpty && (
+        {!data?.pagination?.isEmpty && (
           <Pagination className="pt-2">
             <PaginationContent>
               <PaginationItem>

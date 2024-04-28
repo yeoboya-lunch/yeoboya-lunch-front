@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 
 import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
@@ -34,7 +33,6 @@ type Props = {
 };
 
 const RecruitPost = ({ params }: Props) => {
-  const { data: session } = useSession();
   const { data: recruit } = useRecruitQuery(params.orderId);
   const { mutate } = useEndOrderRecruit();
 

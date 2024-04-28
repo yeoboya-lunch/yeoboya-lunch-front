@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { boardKeys } from '@/app/_queries/board/boardQueryKeys';
 import { PaginationOptions } from '@/client/ApiClient';
@@ -7,7 +7,7 @@ import useFetchWrapper from '@/libs/client/fetch-wrapper';
 export const useBoardListQuery = ({ page, size }: PaginationOptions) => {
   const { get } = useFetchWrapper();
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: boardKeys.list({
       size: size ?? 10,
       page: page,
