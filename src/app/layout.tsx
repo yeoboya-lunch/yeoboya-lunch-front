@@ -2,6 +2,7 @@ import './globals.css';
 
 import { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { Suspense } from 'react';
 
 import { cn } from '@/app/_lib/utils';
 
@@ -26,7 +27,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main className="m-auto flex h-lvh max-w-xl flex-col">
           <ReactQueryProvider>
             <AuthProvider>
-              <StateProvider>{children}</StateProvider>
+              <StateProvider>
+                <Suspense>{children}</Suspense>
+              </StateProvider>
             </AuthProvider>
           </ReactQueryProvider>
         </main>
