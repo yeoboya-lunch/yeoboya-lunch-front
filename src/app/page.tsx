@@ -48,7 +48,7 @@ const Home = () => {
       )}
 
       {orders.status === 'success' &&
-        orders.data.pages.map((group: any, index: number) => (
+        orders.data.pages.map((group, index) => (
           <ul className="flex flex-col gap-4" key={index}>
             {group.data.list.map((data: Order, index: number) => {
               return (

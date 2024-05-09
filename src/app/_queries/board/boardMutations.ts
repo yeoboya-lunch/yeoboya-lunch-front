@@ -1,4 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { boardKeys } from 'app/_queries/board/boardQueryKeys';
+import { Board, Reply } from 'domain/board';
+import { User } from 'domain/user';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
@@ -7,5 +10,20 @@ export const useBoardWrite = () => {
 
   return useMutation({
     mutationFn: (value) => post({ url: `/board/write`, data: value }),
+  });
+};
+
+type ReplyWriteParams = {
+  email: User['email'];
+  boardId: Board['boardId'];
+  content: Reply['content'];
+};
+export const useReplyWrite = (boardId: number) => {
+  const { post } = useFetchWrapper();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: ReplyWriteParams) => post({ url: `/board/reply/write`, data }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: boardKeys.detail(boardId) }),
   });
 };
