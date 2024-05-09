@@ -27,7 +27,7 @@ export default function OrderRecruitCard({
   lastOrderTime,
   orderStatus,
   groupCount,
-}: Omit<Order, 'orderId' | 'email'>) {
+}: Omit<Order, 'orderId' | 'orderMemberEmail'>) {
   return (
     <Card className="flex h-full w-full flex-col">
       <CardHeader className="flex flex-row justify-between gap-2">

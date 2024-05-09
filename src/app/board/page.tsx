@@ -17,7 +17,7 @@ import {
 import { useBoardListQuery } from '@/app/_queries/board/boardQueries';
 import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
-import { Board, HashTag } from '@/domain/board';
+import { HashTag } from '@/domain/board';
 
 const BoardPage: NextPage = () => {
   const { data } = useBoardListQuery({ page: 0 });
@@ -34,7 +34,7 @@ const BoardPage: NextPage = () => {
       )}
 
       <div className="divide-y-[2px]">
-        {data?.list?.map((content: Board) => {
+        {data?.list?.map((content) => {
           const { boardId, title, name, createDate } = content;
           return (
             <Link
