@@ -4,7 +4,6 @@ interface TextAreaProps {
   label?: string;
   name?: string;
   register?: UseFormRegisterReturn;
-  [key: string]: any;
 }
 
 export default function TextArea({ label, name, register }: TextAreaProps) {

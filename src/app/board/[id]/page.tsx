@@ -4,10 +4,8 @@ import { useReplyWrite } from 'app/_queries/board/boardMutations';
 import { useBoardQuery } from 'app/_queries/board/boardQueries';
 import type { Property } from 'csstype';
 import memberAtom from 'libs/recoil/member';
-import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import { ChangeEventHandler, useState } from 'react';
-import { FormSubmitHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';

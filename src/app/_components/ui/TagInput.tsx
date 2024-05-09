@@ -17,9 +17,9 @@ const TagInput = ({ tags, deleteTag, ...props }: Props) => {
     <div>
       <div className="flex flex-wrap gap-x-1.5 gap-y-1">
         {tags.length > 0 &&
-          tags.map((tag) => (
+          tags.map(({ tag }, index) => (
             <Badge
-              key={tag}
+              key={index}
               variant="secondary"
               className="gap-1 rounded-full py-1 text-muted-foreground"
             >

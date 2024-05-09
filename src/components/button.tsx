@@ -1,10 +1,11 @@
+import { ButtonHTMLAttributes } from 'react';
+
 import { cls } from '@/libs/client/utils';
 
-interface ButtonProps {
+type ButtonProps = {
   large?: boolean;
   text: string;
-  [key: string]: any;
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({ large = false, onClick, text, ...rest }: ButtonProps) {
   return (

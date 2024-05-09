@@ -52,10 +52,10 @@ export type InfiniteScrollData<T> = {
 };
 export type PaginationData<T> = {
   list: T[];
-  pagination: Pagination;
+  pagination: PaginatiSon;
 };
 
-function useFetchWrapper() {
+const useFetchWrapper = () => {
   const { data: session, status: statue } = useSession();
 
   axios.defaults.headers.common.Authorization =
@@ -129,6 +129,6 @@ function useFetchWrapper() {
   }
 
   return { get, post, patch, axiosDelete };
-}
+};
 
 export default useFetchWrapper;

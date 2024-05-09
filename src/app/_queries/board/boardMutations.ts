@@ -5,11 +5,15 @@ import { User } from 'domain/user';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
+type BoardWriteParams = {
+  pin: number;
+  secret: boolean;
+} & Pick<Board, 'email' | 'title' | 'hashTags' | 'content'>;
 export const useBoardWrite = () => {
   const { post } = useFetchWrapper();
 
   return useMutation({
-    mutationFn: (value) => post({ url: `/board/write`, data: value }),
+    mutationFn: (data: BoardWriteParams) => post({ url: `/board/write`, data: data }),
   });
 };
 

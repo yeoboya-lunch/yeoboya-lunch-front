@@ -11,6 +11,11 @@ import Input from '@/components/input';
 import Layout from '@/components/layout';
 import { Shop } from '@/domain/shop';
 
+// type FormProps = {
+//   shopName: Shop['shopName'];
+//   shopItem: ShopItem;
+// };
+
 const ShopRegisterPage: NextPage = () => {
   const shopRegister = useShopRegister();
 
@@ -46,7 +51,6 @@ const ShopRegisterPage: NextPage = () => {
   const addFields = (e: SyntheticEvent) => {
     e.preventDefault();
     const newField = {};
-    // @ts-ignore
     setInputFields([...inputFields, newField]);
   };
 

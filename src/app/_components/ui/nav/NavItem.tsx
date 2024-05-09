@@ -1,9 +1,10 @@
 'use client';
 
+import { Route } from 'next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { ReactNode } from 'react';
-import { Route } from 'next';
+
 import { cn } from '@/app/_lib/utils';
 
 type Props = {

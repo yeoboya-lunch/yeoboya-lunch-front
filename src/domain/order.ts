@@ -12,12 +12,12 @@ export type Order = {
   groupCount: number;
 };
 
-type OrderItem = {
-  id: number;
-  name: string;
-  quantity: number;
-  price: number;
-};
+// type OrderItem = {
+//   id: number;
+//   name: string;
+//   quantity: number;
+//   price: number;
+// };
 
 export type Recruit = {
   email: User['name'];

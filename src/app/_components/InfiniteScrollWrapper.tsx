@@ -27,7 +27,7 @@ const InfiniteScrollWrapper = ({ children, trigger }: Props) => {
     if (scrollY !== 0) {
       window.scrollTo(0, Number(scrollY));
     }
-  }, []);
+  }, [scrollY]);
   return (
     <>
       {children}

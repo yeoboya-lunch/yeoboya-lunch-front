@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 
 import { userKeys } from '@/app/_queries/user/userQueryKeys';
 import { User } from '@/domain/user';
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 type Profile = {
   phoneNumber?: number;
@@ -28,13 +28,15 @@ export const useInfiniteMemberList = (page = 0) => {
 
   return useInfiniteQuery({
     queryKey: userKeys.list({ page, size }),
-    queryFn: ({ pageParam }) => get({ url: '/member', params: { size: size, page: pageParam } }),
+    queryFn: ({ pageParam }) =>
+      get<InfiniteScrollData<User>>({ url: '/member', params: { size: size, page: pageParam } }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
+      if (lastPage.data.data.pagination.hasNext) return lastPage.data.data.pagination.pageNo + 1;
     },
     getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
+      if (firstPage.data.data.pagination.hasPrevious)
+        return firstPage.data.data.pagination.pageNo - 1;
     },
   });
 };

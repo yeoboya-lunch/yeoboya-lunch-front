@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
+import { Session } from 'domain/auth';
 import { useRouter } from 'next/navigation';
 import { useResetRecoilState } from 'recoil';
 
-import { User } from '@/domain/user';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
@@ -19,7 +19,7 @@ export function useSignUp() {
 
   return useMutation({
     mutationKey: userKeys.insert(),
-    mutationFn: (value: User) => post({ url: `/user/sign-up`, data: value }),
+    mutationFn: (data: Required<Session>['user']) => post({ url: `/user/sign-up`, data: data }),
   });
 }
 

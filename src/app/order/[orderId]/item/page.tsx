@@ -22,12 +22,12 @@ const OrderItemPage = ({ params }: Props) => {
         <ul className="flex flex-col gap-4 border-b-2 bg-white pb-4">
           {shopItems?.map((item) => (
             <OrderItemCard
-              key={item.name}
+              key={item.itemName}
               item={{
                 ...item,
-                orderQuantity: findOrderItem(myOrder.orderItem, item.name)?.orderQuantity ?? 0,
+                orderQuantity: findOrderItem(myOrder.orderItem, item.itemName)?.orderQuantity ?? 0,
               }}
-              updateQuantity={(quantity) => updateQuantity({ itemName: item.name, quantity })}
+              updateQuantity={(quantity) => updateQuantity({ itemName: item.itemName, quantity })}
             />
           ))}
         </ul>

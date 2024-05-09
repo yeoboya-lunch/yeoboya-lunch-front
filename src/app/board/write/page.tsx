@@ -3,7 +3,7 @@
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Input } from '@/app/_components/ui/Input';
 import { TagInput } from '@/app/_components/ui/TagInput';
@@ -18,8 +18,8 @@ const WritePage: NextPage = () => {
   const { data: session } = useSession();
   const [tag, setTag] = useState<Board['hashTags']>([]);
 
-  const onValidBoard = (validForm: Board) => {
-    validForm.email = session?.token.subject;
+  const onValidBoard: SubmitHandler<Board> = (validForm) => {
+    validForm.email = session?.token.subject ?? '';
     validForm.hashTags = tag;
     board.mutate(validForm);
   };

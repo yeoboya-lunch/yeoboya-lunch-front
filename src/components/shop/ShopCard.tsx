@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import useLocalStorage from 'use-local-storage';
 
 import { useObserver } from '@/libs/client/useObserver';
 
@@ -13,8 +12,6 @@ type TShop = {
 export default function ShopCard({ shopName, image }: TShop) {
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
-
-  const [scrollY, setScrollY] = useLocalStorage('shop_list_scroll', 0);
 
   const onIntersect: IntersectionObserverCallback = ([entry]) =>
     entry.isIntersecting ? setVisible(true) : setVisible(false);
@@ -28,12 +25,7 @@ export default function ShopCard({ shopName, image }: TShop) {
   return (
     <div className="mt-4 flex w-[calc(50%_-_1rem)] items-center justify-evenly">
       <div className="block max-w-sm rounded-lg bg-white shadow-lg dark:bg-neutral-700">
-        <Link
-          href={`/order?shopName=${shopName}`}
-          className="flex flex-col "
-          ref={target}
-          onClick={() => setScrollY(window.scrollY)}
-        >
+        <Link href={`/order?shopName=${shopName}`} className="flex flex-col " ref={target}>
           {visible && (
             <Image
               width={250}

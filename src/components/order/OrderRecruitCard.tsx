@@ -11,14 +11,14 @@ import {
 } from '@/app/_components/ui/Card';
 import { Order } from '@/domain/order';
 
-type IRecruitProps = {
-  orderMemberName: string;
-  shopName: string;
-  title: string;
-  lastOrderTime: string;
-  orderStatus: Order;
-  groupCount: number;
-};
+// type IRecruitProps = {
+//   orderMemberName: string;
+//   shopName: string;
+//   title: string;
+//   lastOrderTime: string;
+//   orderStatus: Order;
+//   groupCount: number;
+// };
 
 export default function OrderRecruitCard({
   orderMemberName,
