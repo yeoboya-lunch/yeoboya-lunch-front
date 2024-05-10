@@ -11,16 +11,16 @@ import { Textarea } from '@/app/_components/ui/Textarea';
 import { useBoardWrite } from '@/app/_queries/board/boardMutations';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
-import { Board } from '@/domain/board';
+import { Board, HashTag } from '@/domain/board';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();
   const { data: session } = useSession();
-  const [tag, setTag] = useState<Board['hashTags']>([]);
+  const [tags, setTags] = useState<HashTag[]>([]);
 
   const onValidBoard: SubmitHandler<Board> = (validForm) => {
     validForm.email = session?.token.subject ?? '';
-    validForm.hashTags = tag;
+    validForm.hashTag = tags;
     board.mutate(validForm);
   };
 
@@ -37,8 +37,8 @@ const WritePage: NextPage = () => {
   };
 
   const createTag = (value: string) => {
-    if (!tag.includes(value) && value !== '') {
-      setTag([...tag, value]);
+    if (!tags.some(({ tag }) => tag === value) && value !== '') {
+      setTags([...tags, { tag: value }]);
     }
   };
 
@@ -79,8 +79,8 @@ const WritePage: NextPage = () => {
         )}
 
         <TagInput
-          {...register('hashTags', {})}
-          tags={tag}
+          {...register('hashTag', {})}
+          tags={tags}
           onKeyDown={handleEnter}
           onBlur={handleBlur}
           name="hashTag"

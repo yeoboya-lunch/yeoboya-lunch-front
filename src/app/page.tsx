@@ -31,7 +31,7 @@ const Home = () => {
     if (scrollY !== 0) {
       window.scrollTo(0, Number(scrollY));
     }
-  }, []);
+  }, [scrollY]);
   return (
     <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />

@@ -5,10 +5,17 @@ import { User } from 'domain/user';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
-type BoardWriteParams = {
-  pin: number;
-  secret: boolean;
-} & Pick<Board, 'email' | 'title' | 'hashTags' | 'content'>;
+type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
+  (
+    | {
+        pin: number;
+        secret: true;
+      }
+    | {
+        secret?: false;
+        pin?: never;
+      }
+  );
 export const useBoardWrite = () => {
   const { post } = useFetchWrapper();
 

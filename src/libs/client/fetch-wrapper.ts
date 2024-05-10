@@ -52,7 +52,7 @@ export type InfiniteScrollData<T> = {
 };
 export type PaginationData<T> = {
   list: T[];
-  pagination: PaginatiSon;
+  pagination: Pagination;
 };
 
 const useFetchWrapper = () => {

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { Session } from 'domain/auth';
-import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { useResetRecoilState } from 'recoil';
 
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
@@ -25,22 +25,18 @@ export function useSignUp() {
 
 export function useLogout() {
   const { post } = useFetchWrapper();
-  const router = useRouter();
   const resetMember = useResetRecoilState(memberAtom);
   return useMutation({
     mutationFn: () =>
       post({
         url: '/user/sign-out',
-        data: {
-          // accessToken: token,
-          // refreshToken: jwtToken.refreshToken,
-        },
       }),
-    onMutate: () => {},
     onSuccess: (data) => {
       if (data.status === 200) {
         resetMember();
-        router.push('/');
+        signOut({
+          callbackUrl: '/',
+        });
       }
     },
   });

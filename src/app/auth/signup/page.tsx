@@ -35,7 +35,7 @@ const SignupPage: NextPage = () => {
     if (isSuccess) {
       router.push('/auth/login?init=true');
     }
-  }, [isError, isSuccess, isPending, error?.message]);
+  }, [isError, isSuccess, isPending, error?.message, setError, router]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);

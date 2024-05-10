@@ -17,7 +17,6 @@ import {
 import { useBoardListQuery } from '@/app/_queries/board/boardQueries';
 import FloatingButton from '@/components/floating-button';
 import Layout from '@/components/layout';
-import { HashTag } from '@/domain/board';
 
 const BoardPage: NextPage = () => {
   const { data } = useBoardListQuery({ page: 0 });
@@ -43,8 +42,7 @@ const BoardPage: NextPage = () => {
               className="flex cursor-pointer flex-col items-start p-4"
             >
               <div className="mt-2 flex">
-                {content.hashTags.map((hashTag: HashTag, index) => {
-                  const { tag } = hashTag;
+                {content.hashTag.map(({ tag }, index) => {
                   return (
                     <span
                       key={index}
@@ -54,7 +52,6 @@ const BoardPage: NextPage = () => {
                     </span>
                   );
                 })}
-                <img src="" alt="" />
               </div>
 
               <div className="mt-2">{title}</div>

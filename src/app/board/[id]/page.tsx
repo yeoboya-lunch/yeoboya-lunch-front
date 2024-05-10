@@ -53,7 +53,7 @@ const CommunityPostDetail = ({ params: { id } }: Props) => {
           <p className="cursor-pointer text-sm font-medium">{data?.name}</p>
         </div>
         <div className="mb-8 flex">
-          {data?.hashTags.map(({ tag }, index) => (
+          {data?.hashTag.map(({ tag }, index) => (
             <Badge
               variant="secondary"
               key={index}

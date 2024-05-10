@@ -31,6 +31,8 @@ export const authOptions: AuthOptions = {
         if (res.data.code === 200) {
           return res.data.data;
         }
+
+        return null;
       },
     }),
     GithubProvider({
@@ -40,9 +42,6 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: '/auth/login',
-    // signOut: '/auth/sign-out',
-    error: '/auth/error',
-    verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: '/user/sign-up', // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   session: {

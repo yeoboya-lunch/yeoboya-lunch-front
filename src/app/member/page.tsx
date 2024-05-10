@@ -9,15 +9,6 @@ import Layout from '@/components/layout';
 import MemberCard from '@/components/member/MemberCard';
 import { useObserver } from '@/libs/client/useObserver';
 
-type TMember = {
-  email: string;
-  name: string;
-  nickName: string;
-  phoneNumber: string;
-  accountNumber: string;
-  bankName: string;
-};
-
 const MemberPage: NextPage = () => {
   const member = useInfiniteMemberList();
   const bottom = useRef(null);
@@ -35,16 +26,16 @@ const MemberPage: NextPage = () => {
     if (scrollY !== 0) {
       window.scrollTo(0, Number(scrollY));
     }
-  }, []);
+  }, [scrollY]);
 
   return (
     <Layout canGoBack title="당직자">
       {member.status === 'pending' && <p>불러오는 중</p>}
 
       {member.status === 'success' &&
-        member.data.pages.map((group: any, index: number) => (
+        member.data.pages.map((group, index) => (
           <div className="mb-2 flex flex-wrap gap-4" key={index}>
-            {group.data.data.list.map((data: TMember, index: number) => {
+            {group.data.data.list.map((data, index) => {
               return (
                 <MemberCard
                   key={index}
@@ -52,8 +43,6 @@ const MemberPage: NextPage = () => {
                   name={data.name}
                   nickName={data.nickName}
                   phoneNumber={data.phoneNumber}
-                  bankName={data.bankName}
-                  accountNumber={data.accountNumber}
                 />
               );
             })}

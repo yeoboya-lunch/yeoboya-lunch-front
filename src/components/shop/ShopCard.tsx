@@ -6,10 +6,9 @@ import { useObserver } from '@/libs/client/useObserver';
 
 type TShop = {
   shopName: string;
-  image: string;
 };
 
-export default function ShopCard({ shopName, image }: TShop) {
+export default function ShopCard({ shopName }: TShop) {
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
 
