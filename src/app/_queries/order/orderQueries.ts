@@ -52,7 +52,7 @@ export type UserOrder = {
   totalPrice: number;
 };
 export type OrderItem = {
-  itemName: ShopItem['itemName'];
+  itemName: ShopItem['name'];
   orderPrice: ShopItem['price'];
   orderQuantity: number;
   totalPrice: number;
@@ -69,12 +69,12 @@ export type GroupOrder = {
 export type RecruitResponse = {
   group: GroupOrder[];
   order: {
-    deliveryFee: 1500;
+    deliveryFee: number;
     memo: string;
     joinMember: UserOrder[];
   } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title'>;
   orderMember: User;
-  shop: Omit<Shop, 'image'>;
+  shop: Shop;
 };
 
 export const useRecruitQuery = (orderNo: string) => {

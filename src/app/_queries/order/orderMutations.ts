@@ -12,9 +12,7 @@ export const useStartOrderRecruit = () => {
 
   return useMutation({
     mutationFn: (value: Recruit) => post({ url: `/order/recruit/start`, data: value }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.lists() }),
   });
 };
 export const useEndOrderRecruit = () => {

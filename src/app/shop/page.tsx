@@ -4,6 +4,7 @@ import type { NextPage } from 'next';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
+import Spinner from '@/app/_components/ui/Spinner';
 import { useInfiniteShops } from '@/app/_queries/shop/shopQueries';
 import Layout from '@/components/layout';
 import ShopCard from '@/components/shop/ShopCard';
@@ -30,7 +31,7 @@ const ShopPage: NextPage = () => {
 
   return (
     <Layout canGoBack title="식당선택">
-      {shop.status === 'pending' && <p>불러오는 중</p>}
+      {shop.status === 'pending' && <Spinner />}
 
       {shop.status === 'success' &&
         shop.data.pages.map((group, index: number) => (
@@ -42,16 +43,6 @@ const ShopPage: NextPage = () => {
         ))}
 
       <div ref={bottom} />
-      {shop.isFetchingNextPage && (
-        <div className="flex items-center justify-center">
-          <div
-            className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )}
     </Layout>
   );
 };
