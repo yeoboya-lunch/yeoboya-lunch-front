@@ -25,10 +25,10 @@ export const useInfiniteShops = (filters: ShopListFilter = {}) => {
     initialPageParam: 1,
     refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.hasNext) return lastPage.data.pageNo + 1;
+      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
     },
     getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.hasPrevious) return firstPage.data.pageNo - 1;
+      if (firstPage.data.pagination.hasPrevious) return firstPage.data.pagination.pageNo - 1;
     },
   });
 };

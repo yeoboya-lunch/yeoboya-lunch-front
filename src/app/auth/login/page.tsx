@@ -45,17 +45,17 @@ const LoginPage: NextPage = () => {
       email: validForm.email,
       password: validForm.password,
       callbackUrl: '/',
-      redirect: false,
     });
 
-    if (response?.error) {
-      console.log(response);
-    } else {
-      setMember({
-        email: validForm.email,
-      });
-      router.push(response.url);
+    if (!response || response.error) {
+      console.error('로그인 실패', response?.error);
+      return;
     }
+
+    setMember({
+      email: validForm.email,
+    });
+    router.push('/');
   };
 
   const onInvalid = (errors: FieldErrors) => {

@@ -102,7 +102,7 @@ const ProfilePage: NextPage = () => {
         onClick={() => {
           signOut({ callbackUrl: '/', redirect: true }).finally(() => {
             console.log('todo server logout');
-            logout.mutate;
+            logout.mutate();
           });
         }}
       >

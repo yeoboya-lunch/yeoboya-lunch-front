@@ -43,17 +43,17 @@ export const useOrderItems = (orderId: string) => {
     if (!recruit?.shop) return;
     setMyOrder((prev) => {
       const orderItem = recruit.shop.items.map((item) => {
-        if (item.name === itemName && quantity >= 0) {
+        if (item.itemName === itemName && quantity >= 0) {
           return {
-            itemName: item.name,
+            itemName: item.itemName,
             orderPrice: item.price,
             orderQuantity: quantity,
             totalPrice: item.price * quantity,
           };
         }
         return (
-          prev.orderItem.find((v) => v.itemName === item.name) ?? {
-            itemName: item.name,
+          prev.orderItem.find((v) => v.itemName === item.itemName) ?? {
+            itemName: item.itemName,
             orderPrice: item.price,
             orderQuantity: 0,
             totalPrice: 0,

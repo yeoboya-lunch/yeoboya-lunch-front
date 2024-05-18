@@ -55,7 +55,7 @@ export type PaginationData<T> = {
   pagination: Pagination;
 };
 
-function useFetchWrapper() {
+const useFetchWrapper = () => {
   const { data: session, status: statue } = useSession();
 
   axios.defaults.headers.common.Authorization =
@@ -129,6 +129,6 @@ function useFetchWrapper() {
   }
 
   return { get, post, patch, axiosDelete };
-}
+};
 
 export default useFetchWrapper;

@@ -1,8 +1,10 @@
+import { ClassValue } from 'clsx';
+
 import { Button } from '@/app/_components/ui/Button';
 import { cn } from '@/app/_lib/utils';
 
 type Props = {
-  trigger: (...args) => void;
+  className: ClassValue;
 };
 
 const LastOrderButton = ({ className }: Props) => {

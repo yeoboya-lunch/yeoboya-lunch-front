@@ -6,8 +6,7 @@ export type Board = {
   content: string;
   createDate: string;
   files: File[];
-  hashTags: HashTag[];
-  secret: boolean;
+  hashTag: HashTag[];
   replies: Reply[];
   replyCount: 0;
 } & Pick<User, 'email' | 'name'>;

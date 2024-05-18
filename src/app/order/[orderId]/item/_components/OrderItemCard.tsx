@@ -23,7 +23,7 @@ const OrderItemCard = ({ item, updateQuantity }: Props) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle>{item.name}</CardTitle>
+        <CardTitle>{item.itemName}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">

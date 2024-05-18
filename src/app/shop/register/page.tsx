@@ -3,7 +3,7 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useShopRegister } from '@/app/_queries/shop/shopMutations';
 import Button from '@/components/button';
@@ -12,14 +12,14 @@ import Layout from '@/components/layout';
 import { Shop } from '@/domain/shop';
 
 const ShopRegisterPage: NextPage = () => {
-  const shopRegister = useShopRegister();
+  const { mutate, isSuccess, isPending } = useShopRegister();
 
   const { register, unregister, handleSubmit } = useForm<Shop>({
     mode: 'onSubmit',
   });
 
-  const onValid = (shopForm: Shop) => {
-    shopRegister.mutate(shopForm);
+  const onValid: SubmitHandler<Shop> = (shopForm) => {
+    mutate(shopForm);
   };
 
   const onInvalid = (errors: FieldErrors) => {
@@ -28,35 +28,36 @@ const ShopRegisterPage: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
-    if (shopRegister.isError) {
-      console.log(shopRegister);
-    }
-    if (shopRegister.isSuccess) {
+    if (isSuccess) {
       router.push('/');
     }
-  }, [shopRegister.isPending]);
+  }, [isPending, isSuccess, router]);
 
-  const [inputFields, setInputFields] = useState([
-    {
-      'items.0.itemName': '',
-      'items.0.price': 0,
-    },
-  ]);
+  const [inputFields, setInputFields] = useState({
+    items: [
+      {
+        itemName: '',
+        price: 0,
+      },
+    ],
+  });
 
   const addFields = (e: SyntheticEvent) => {
     e.preventDefault();
-    const newField = {};
-    // @ts-ignore
-    setInputFields([...inputFields, newField]);
+    setInputFields({
+      items: [...inputFields.items, { itemName: '', price: 0 }],
+    });
   };
 
   const removeFields = (e: SyntheticEvent) => {
     e.preventDefault();
-    const data = [...inputFields];
+    const data = inputFields.items;
     unregister(`items.${data.length - 1}.itemName`);
     unregister(`items.${data.length - 1}.price`);
     data.splice(data.length - 1, 1);
-    setInputFields(data);
+    setInputFields({
+      items: data,
+    });
   };
 
   return (
@@ -91,7 +92,7 @@ const ShopRegisterPage: NextPage = () => {
         />
 
         <div className="space-y-4 divide-y-[2px] divide-dashed rounded-md border p-3">
-          {inputFields.map((input, index) => {
+          {inputFields.items.map((input, index) => {
             return (
               <div key={index} className="space-y-4 pt-4">
                 <Input
@@ -123,7 +124,7 @@ const ShopRegisterPage: NextPage = () => {
             >
               메뉴추가
             </button>
-            {inputFields.length > 0 && (
+            {inputFields.items.length > 0 && (
               <button
                 type="button"
                 className="mb-2 mr-2 rounded-lg border border-red-700 px-5 py-2.5 text-center text-sm font-medium text-red-700 hover:bg-red-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900"

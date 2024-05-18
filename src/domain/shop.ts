@@ -5,6 +5,6 @@ export type Shop = {
 };
 
 export type ShopItem = {
-  name: string;
+  itemName: string;
   price: number;
 };

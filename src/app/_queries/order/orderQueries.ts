@@ -42,36 +42,6 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   });
 };
 
-export const useInfinitePurchaseRecruits = (params?: Partial<OrderListFilter>) => {
-  const { get } = useFetchWrapper();
-  const size = 30;
-
-  return useInfiniteQuery({
-    queryKey: orderKeys.list({
-      size,
-      page: 1,
-    }),
-    queryFn: ({ pageParam }) =>
-      get({
-        url: `/order/purchase-recruits`,
-        params: {
-          size: size,
-          page: pageParam,
-          orderEmail: params?.orderEmail,
-        },
-      }),
-    initialPageParam: 1,
-    refetchOnMount: 'always',
-    refetchOnReconnect: true,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.data.data.hasNext) return lastPage.data.data.pageNo + 1;
-    },
-    getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.data.hasPrevious) return firstPage.data.data.pageNo - 1;
-    },
-  });
-};
-
 export type UserOrder = {
   orderId: number;
   groupOrderId: number;
@@ -82,7 +52,7 @@ export type UserOrder = {
   totalPrice: number;
 };
 export type OrderItem = {
-  itemName: ShopItem['name'];
+  itemName: ShopItem['itemName'];
   orderPrice: ShopItem['price'];
   orderQuantity: number;
   totalPrice: number;

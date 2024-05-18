@@ -1,7 +1,7 @@
 import UserProfile from '@/app/_components/ui/user/UserProfile';
 
 type Props = {
-  users: unknown[];
+  users: { name: string; image: string }[];
   count: number;
 };
 

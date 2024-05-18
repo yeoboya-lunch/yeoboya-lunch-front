@@ -1,14 +1,16 @@
 'use client';
 
+import { Session } from 'domain/auth';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useSignUp } from '@/app/_queries/auth/authMutations';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { User } from '@/domain/user';
+
+type FormProps = Required<Session>['user'];
 
 const SignupPage: NextPage = () => {
   const { mutate, isSuccess, isError, isPending, error } = useSignUp();
@@ -17,11 +19,11 @@ const SignupPage: NextPage = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<User>({
+  } = useForm<FormProps>({
     mode: 'onSubmit',
   });
 
-  const onValid = (sinUpForm: User) => {
+  const onValid: SubmitHandler<FormProps> = (sinUpForm) => {
     mutate(sinUpForm);
   };
 
@@ -33,7 +35,7 @@ const SignupPage: NextPage = () => {
     if (isSuccess) {
       router.push('/auth/login?init=true');
     }
-  }, [isPending]);
+  }, [isError, isSuccess, isPending, error?.message, setError, router]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);

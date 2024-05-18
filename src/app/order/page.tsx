@@ -52,7 +52,7 @@ const OrderPage: NextPage = () => {
     if (isSuccess) {
       router.push('/');
     }
-  }, [isPending]);
+  }, [error?.message, isError, isPending, isSuccess, router, setError]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
