@@ -1,4 +1,4 @@
-import defaultImg from 'public/image-4@2x.jpg';
+import defaultImg from 'public/defaultImage.jpg';
 import { Fragment } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';

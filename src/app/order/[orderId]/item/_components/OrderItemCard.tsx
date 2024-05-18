@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 
-import defaultImg from '/public/image-4@2x.jpg';
 import {
   Card,
   CardContent,
@@ -23,13 +22,13 @@ const OrderItemCard = ({ item, updateQuantity }: Props) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle>{item.itemName}</CardTitle>
+        <CardTitle>{item.name}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">
           <Image
             className="my-auto rounded-md object-cover"
-            src={defaultImg.src}
+            src="/defaultImage.jpg"
             alt="메뉴"
             width={80}
             height={80}

@@ -36,17 +36,6 @@ const Home = () => {
     <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />
 
-      {orders.status === 'pending' && (
-        <div className="flex items-center justify-center">
-          <div
-            className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )}
-
       {orders.status === 'success' &&
         orders.data.pages.map((group, index) => (
           <ul className="flex flex-col gap-4" key={index}>
@@ -67,17 +56,6 @@ const Home = () => {
           </ul>
         ))}
       <div ref={bottom} />
-
-      {orders.isFetchingNextPage && (
-        <div className="flex items-center justify-center">
-          <div
-            className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )}
 
       <FloatingButton href="/shop">
         <PlusIcon className="h-6 w-6" />

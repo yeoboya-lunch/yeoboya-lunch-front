@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
 
+import Spinner from '@/app/_components/ui/Spinner';
 import { cn } from '@/app/_lib/utils';
 
 import AuthProvider from './_components/AuthProvider';
@@ -28,7 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <AuthProvider>
             <ReactQueryProvider>
               <StateProvider>
-                <Suspense>{children}</Suspense>
+                <Suspense fallback={<Spinner />}>{children}</Suspense>
               </StateProvider>
             </ReactQueryProvider>
           </AuthProvider>

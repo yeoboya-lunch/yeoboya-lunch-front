@@ -14,10 +14,7 @@ const findMyCart = (recruit: RecruitResponse | undefined, email: User['email']) 
   return recruit?.group.find((user) => email === user.email);
 };
 
-const findOrderItem = (
-  items: GroupOrder['orderItem'] | undefined,
-  itemName: OrderItem['itemName'],
-) => {
+const findOrderItem = (items: GroupOrder['orderItem'] | undefined, itemName: OrderItem['name']) => {
   return items?.find((item) => item.itemName === itemName);
 };
 
@@ -52,7 +49,7 @@ export const useOrderItems = (orderId: string) => {
           };
         }
         return (
-          prev.orderItem.find((v) => v.itemName === item.itemName) ?? {
+          prev.orderItem.find((v) => v.name === item.itemName) ?? {
             itemName: item.itemName,
             orderPrice: item.price,
             orderQuantity: 0,

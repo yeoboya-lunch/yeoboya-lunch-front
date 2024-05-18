@@ -52,7 +52,7 @@ export type UserOrder = {
   totalPrice: number;
 };
 export type OrderItem = {
-  itemName: ShopItem['itemName'];
+  name: ShopItem['name'];
   orderPrice: ShopItem['price'];
   orderQuantity: number;
   totalPrice: number;

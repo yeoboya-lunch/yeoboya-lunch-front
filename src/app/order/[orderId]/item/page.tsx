@@ -22,12 +22,12 @@ const OrderItemPage = ({ params }: Props) => {
         <ul className="flex flex-col gap-4 border-b-2 bg-white pb-4">
           {shopItems?.map((item) => (
             <OrderItemCard
-              key={item.itemName}
+              key={item.name}
               item={{
                 ...item,
-                orderQuantity: findOrderItem(myOrder.orderItem, item.itemName)?.orderQuantity ?? 0,
+                orderQuantity: findOrderItem(myOrder.orderItem, item.name)?.orderQuantity ?? 0,
               }}
-              updateQuantity={(quantity) => updateQuantity({ itemName: item.itemName, quantity })}
+              updateQuantity={(quantity) => updateQuantity({ itemName: item.name, quantity })}
             />
           ))}
         </ul>
@@ -41,8 +41,8 @@ const OrderItemPage = ({ params }: Props) => {
             disabled={myOrder.totalPrice === 0}
             onClick={() =>
               handleSubmit(
-                myOrder.orderItem.map(({ itemName, orderQuantity }) => ({
-                  itemName,
+                myOrder.orderItem.map(({ name, orderQuantity }) => ({
+                  name: name,
                   orderQuantity,
                 })),
               )
