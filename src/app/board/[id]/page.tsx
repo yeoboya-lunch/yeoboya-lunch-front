@@ -2,6 +2,7 @@
 
 import { useReplyWrite } from 'app/_queries/board/boardMutations';
 import { useBoardQuery } from 'app/_queries/board/boardQueries';
+import Comment from 'app/board/[id]/_components/Comment';
 import type { Property } from 'csstype';
 import memberAtom from 'libs/recoil/member';
 import { ChangeEventHandler, useState } from 'react';
@@ -23,9 +24,9 @@ type Props = {
     id: number;
   };
 };
-const CommunityPostDetail = ({ params: { id } }: Props) => {
+const BoardDetailPage = ({ params: { id } }: Props) => {
   const [textareaHeight, setTextareaHeight] = useState<Property.Height<string | number>>('auto');
-  const { register, handleSubmit } = useForm<FormProps>();
+  const { register, handleSubmit, setValue } = useForm<FormProps>();
   const { data } = useBoardQuery(id);
   const { mutate } = useReplyWrite(id);
   const { email } = useRecoilValue(memberAtom);
@@ -38,7 +39,12 @@ const CommunityPostDetail = ({ params: { id } }: Props) => {
   };
 
   const handleReply: SubmitHandler<FormProps> = ({ reply }) => {
-    mutate({ content: reply, email: email ?? '', boardId: id });
+    mutate(
+      { content: reply, email: email ?? '', boardId: id },
+      {
+        onSuccess: () => setValue('reply', ''),
+      },
+    );
   };
 
   return (
@@ -80,23 +86,12 @@ const CommunityPostDetail = ({ params: { id } }: Props) => {
           </div>
         </form>
         {data?.replies &&
-          data.replies.map(({ content, writer }, index) => {
-            return (
-              <div key={index} className="mb-3 flex space-x-3">
-                <Avatar className="h-8 w-8 cursor-pointer">
-                  <AvatarImage />
-                  <AvatarFallback />
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="mb-2 w-fit cursor-pointer text-sm font-medium">{writer}</span>
-                  <p className="whitespace-pre">{content}</p>
-                </div>
-              </div>
-            );
+          data.replies.map((reply, index) => {
+            return <Comment key={index} comment={reply} />;
           })}
       </div>
     </Layout>
   );
 };
 
-export default CommunityPostDetail;
+export default BoardDetailPage;
