@@ -1,23 +1,12 @@
 'use client';
 
-import { useReplyWrite } from 'app/_queries/board/boardMutations';
 import { useBoardQuery } from 'app/_queries/board/boardQueries';
 import Comment from 'app/board/[id]/_components/Comment';
-import type { Property } from 'csstype';
-import memberAtom from 'libs/recoil/member';
-import { ChangeEventHandler, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';
 import { Badge } from '@/app/_components/ui/Badge';
-import { Button } from '@/app/_components/ui/Button';
-import { Textarea } from '@/app/_components/ui/Textarea';
+import CommentForm from '@/app/board/[id]/_components/CommentForm';
 import Layout from '@/components/layout';
-
-type FormProps = {
-  reply: string;
-};
 
 type Props = {
   params: {
@@ -25,27 +14,7 @@ type Props = {
   };
 };
 const BoardDetailPage = ({ params: { id } }: Props) => {
-  const [textareaHeight, setTextareaHeight] = useState<Property.Height<string | number>>('auto');
-  const { register, handleSubmit, setValue } = useForm<FormProps>();
   const { data } = useBoardQuery(id);
-  const { mutate } = useReplyWrite(id);
-  const { email } = useRecoilValue(memberAtom);
-
-  const resize: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    if (textareaHeight !== e.target.scrollHeight) {
-      e.target.style.height = 'auto';
-    }
-    setTextareaHeight(e.target.scrollHeight);
-  };
-
-  const handleReply: SubmitHandler<FormProps> = ({ reply }) => {
-    mutate(
-      { content: reply, email: email ?? '', boardId: id },
-      {
-        onSuccess: () => setValue('reply', ''),
-      },
-    );
-  };
 
   return (
     <Layout canGoBack>
@@ -71,23 +40,10 @@ const BoardDetailPage = ({ params: { id } }: Props) => {
         </div>
         <p className="mb-24">{data?.content}</p>
         <div className="mb-2 text-lg">{data?.replyCount}개의 댓글</div>
-        <form onSubmit={handleSubmit(handleReply)}>
-          <Textarea
-            {...register('reply')}
-            className="mb-4 min-h-24 resize-none overflow-hidden"
-            placeholder="지금 댓글을 달아보세요!"
-            required
-            onChange={resize}
-            style={{ height: textareaHeight }}
-            rows={1}
-          />
-          <div className="flex flex-row-reverse">
-            <Button className="mb-10">댓글 작성</Button>
-          </div>
-        </form>
+        <CommentForm boardId={id} />
         {data?.replies &&
           data.replies.map((reply, index) => {
-            return <Comment key={index} comment={reply} />;
+            return <Comment key={index} boardId={id} comment={reply} />;
           })}
       </div>
     </Layout>
