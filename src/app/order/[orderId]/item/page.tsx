@@ -41,8 +41,8 @@ const OrderItemPage = ({ params }: Props) => {
             disabled={myOrder.totalPrice === 0}
             onClick={() =>
               handleSubmit(
-                myOrder.orderItem.map(({ name, orderQuantity }) => ({
-                  name: name,
+                myOrder.orderItem.map(({ itemName, orderQuantity }) => ({
+                  itemName: itemName,
                   orderQuantity,
                 })),
               )

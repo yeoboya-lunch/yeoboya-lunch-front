@@ -14,7 +14,10 @@ const findMyCart = (recruit: RecruitResponse | undefined, email: User['email']) 
   return recruit?.group.find((user) => email === user.email);
 };
 
-const findOrderItem = (items: GroupOrder['orderItem'] | undefined, itemName: OrderItem['name']) => {
+const findOrderItem = (
+  items: GroupOrder['orderItem'] | undefined,
+  itemName: OrderItem['itemName'],
+) => {
   return items?.find((item) => item.itemName === itemName);
 };
 
@@ -40,17 +43,17 @@ export const useOrderItems = (orderId: string) => {
     if (!recruit?.shop) return;
     setMyOrder((prev) => {
       const orderItem = recruit.shop.items.map((item) => {
-        if (item.itemName === itemName && quantity >= 0) {
+        if (item.name === itemName && quantity >= 0) {
           return {
-            itemName: item.itemName,
+            itemName: item.name,
             orderPrice: item.price,
             orderQuantity: quantity,
             totalPrice: item.price * quantity,
           };
         }
         return (
-          prev.orderItem.find((v) => v.name === item.itemName) ?? {
-            itemName: item.itemName,
+          prev.orderItem.find((v) => v.itemName === item.name) ?? {
+            itemName: item.name,
             orderPrice: item.price,
             orderQuantity: 0,
             totalPrice: 0,
