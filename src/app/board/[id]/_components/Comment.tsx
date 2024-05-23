@@ -42,7 +42,7 @@ const Comment = ({ comment, boardId }: Props) => {
           </div>
         </div>
       </CommentBox>
-      <ReplyBox className="flex flex-col gap-2">
+      <ReplyBox>
         <CommentReply reply={comment} />
         {openReply && <CommentForm boardId={boardId} />}
       </ReplyBox>
@@ -58,7 +58,7 @@ const ReplyBox = ({
   children,
   className,
 }: { children: ReactNode } & HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('ml-11', className)}>{children}</div>
+  <div className={cn('ml-11 flex flex-col gap-2', className)}>{children}</div>
 );
 
 export default Comment;

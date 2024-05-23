@@ -28,13 +28,15 @@ type ReplyWriteParams = {
   email: User['email'];
   boardId: Board['boardId'];
   content: Reply['content'];
+  parentReplyId?: Reply['replyId'];
 };
-export const useReplyWrite = (boardId: number) => {
+export const useReplyWrite = () => {
   const { post } = useFetchWrapper();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data: ReplyWriteParams) => post({ url: `/board/reply/write`, data }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: boardKeys.detail(boardId) }),
+    onSuccess: (data, values) =>
+      queryClient.invalidateQueries({ queryKey: boardKeys.detail(values.boardId) }),
   });
 };

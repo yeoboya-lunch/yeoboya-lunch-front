@@ -10,12 +10,13 @@ import memberAtom from '@/libs/recoil/member';
 
 type FormProps = {
   reply: string;
+  onClick: () => void;
 };
 type Props = { boardId: number } & HTMLAttributes<HTMLFormElement>;
 const CommentForm = ({ boardId, ...props }: Props) => {
   const { register, handleSubmit, setValue } = useForm<FormProps>();
   const [textareaHeight, setTextareaHeight] = useState<Property.Height<string | number>>('auto');
-  const { mutate } = useReplyWrite(boardId);
+  const { mutate } = useReplyWrite();
   const { email } = useRecoilValue(memberAtom);
 
   const resize: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
