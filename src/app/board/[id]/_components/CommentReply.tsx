@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from 'app/_components/ui/Avatar';
-import { Reply } from 'domain/board';
+import { Comment } from 'domain/board';
 
 type Props = {
-  reply: Reply;
+  reply: Comment;
 };
 const CommentReply = ({ reply: { writer, content } }: Props) => {
   return (

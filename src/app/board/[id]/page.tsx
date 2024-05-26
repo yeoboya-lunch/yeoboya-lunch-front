@@ -1,10 +1,10 @@
 'use client';
 
 import { useBoardQuery } from 'app/_queries/board/boardQueries';
-import Comment from 'app/board/[id]/_components/Comment';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';
 import { Badge } from '@/app/_components/ui/Badge';
+import BoardComment from '@/app/board/[id]/_components/BoardComment';
 import CommentForm from '@/app/board/[id]/_components/CommentForm';
 import Layout from '@/components/layout';
 
@@ -41,10 +41,9 @@ const BoardDetailPage = ({ params: { id } }: Props) => {
         <p className="mb-24">{data?.content}</p>
         <div className="mb-2 text-lg">{data?.replyCount}개의 댓글</div>
         <CommentForm boardId={id} />
-        {data?.replies &&
-          data.replies.map((reply, index) => {
-            return <Comment key={index} boardId={id} comment={reply} />;
-          })}
+        {data?.replies.map((reply, index) => {
+          return <BoardComment key={index} boardId={id} comment={reply} />;
+        })}
       </div>
     </Layout>
   );

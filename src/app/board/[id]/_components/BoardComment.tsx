@@ -1,22 +1,22 @@
 import { ChatBubbleIcon } from '@radix-ui/react-icons';
 import { Avatar, AvatarFallback, AvatarImage } from 'app/_components/ui/Avatar';
 import CommentReply from 'app/board/[id]/_components/CommentReply';
-import type { Reply } from 'domain/board';
+import type { Board } from 'domain/board';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 
 import { cn } from '@/app/_lib/utils';
 import CommentForm from '@/app/board/[id]/_components/CommentForm';
 
 type Props = {
-  comment: Reply;
+  comment: Board['replies'][number];
   boardId: number;
 };
 
-const Comment = ({ comment, boardId }: Props) => {
-  const { writer, content } = comment;
+const BoardComment = ({ comment, boardId }: Props) => {
+  const { replyId, writer, content, childReplies } = comment;
   const [openReply, setOpenReply] = useState(false);
   return (
-    <section className="mb-3 flex flex-col gap-2">
+    <section className="mb-4 flex flex-col gap-3">
       <CommentBox>
         <Avatar className="h-8 w-8 cursor-pointer">
           <AvatarImage />
@@ -27,7 +27,7 @@ const Comment = ({ comment, boardId }: Props) => {
           <p className="whitespace-pre">{content}</p>
           <div className="flex gap-2">
             <div className="flex items-center gap-1">
-              <ChatBubbleIcon className="h-4 w-4" />6
+              <ChatBubbleIcon className="h-4 w-4" />
             </div>
             <button
               type="button"
@@ -42,10 +42,19 @@ const Comment = ({ comment, boardId }: Props) => {
           </div>
         </div>
       </CommentBox>
-      <ReplyBox>
-        <CommentReply reply={comment} />
-        {openReply && <CommentForm boardId={boardId} />}
-      </ReplyBox>
+      {!childReplies ? (
+        openReply && (
+          <ReplyBox>{<CommentForm boardId={boardId} parentReplyId={replyId} />}</ReplyBox>
+        )
+      ) : (
+        <ReplyBox>
+          {childReplies?.map((reply) => {
+            const { replyId } = reply;
+            return <CommentReply key={replyId} reply={reply} />;
+          })}
+          {openReply && <CommentForm boardId={boardId} parentReplyId={replyId} />}
+        </ReplyBox>
+      )}
     </section>
   );
 };
@@ -58,7 +67,7 @@ const ReplyBox = ({
   children,
   className,
 }: { children: ReactNode } & HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('ml-11 flex flex-col gap-2', className)}>{children}</div>
+  <div className={cn('ml-11 flex flex-col gap-4', className)}>{children}</div>
 );
 
-export default Comment;
+export default BoardComment;

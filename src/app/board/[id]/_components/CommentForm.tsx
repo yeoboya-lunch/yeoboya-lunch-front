@@ -12,8 +12,11 @@ type FormProps = {
   reply: string;
   onClick: () => void;
 };
-type Props = { boardId: number } & HTMLAttributes<HTMLFormElement>;
-const CommentForm = ({ boardId, ...props }: Props) => {
+type Props = {
+  boardId: number;
+  parentReplyId?: number;
+} & HTMLAttributes<HTMLFormElement>;
+const CommentForm = ({ boardId, parentReplyId, ...props }: Props) => {
   const { register, handleSubmit, setValue } = useForm<FormProps>();
   const [textareaHeight, setTextareaHeight] = useState<Property.Height<string | number>>('auto');
   const { mutate } = useReplyWrite();
@@ -28,7 +31,7 @@ const CommentForm = ({ boardId, ...props }: Props) => {
 
   const handleReply: SubmitHandler<FormProps> = ({ reply }) => {
     mutate(
-      { content: reply, email: email ?? '', boardId: boardId },
+      { content: reply, email: email ?? '', boardId: boardId, parentReplyId },
       {
         onSuccess: () => setValue('reply', ''),
       },
@@ -46,8 +49,8 @@ const CommentForm = ({ boardId, ...props }: Props) => {
         style={{ height: textareaHeight }}
         rows={1}
       />
-      <div className="flex flex-row-reverse">
-        <Button className="mb-10">댓글 작성</Button>
+      <div className="mb-10 flex flex-row-reverse">
+        <Button>댓글 작성</Button>
       </div>
     </form>
   );
