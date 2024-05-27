@@ -52,7 +52,7 @@ const ShopRegisterPage: NextPage = () => {
   const removeFields = (e: SyntheticEvent) => {
     e.preventDefault();
     const data = inputFields.items;
-    unregister(`items.${data.length - 1}.itemName`);
+    unregister(`items.${data.length - 1}.name`);
     unregister(`items.${data.length - 1}.price`);
     data.splice(data.length - 1, 1);
     setInputFields({
@@ -96,7 +96,7 @@ const ShopRegisterPage: NextPage = () => {
             return (
               <div key={index} className="space-y-4 pt-4">
                 <Input
-                  register={register(`items.${index}.itemName`, {
+                  register={register(`items.${index}.name`, {
                     required: true,
                   })}
                   label={`${index + 1}번째 메뉴`}

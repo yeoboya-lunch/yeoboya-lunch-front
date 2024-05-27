@@ -6,4 +6,6 @@ export const boardKeys = {
   list: (filter: PaginationOptions) => [...boardKeys.lists(), filter] as const,
   details: () => [...boardKeys.all(), 'detail'] as const,
   detail: (boardId: number) => [...boardKeys.details(), boardId] as const,
+  replies: () => [...boardKeys.details(), 'reply'] as const,
+  reply: (boardId: number) => [...boardKeys.replies(), boardId] as const,
 } as const;

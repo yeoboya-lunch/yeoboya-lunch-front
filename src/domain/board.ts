@@ -7,7 +7,9 @@ export type Board = {
   createDate: string;
   files: File[];
   hashTag: HashTag[];
-  replies: Reply[];
+  replies: (Comment & {
+    childReplies?: CommentReply[];
+  })[];
   replyCount: 0;
 } & Pick<User, 'email' | 'name'>;
 
@@ -15,9 +17,13 @@ export type HashTag = {
   tag: string;
 };
 
-export type Reply = {
+export type Comment = {
   content: string;
   date: string;
   replyId: number;
   writer: string;
 };
+
+type CommentReply = {
+  parentId: number;
+} & Comment;

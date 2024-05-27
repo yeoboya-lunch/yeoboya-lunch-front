@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import defaultImg from 'public/image-4@2x.jpg';
+import defaultImg from 'public/defaultImage.jpg';
 
 import { Badge } from '@/app/_components/ui/Badge';
 import {

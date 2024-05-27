@@ -1,5 +1,6 @@
 'use client';
 
+import { ImageIcon } from '@radix-ui/react-icons';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -18,7 +19,7 @@ import memberAtom from '@/libs/recoil/member';
 const OrderPage: NextPage = () => {
   const router = useRouter();
   const search = useSearchParams();
-  const { mutate, isSuccess, isError, isPending, error } = useStartOrderRecruit();
+  const { mutate, error } = useStartOrderRecruit();
 
   const iMember = useRecoilValue(memberAtom);
 
@@ -42,17 +43,12 @@ const OrderPage: NextPage = () => {
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
-    mutate(recruitForm);
+    mutate(recruitForm, {
+      onSuccess: () => router.push('/'),
+      onError: () =>
+        setError('deliveryFee', { type: 'focus', message: error?.message }, { shouldFocus: true }),
+    });
   };
-
-  useEffect(() => {
-    if (isError) {
-      setError('deliveryFee', { type: 'focus', message: error.message }, { shouldFocus: true });
-    }
-    if (isSuccess) {
-      router.push('/');
-    }
-  }, [error?.message, isError, isPending, isSuccess, router, setError]);
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
@@ -63,20 +59,7 @@ const OrderPage: NextPage = () => {
       <form onSubmit={handleSubmit(onValid, onInvalid)} className="space-y-4 p-4">
         <div>
           <label className="flex h-48 w-full cursor-pointer items-center justify-center rounded-md border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-500 hover:text-orange-500">
-            <svg
-              className="h-12 w-12"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ImageIcon className="h-12 w-12" />
             <input className="hidden" type="file" />
           </label>
         </div>
