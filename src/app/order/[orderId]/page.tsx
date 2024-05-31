@@ -1,13 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-
 import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
 import { useEndOrderRecruit } from '@/app/_queries/order/orderMutations';
 import { useRecruitQuery } from '@/app/_queries/order/orderQueries';
 import UserOrderCard from '@/app/order/[orderId]/_components/UserOrderCard';
 import Layout from '@/components/layout';
+import memberAtom from 'libs/recoil/member';
+import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 
 export interface OrderItem {
   orderId: number;
@@ -33,12 +34,14 @@ type Props = {
 };
 
 const RecruitPost = ({ params }: Props) => {
+  const { email } = useRecoilValue(memberAtom);
   const { data: recruit } = useRecruitQuery(params.orderId);
   const { mutate } = useEndOrderRecruit();
 
   const totalPrice = recruit?.order.joinMember.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
   const EndRecruit = () => {
+    if (email !== recruit?.orderMember.email) return;
     mutate(params.orderId);
   };
   return (
@@ -79,13 +82,15 @@ const RecruitPost = ({ params }: Props) => {
         </ul>
       </div>
       <div className="mt-auto flex flex-col content-between gap-8 border-t-[1px] bg-white p-2">
-        <div className="flex justify-between">
-          <dt className="text-lg font-semibold">총 금액</dt>
-          <dd className="text-lg font-semibold">{totalPrice} 원</dd>
+        <div className="flex justify-between text-2xl font-semibold">
+          <dt>총 금액</dt>
+          <dd>{totalPrice} 원</dd>
         </div>
-        <Button className="w-full" onClick={EndRecruit}>
-          모집 완료
-        </Button>
+        {email === recruit?.orderMember.email && (
+          <Button className="w-full" onClick={EndRecruit}>
+            모집 완료
+          </Button>
+        )}
       </div>
     </Layout>
   );

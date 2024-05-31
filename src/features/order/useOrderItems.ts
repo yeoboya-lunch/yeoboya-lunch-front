@@ -76,7 +76,7 @@ export const useOrderItems = (orderId: string) => {
   const handleSubmit = (orderItems: Cart[]) => {
     if (!orderItems) return;
     if (existsData) {
-      mutate({ email, orderId, groupOrderId: recruit?.order.orderId ?? 0 });
+      mutate({ orderId, orderItems, groupOrderId: myOrder.groupOrderId });
       return;
     }
     mutate({ email, orderId, orderItems });
