@@ -17,7 +17,7 @@ const BoardDetailPage = ({ params: { id } }: Props) => {
   const { data } = useBoardQuery(id);
 
   return (
-    <Layout canGoBack>
+    <Layout title="자유게시판" canGoBack>
       <div className="p-3">
         <h2 className="mb-4 text-4xl">{data?.title}</h2>
         <div className="mb-2 flex items-center space-x-3">
