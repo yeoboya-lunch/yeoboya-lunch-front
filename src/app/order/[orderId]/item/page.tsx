@@ -16,6 +16,16 @@ const OrderItemPage = ({ params }: Props) => {
     params.orderId,
   );
 
+  const handleMenuSubmit = () =>
+    handleSubmit(
+      myOrder.orderItem
+        .map(({ itemName, orderQuantity }) => ({
+          itemName: itemName,
+          orderQuantity,
+        }))
+        .filter(({ orderQuantity }) => orderQuantity > 0),
+    );
+
   return (
     <Layout title="메뉴 담기" className="flex-grow" canGoBack>
       <div className="flex flex-grow flex-col justify-between gap-8 bg-secondary">
@@ -36,18 +46,7 @@ const OrderItemPage = ({ params }: Props) => {
             <dt className="text-lg font-semibold">총 금액</dt>
             <dd className="text-lg font-semibold">{myOrder?.totalPrice ?? 0} 원</dd>
           </div>
-          <Button
-            className="w-full"
-            disabled={myOrder.totalPrice === 0}
-            onClick={() =>
-              handleSubmit(
-                myOrder.orderItem.map(({ itemName, orderQuantity }) => ({
-                  itemName: itemName,
-                  orderQuantity,
-                })),
-              )
-            }
-          >
+          <Button className="w-full" disabled={myOrder.totalPrice === 0} onClick={handleMenuSubmit}>
             메뉴 담기
           </Button>
         </div>

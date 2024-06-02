@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
-import { Recruit } from '@/domain/order';
+import { Order, Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
@@ -27,22 +27,47 @@ export const useEndOrderRecruit = () => {
     },
   });
 };
-export type RecruitJoinBody = {
-  orderNo: string;
+export type RecruitJoinPostBody = {
+  orderId: string;
   email: User['name'];
   orderItems: Cart[];
 };
+export type RecruitJoinPatchBody = {
+  orderId: string;
+  groupOrderId: number;
+  orderItems: Cart[];
+};
 export type Cart = { itemName: string; orderQuantity: number };
-export const useOrderRecruitGroupJoin = () => {
-  const { post } = useFetchWrapper();
+export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
+  const { post, patch } = useFetchWrapper();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (value: RecruitJoinBody) => post({ url: `/order/recruit/join`, data: value }),
+    mutationFn: (value: T extends true ? RecruitJoinPatchBody : RecruitJoinPostBody) => {
+      if (hasData) {
+        return patch({ url: `/order/recruit/join`, data: value });
+      }
+      return post({ url: `/order/recruit/join`, data: value });
+    },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.detail(variables.orderNo) });
-      router.replace(`/order/${variables.orderNo}`);
+      queryClient.invalidateQueries({ queryKey: orderKeys.detail(variables.orderId) });
+      router.replace(`/order/${variables.orderId}`);
+    },
+  });
+};
+
+export const useOrderRecruitCancel = () => {
+  const { axiosDelete } = useFetchWrapper();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (orderId: Order['orderId'] | string) =>
+      axiosDelete({ url: `/order/recruit/join/${orderId}` }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+      router.replace('/');
     },
   });
 };

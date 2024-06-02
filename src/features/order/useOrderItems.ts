@@ -1,5 +1,5 @@
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { Cart, useOrderRecruitGroupJoin } from '@/app/_queries/order/orderMutations';
 import {
@@ -9,6 +9,7 @@ import {
   useRecruitQuery,
 } from '@/app/_queries/order/orderQueries';
 import { User } from '@/domain/user';
+import memberAtom from '@/libs/recoil/member';
 
 const findMyCart = (recruit: RecruitResponse | undefined, email: User['email']) => {
   return recruit?.group.find((user) => email === user.email);
@@ -22,10 +23,12 @@ const findOrderItem = (
 };
 
 export const useOrderItems = (orderId: string) => {
-  const { data: session } = useSession();
+  const member = useRecoilValue(memberAtom);
+  const email = member.email as string;
+
   const { data: recruit } = useRecruitQuery(orderId);
-  const { mutate } = useOrderRecruitGroupJoin();
-  const email = session?.token.subject ?? '';
+  const existsData = !!recruit?.group.find((user) => user.email === email);
+  const { mutate } = useOrderRecruitGroupJoin(existsData);
 
   const initCart: GroupOrder = {
     email: '',
@@ -72,7 +75,11 @@ export const useOrderItems = (orderId: string) => {
 
   const handleSubmit = (orderItems: Cart[]) => {
     if (!orderItems) return;
-    mutate({ email, orderNo: orderId, orderItems });
+    if (existsData) {
+      mutate({ orderId, orderItems, groupOrderId: myOrder.groupOrderId });
+      return;
+    }
+    mutate({ email, orderId, orderItems });
   };
 
   return {

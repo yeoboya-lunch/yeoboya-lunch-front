@@ -1,5 +1,4 @@
 import defaultImg from 'public/defaultImage.jpg';
-import { Fragment } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';
 import UserProfile from '@/app/_components/ui/user/UserProfile';
@@ -33,25 +32,29 @@ type Props = {
 const UserOrderCard = ({ name, items }: Props) => {
   return (
     <Card>
-      <CardHeader className="flex-row items-center gap-2 space-y-0">
+      <CardHeader className="flex-row items-center gap-2 space-y-0 text-lg">
         <UserProfile src={users[0].image} alt="유저 이름" />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
-      <CardContent className="flex justify-between">
+      <CardContent className="text- flex flex-col justify-between gap-2 text-lg">
         {items.map((item, index) => {
           const { itemName, orderQuantity, orderPrice, totalPrice } = item;
           return (
-            <Fragment key={index}>
+            <dl className="flex justify-between" key={index}>
               <dt>{itemName}</dt>
-              <div className="flex gap-4">
+              <div className="flex items-center gap-4 text-base">
                 <span>
                   {orderPrice} 원 X {orderQuantity} 개
                 </span>
-                <dd className="font-semibold">합계: {totalPrice} 원</dd>
+                <dd className="font-medium">합계: {totalPrice} 원</dd>
               </div>
-            </Fragment>
+            </dl>
           );
         })}
+        <dl className="flex justify-end gap-2 font-semibold">
+          <dt>총계:</dt>
+          <dd>{items.reduce((sum, item) => item.totalPrice + sum, 0)} 원</dd>
+        </dl>
       </CardContent>
     </Card>
   );
