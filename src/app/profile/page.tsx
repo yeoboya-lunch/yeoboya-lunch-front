@@ -25,7 +25,7 @@ const ProfilePage: NextPage = () => {
           </div>
         </div>
         <div className="mt-10 flex justify-around border-b pb-5">
-          <Link href="/profile/sold" className="flex flex-col items-center">
+          <Link href="/history/recruit" className="flex flex-col items-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
               <svg
                 className="h-6 w-6"
@@ -42,9 +42,9 @@ const ProfilePage: NextPage = () => {
                 ></path>
               </svg>
             </div>
-            <span className="mt-2 text-sm font-medium text-gray-700">주문내역</span>
+            <span className="mt-2 text-sm font-medium text-gray-700">주문 모집 내역</span>
           </Link>
-          <Link href="/profile/bought" className="flex flex-col items-center">
+          <Link href="/history/join" className="flex flex-col items-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
               <svg
                 className="h-6 w-6"
@@ -61,7 +61,7 @@ const ProfilePage: NextPage = () => {
                 ></path>
               </svg>
             </div>
-            <span className="mt-2 text-sm font-medium text-gray-700">구매내역</span>
+            <span className="mt-2 text-sm font-medium text-gray-700">주문 참여 내역</span>
           </Link>
         </div>
 

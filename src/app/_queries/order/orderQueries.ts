@@ -2,8 +2,8 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
-import { Order } from '@/domain/order';
-import { Shop, ShopItem } from '@/domain/shop';
+import { GroupOrder, Order, UserOrder } from '@/domain/order';
+import { Shop } from '@/domain/shop';
 import { User } from '@/domain/user';
 import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
@@ -42,30 +42,6 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   });
 };
 
-export type UserOrder = {
-  orderId: number;
-  groupOrderId: number;
-  title: string;
-  email: string;
-  name: string;
-  orderItem: OrderItem[];
-  totalPrice: number;
-};
-export type OrderItem = {
-  itemName: ShopItem['name'];
-  orderPrice: ShopItem['price'];
-  orderQuantity: number;
-  totalPrice: number;
-};
-export type GroupOrder = {
-  groupOrderId: number;
-  orderId: number;
-  title: string;
-  orderItem: OrderItem[];
-  email: User['email'];
-  name: User['name'];
-  totalPrice: number;
-};
 export type RecruitResponse = {
   group: GroupOrder[];
   order: {
