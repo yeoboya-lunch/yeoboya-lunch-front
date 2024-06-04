@@ -13,7 +13,7 @@ const JoinHistoryPage = () => {
   return (
     <Layout className="p-0" title="주문 참여 내역" canGoBack>
       <div className="flex flex-col gap-4 bg-secondary">
-        {data?.map((recruit, index) => <HistoryItem key={index} recruit={recruit} />)}
+        {data?.list.map((recruit, index) => <HistoryItem key={index} recruit={recruit} />)}
       </div>
     </Layout>
   );
