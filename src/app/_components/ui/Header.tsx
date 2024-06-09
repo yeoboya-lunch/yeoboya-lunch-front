@@ -14,7 +14,7 @@ type Props = {
 
 const Header = ({ canGoBack, title }: Props) => {
   return (
-    <div className="sticky top-0 z-10 flex w-full max-w-xl items-center justify-center border-b bg-white px-10 py-3 text-3xl font-medium text-gray-800">
+    <div className="sticky top-0 z-10 flex w-full max-w-xl items-center justify-center border-b px-10 py-3 text-3xl font-medium">
       {canGoBack && <BackButton />}
       <h1 className={cn(canGoBack ? 'mx-auto' : '', '')}>{title}</h1>
     </div>

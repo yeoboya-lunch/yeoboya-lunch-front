@@ -2,8 +2,8 @@ import React from 'react';
 import { ClassNameValue } from 'tailwind-merge';
 
 import Header from '@/app/_components/ui/Header';
+import NavBar from '@/app/_components/ui/nav/NavBar';
 import { cn } from '@/app/_lib/utils';
-import NavBar from '@/components/NavBar';
 
 interface LayoutProps {
   title?: string;

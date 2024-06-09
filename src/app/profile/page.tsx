@@ -4,9 +4,9 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
+import { Button } from '@/app/_components/ui/Button';
 import { useLogout } from '@/app/_queries/auth/authMutations';
 import { useSettingMember } from '@/app/_queries/user/userQueries';
-import Button from '@/components/button';
 import Layout from '@/components/layout';
 
 const ProfilePage: NextPage = () => {
@@ -26,7 +26,7 @@ const ProfilePage: NextPage = () => {
         </div>
         <div className="mt-10 flex justify-around border-b pb-5">
           <Link href="/history/recruit" className="flex flex-col items-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -45,7 +45,7 @@ const ProfilePage: NextPage = () => {
             <span className="mt-2 text-sm font-medium text-gray-700">주문 모집 내역</span>
           </Link>
           <Link href="/history/join" className="flex flex-col items-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -106,7 +106,7 @@ const ProfilePage: NextPage = () => {
           });
         }}
       >
-        <Button text="로그아웃" />
+        <Button className="w-full">로그아웃</Button>
       </div>
     </Layout>
   );

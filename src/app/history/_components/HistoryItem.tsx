@@ -9,8 +9,11 @@ const HistoryItem = ({ recruit }: Props) => {
 
   return (
     <article className="bg-white py-2">
-      <h4>{title}</h4>
-      <div className="my-2 rounded border border-gray-300 p-2">
+      <p className="font-medium text-gray-400">주문 날짜</p>
+      <h4 className="text-xl font-semibold">{title}</h4>
+      <p className="text-2xl font-bold">{totalPrice}원</p>
+      <div className="my-2 border-y-2 py-2">
+        <p className="font-medium text-gray-400">주문 목록</p>
         {orderItem.map((item, index) => (
           <dl key={index} className="flex justify-between">
             <dt>
@@ -20,10 +23,9 @@ const HistoryItem = ({ recruit }: Props) => {
           </dl>
         ))}
       </div>
-      <p>총 결제 금액: {totalPrice}원</p>
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <div>별점</div>
-        <button>리뷰 작성</button>
+        <button className="rounded bg-primary px-2 py-1 text-primary-foreground">리뷰 작성</button>
       </div>
     </article>
   );
