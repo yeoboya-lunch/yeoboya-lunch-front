@@ -8,7 +8,7 @@
     --background: 0 0% 100%;
     --foreground: 0 0% 15.69%;
     --muted: 210 4% 90.2%;
-    --muted-foreground: 0 0% 15.69%;
+    --muted-foreground: 0 0% 50%;
     --popover: 207.27 44% 95.1%;
     --popover-foreground: 0 0% 15.69%;
     --card: 207.27 44% 95.1%;
@@ -26,7 +26,6 @@
     --ring: 203.53 80.95% 62.94%;
     --radius: 0.5rem;
   }
-
 
   .dark {
     --background: 240 5.26% 7.45%;
@@ -51,7 +50,8 @@
   }
 }
 
- 
+
+
 @layer base {
   * {
     @apply border-border;

@@ -26,7 +26,7 @@ const ProfilePage: NextPage = () => {
         </div>
         <div className="mt-10 flex justify-around border-b pb-5">
           <Link href="/history/recruit" className="flex flex-col items-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -45,7 +45,7 @@ const ProfilePage: NextPage = () => {
             <span className="mt-2 text-sm font-medium text-gray-700">주문 모집 내역</span>
           </Link>
           <Link href="/history/join" className="flex flex-col items-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -106,7 +106,9 @@ const ProfilePage: NextPage = () => {
           });
         }}
       >
-        <Button className="w-full">로그아웃</Button>
+        <Button variant="secondary" className="w-full">
+          로그아웃
+        </Button>
       </div>
     </Layout>
   );
