@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { historyKeys } from '@/app/_queries/history/historyQueryKeys';
+import { RecruitResponse } from '@/app/_queries/order/orderQueries';
 import { GroupOrder } from '@/domain/order';
 import { User } from '@/domain/user';
 import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
@@ -21,13 +22,15 @@ export const useHistoryJoinQuery = (email: User['email']) => {
   });
 };
 
+export type HistoryRecruitResponse = RecruitResponse['order'];
 export const useHistoryRecruitQuery = (email: User['email']) => {
   const { get } = useFetchWrapper();
 
   return useQuery({
     queryKey: historyKeys.recruit(email),
     queryFn: () => {
-      return get({ url: `/order/recruit/histories/${email}` });
+      return get<HistoryRecruitResponse[]>({ url: `/order/recruit/histories/${email}` });
     },
+    select: (data) => data.data.data,
   });
 };
