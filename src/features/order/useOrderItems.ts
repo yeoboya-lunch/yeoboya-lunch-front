@@ -2,12 +2,8 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { Cart, useOrderRecruitGroupJoin } from '@/app/_queries/order/orderMutations';
-import {
-  GroupOrder,
-  OrderItem,
-  RecruitResponse,
-  useRecruitQuery,
-} from '@/app/_queries/order/orderQueries';
+import { RecruitResponse, useRecruitQuery } from '@/app/_queries/order/orderQueries';
+import { GroupOrder, OrderItem } from '@/domain/order';
 import { User } from '@/domain/user';
 import memberAtom from '@/libs/recoil/member';
 

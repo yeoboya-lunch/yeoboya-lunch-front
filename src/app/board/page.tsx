@@ -5,6 +5,7 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
+import { Badge } from '@/app/_components/ui/Badge';
 import {
   Pagination,
   PaginationContent,
@@ -44,12 +45,13 @@ const BoardPage: NextPage = () => {
               <div className="mt-2 flex">
                 {content.hashTag.map(({ tag }, index) => {
                   return (
-                    <span
+                    <Badge
+                      variant="secondary"
                       key={index}
-                      className="mr-1 rounded-lg bg-secondary px-1.5 py-0.5 text-xs font-medium text-muted-foreground"
+                      className="mr-1 rounded-lg px-1.5 py-0.5 text-xs"
                     >
                       {tag}
-                    </span>
+                    </Badge>
                   );
                 })}
               </div>

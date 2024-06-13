@@ -18,8 +18,8 @@ const NavItem = ({ children, to }: Props) => {
     <Link
       href={to}
       className={cn(
-        'flex flex-grow flex-col items-center space-y-2',
-        pathname === to ? 'text-primary' : 'hover:text-gray-500',
+        'flex flex-grow flex-col items-center gap-2 py-2',
+        pathname === to ? 'bg-primary text-primary-foreground' : '',
       )}
     >
       {children}
