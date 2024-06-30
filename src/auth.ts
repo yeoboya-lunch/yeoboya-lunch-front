@@ -1,11 +1,11 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import NextAuth, { AuthOptions } from 'next-auth';
+import NextAuth, { NextAuthConfig } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({
       id: 'email-password-credential',
@@ -100,4 +100,4 @@ async function refreshAccessToken(token: JWT) {
   return token;
 }
 
-export default NextAuth(authOptions);
+export const { signIn, signOut, auth, handlers } = NextAuth(authOptions);

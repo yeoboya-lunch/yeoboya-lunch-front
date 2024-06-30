@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { Session } from 'domain/auth';
-import { signOut } from 'next-auth/react';
 import { useResetRecoilState } from 'recoil';
 
+import { signOut } from '@/auth';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
@@ -34,9 +34,7 @@ export function useLogout() {
     onSuccess: (data) => {
       if (data.status === 200) {
         resetMember();
-        signOut({
-          callbackUrl: '/',
-        });
+        signOut();
       }
     },
   });
