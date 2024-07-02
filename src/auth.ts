@@ -2,12 +2,12 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import NextAuth, { NextAuthConfig } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import Credentials from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
 export const authOptions: NextAuthConfig = {
   providers: [
-    CredentialsProvider({
+    Credentials({
       id: 'email-password-credential',
       name: 'Credentials',
       credentials: {
