@@ -43,10 +43,9 @@ const LoginPage: NextPage = () => {
 
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
-    const response = await signIn('email-password-credential', {
+    const response = await signIn('email', {
       email: validForm.email,
       password: validForm.password,
-      callbackUrl: '/',
     });
 
     if (!response || response.error) {
