@@ -12,6 +12,7 @@ import { useSetRecoilState } from 'recoil';
 import { signIn } from '@/auth';
 import Button from '@/components/button';
 import Input from '@/components/input';
+import fetchWrapper from '@/libs/client/fetch-wrapper';
 import { cls } from '@/libs/client/utils';
 import memberAtom from '@/libs/recoil/member';
 
@@ -30,6 +31,7 @@ const LoginPage: NextPage = () => {
   } = useForm<LoginForm>();
   const setMember = useSetRecoilState(memberAtom);
   const [method, setMethod] = useState<'email' | 'phone'>('email');
+  const { get, post } = fetchWrapper();
 
   const onEmailClick = () => {
     reset();
@@ -44,6 +46,7 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
     const response = await signIn('email', {
+      loginId: validForm.email,
       email: validForm.email,
       password: validForm.password,
     });
@@ -61,6 +64,14 @@ const LoginPage: NextPage = () => {
 
   const onInvalid = (errors: FieldErrors) => {
     console.log(errors);
+  };
+
+  const handleGoogleLogin = async () => {
+    const { data } = await post({ url: '/oauth2/authorization/google' });
+  };
+
+  const handleNaverLogin = async () => {
+    const { data } = await post({ url: '/oauth2/authorization/naver' });
   };
 
   return (
@@ -156,13 +167,19 @@ const LoginPage: NextPage = () => {
               <span className="bg-white px-2 text-sm text-gray-500">Or enter with</span>
             </div>
           </div>
-          <div className="mt-2 flex flex-col items-center justify-center gap-4">
-            <button className="w-1/2">
-              <img src={naverLoginImg.src} alt="naver login" />
-            </button>
-            <button className="w-1/2">
-              <img src={googleLoginImg.src} alt="google login" />
-            </button>
+          <div className="mt-2 flex items-center justify-center gap-4">
+            <img
+              src={naverLoginImg.src}
+              alt="naver login"
+              className="w-1/12 cursor-pointer"
+              onClick={handleNaverLogin}
+            />
+            <img
+              src={googleLoginImg.src}
+              alt="google login"
+              className="w-1/12 cursor-pointer"
+              onClick={handleGoogleLogin}
+            />
           </div>
         </div>
       </div>

@@ -1,12 +1,19 @@
 import axios from 'axios';
 
-export const signIn = async (type, credencials) => {
+type Credentials = {
+  loginId: string;
+  email: string;
+  password: string;
+};
+export const signIn = async (type: 'email', credentials: Credentials) => {
+  const { loginId, email, password } = credentials;
   let payload;
   switch (type) {
     case 'email':
       payload = {
-        email: credencials.email,
-        password: credencials.password,
+        loginId,
+        email,
+        password,
       };
       break;
   }
@@ -16,7 +23,6 @@ export const signIn = async (type, credencials) => {
     withCredentials: true,
     responseType: 'json',
   });
-  console.log(status, data);
 };
 
 export const signOut = () => {};
