@@ -12,7 +12,7 @@ import ReactQueryProvider from './_components/ReactQueryProvider';
 import StateProvider from './_components/StateProvider';
 
 export const metadata: Metadata = {
-  title: '점심 파티 모집',
+  title: '여보야 점심',
 };
 
 const font = localFont({

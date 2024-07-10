@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 
-import { Input } from '@/app/_components/ui/Input';
+import { Input } from '@/app/_components/ui/input/Input';
 import { TagInput } from '@/app/_components/ui/TagInput';
 import { Textarea } from '@/app/_components/ui/Textarea';
 import { useBoardWrite } from '@/app/_queries/board/boardMutations';
