@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { useSession } from 'next-auth/react';
 
 import { ApiSearch, Config } from '@/client/ApiClient';
 
@@ -54,11 +53,6 @@ export type PaginationData<T> = {
 };
 
 const useFetchWrapper = () => {
-  const { data: session, status: statue } = useSession();
-
-  axios.defaults.headers.common.Authorization =
-    session !== null && statue === 'authenticated' ? `Bearer ${session.token.accessToken}` : null;
-
   function get<T = unknown, B = unknown>({
     url,
     params,

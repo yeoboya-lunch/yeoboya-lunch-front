@@ -21,6 +21,7 @@ const NavItem = ({ children, to }: Props) => {
         'flex flex-grow flex-col items-center gap-2 py-2',
         pathname === to ? 'bg-primary text-primary-foreground' : '',
       )}
+      scroll={false}
     >
       {children}
     </Link>

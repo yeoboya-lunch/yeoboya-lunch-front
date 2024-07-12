@@ -1,6 +1,11 @@
 import { User } from '@/domain/user';
 
-type Token = {
+export type Login = {
+  loginId: string;
+  password: string;
+};
+
+export type Token = {
   /** The user's postal address. */
   accessToken: string;
   id: string;

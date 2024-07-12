@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import { Session } from 'domain/auth';
+import axios from 'axios';
+import { Login, Token } from 'domain/auth';
 import { useResetRecoilState } from 'recoil';
 
-import { signOut } from '@/auth';
+import { setToken, signOut } from '@/auth';
 import useFetchWrapper from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
@@ -13,15 +14,35 @@ const userKeys = {
   detail: (email: string) => [...userKeys.details(), email],
   insert: () => ['sign-up'],
 };
-
+type Credentials = {
+  loginId: string;
+  email: string;
+  password: string;
+  name: string;
+};
 export function useSignUp() {
   const { post } = useFetchWrapper();
 
   return useMutation({
     mutationKey: userKeys.insert(),
-    mutationFn: (data: Required<Session>['user']) => post({ url: `/user/sign-up`, data: data }),
+    mutationFn: (data: Credentials) =>
+      post({ url: '/user/sign-up', data: { ...data, provider: 'yeoboya' } }),
   });
 }
+
+export const useSignIn = () => {
+  const { post, get } = useFetchWrapper();
+
+  return useMutation({
+    mutationFn: (data: Login) => {
+      return post<Token>({ url: '/user/sign-in', data });
+    },
+    onSuccess: async (data) => {
+      await setToken(data.data.data);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.data.accessToken}`;
+    },
+  });
+};
 
 export function useLogout() {
   const { post } = useFetchWrapper();

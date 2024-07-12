@@ -12,7 +12,7 @@ import { useSignUp } from '@/app/_queries/auth/authMutations';
 import Button from '@/components/button';
 import Layout from '@/components/layout';
 
-type FormProps = Required<Session>['user'];
+type FormProps = Required<Required<Session>['user']>;
 
 const SignupPage: NextPage = () => {
   const { mutate, isSuccess, isError, isPending, error } = useSignUp();
@@ -26,6 +26,7 @@ const SignupPage: NextPage = () => {
   });
 
   const onValid: SubmitHandler<FormProps> = (sinUpForm) => {
+    console.log(sinUpForm);
     mutate(sinUpForm);
   };
 
@@ -50,7 +51,7 @@ const SignupPage: NextPage = () => {
           <Label className="flex flex-col gap-2">
             아이디
             <Input
-              {...register('id', {
+              {...register('loginId', {
                 required: '아이디는 필수 입력입니다.',
                 minLength: {
                   value: 4,
@@ -62,13 +63,13 @@ const SignupPage: NextPage = () => {
                 },
               })}
               placeholder="아이디를 입력해주세요"
-              name="id"
+              name="loginId"
               type="text"
               required
             />
           </Label>
           <p role="alert" className="text-sm text-red-500">
-            {errors.id?.message}
+            {errors.loginId?.message}
           </p>
           <Label className="flex flex-col gap-2">
             비밀번호
