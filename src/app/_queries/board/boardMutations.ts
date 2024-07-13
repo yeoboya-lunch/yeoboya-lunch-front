@@ -3,7 +3,7 @@ import { boardKeys } from 'app/_queries/board/boardQueryKeys';
 import { Board, Comment } from 'domain/board';
 import { User } from 'domain/user';
 
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/fetch-wrapper';
 
 type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
   (
@@ -17,7 +17,7 @@ type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
       }
   );
 export const useBoardWrite = () => {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
 
   return useMutation({
     mutationFn: (data: BoardWriteParams) => post({ url: `/board/write`, data: data }),
@@ -31,7 +31,7 @@ type ReplyWriteParams = {
   parentReplyId?: Comment['replyId'];
 };
 export const useReplyWrite = () => {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
   const queryClient = useQueryClient();
 
   return useMutation({

@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { shopKeys } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/fetch-wrapper';
 
 export const useShopRegister = () => {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
   const cache = useQueryClient();
 
   return useMutation({

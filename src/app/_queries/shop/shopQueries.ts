@@ -2,11 +2,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { shopKeys, ShopListFilter } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
-import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export const useInfiniteShops = (filters: ShopListFilter = {}) => {
   const { size, page, sort } = filters;
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useInfiniteQuery({
     queryKey: shopKeys.list({

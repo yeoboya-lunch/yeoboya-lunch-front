@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 
 import { userKeys } from '@/app/_queries/user/userQueryKeys';
 import { User } from '@/domain/user';
-import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 type Profile = {
   phoneNumber?: number;
@@ -11,7 +11,7 @@ type Profile = {
 } & User;
 
 export const useSettingMember = () => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
   const { data: session } = useSession();
 
   return useQuery({
@@ -23,7 +23,7 @@ export const useSettingMember = () => {
 };
 
 export const useInfiniteMemberList = (page = 0) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
   const size = 30;
 
   return useInfiniteQuery({

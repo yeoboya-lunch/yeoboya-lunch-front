@@ -4,7 +4,7 @@ import { Login, Token } from 'domain/auth';
 import { useResetRecoilState } from 'recoil';
 
 import { setToken, signOut } from '@/auth';
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/fetch-wrapper';
 import memberAtom from '@/libs/recoil/member';
 
 const userKeys = {
@@ -21,7 +21,7 @@ type Credentials = {
   name: string;
 };
 export function useSignUp() {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
 
   return useMutation({
     mutationKey: userKeys.insert(),
@@ -31,7 +31,7 @@ export function useSignUp() {
 }
 
 export const useSignIn = () => {
-  const { post, get } = useFetchWrapper();
+  const { post } = apiClient();
 
   return useMutation({
     mutationFn: (data: Login) => {
@@ -45,7 +45,7 @@ export const useSignIn = () => {
 };
 
 export function useLogout() {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
   const resetMember = useResetRecoilState(memberAtom);
   return useMutation({
     mutationFn: () =>

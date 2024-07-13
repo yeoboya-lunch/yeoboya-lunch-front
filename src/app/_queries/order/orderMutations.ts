@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
 import { Order, Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/fetch-wrapper';
 
 export const useStartOrderRecruit = () => {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -16,7 +16,7 @@ export const useStartOrderRecruit = () => {
   });
 };
 export const useEndOrderRecruit = () => {
-  const { patch } = useFetchWrapper();
+  const { patch } = apiClient();
   const router = useRouter();
 
   return useMutation({
@@ -39,7 +39,7 @@ export type RecruitJoinPatchBody = {
 };
 export type Cart = { itemName: string; orderQuantity: number };
 export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
-  const { post, patch } = useFetchWrapper();
+  const { post, patch } = apiClient();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -58,7 +58,7 @@ export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
 };
 
 export const useOrderRecruitCancel = () => {
-  const { axiosDelete } = useFetchWrapper();
+  const { axiosDelete } = apiClient();
   const router = useRouter();
   const queryClient = useQueryClient();
 

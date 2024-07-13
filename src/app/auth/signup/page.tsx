@@ -26,7 +26,6 @@ const SignupPage: NextPage = () => {
   });
 
   const onValid: SubmitHandler<FormProps> = (sinUpForm) => {
-    console.log(sinUpForm);
     mutate(sinUpForm);
   };
 

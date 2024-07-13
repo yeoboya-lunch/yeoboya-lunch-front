@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-import useFetchWrapper from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/fetch-wrapper';
 
 interface UpdateForm {
   email: string;
@@ -11,7 +11,7 @@ interface UpdateForm {
 
 //회원정보 수정(public profile)
 export const usePublicProfileUpdate = () => {
-  const { patch } = useFetchWrapper();
+  const { patch } = apiClient();
   const router = useRouter();
 
   return useMutation({
@@ -25,7 +25,7 @@ export const usePublicProfileUpdate = () => {
 
 //회원정보 수정(account)
 export const useAccountSave = () => {
-  const { post } = useFetchWrapper();
+  const { post } = apiClient();
   const router = useRouter();
 
   return useMutation({
@@ -37,7 +37,7 @@ export const useAccountSave = () => {
 };
 
 export const useAccountInfoUpdate = () => {
-  const { patch } = useFetchWrapper();
+  const { patch } = apiClient();
 
   return useMutation({
     mutationFn: (value: UpdateForm) =>

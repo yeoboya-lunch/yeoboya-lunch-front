@@ -3,10 +3,10 @@ import { Board } from 'domain/board';
 
 import { boardKeys } from '@/app/_queries/board/boardQueryKeys';
 import { PaginationOptions } from '@/client/ApiClient';
-import useFetchWrapper, { PaginationData } from '@/libs/client/fetch-wrapper';
+import apiClient, { PaginationData } from '@/libs/client/fetch-wrapper';
 
 export const useBoardListQuery = ({ page, size }: PaginationOptions) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useQuery({
     queryKey: boardKeys.list({
@@ -21,7 +21,7 @@ export const useBoardListQuery = ({ page, size }: PaginationOptions) => {
 };
 
 export const useBoardQuery = (boardId: Board['boardId']) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useQuery({
     queryKey: boardKeys.detail(boardId),

@@ -4,12 +4,12 @@ import { historyKeys } from '@/app/_queries/history/historyQueryKeys';
 import { RecruitResponse } from '@/app/_queries/order/orderQueries';
 import { GroupOrder } from '@/domain/order';
 import { User } from '@/domain/user';
-import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export type HistoryJoinResponse = GroupOrder;
 
 export const useHistoryJoinQuery = (email: User['email']) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useQuery({
     queryKey: historyKeys.join(email),
@@ -24,7 +24,7 @@ export const useHistoryJoinQuery = (email: User['email']) => {
 
 export type HistoryRecruitResponse = RecruitResponse['order'];
 export const useHistoryRecruitQuery = (email: User['email']) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useQuery({
     queryKey: historyKeys.recruit(email),

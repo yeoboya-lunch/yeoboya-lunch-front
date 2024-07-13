@@ -52,7 +52,7 @@ export type PaginationData<T> = {
   pagination: Pagination;
 };
 
-const useFetchWrapper = () => {
+const apiClient = () => {
   function get<T = unknown, B = unknown>({
     url,
     params,
@@ -78,7 +78,6 @@ const useFetchWrapper = () => {
     return axios.post<Response<T>, AxiosResponse<Response<T>>, B>(url, data, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
-        // Authorization: `Bearer ${token.accessToken}`,
         'Content-Type': 'application/json',
       },
       withCredentials: true,
@@ -95,7 +94,6 @@ const useFetchWrapper = () => {
     return axios.patch<Response<T>, AxiosResponse<Response<T>>, B>(url, data, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
-        // Authorization: `Bearer ${token.accessToken}`,
         'Content-Type': 'application/json',
       },
       withCredentials: true,
@@ -111,7 +109,6 @@ const useFetchWrapper = () => {
     return axios.delete<Response<T>, AxiosResponse<Response<T>>>(url, {
       baseURL: process.env.NEXT_PUBLIC_API_SERVER,
       headers: {
-        // Authorization: `Bearer ${token.accessToken}`,
         'Content-Type': 'application/json',
       },
       withCredentials: true,
@@ -123,4 +120,4 @@ const useFetchWrapper = () => {
   return { get, post, patch, axiosDelete };
 };
 
-export default useFetchWrapper;
+export default apiClient;

@@ -5,11 +5,11 @@ import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys'
 import { GroupOrder, Order, UserOrder } from '@/domain/order';
 import { Shop } from '@/domain/shop';
 import { User } from '@/domain/user';
-import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   const today = dayjs().format('YYYYMMDD');
   const lastWeek = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
@@ -54,7 +54,7 @@ export type RecruitResponse = {
 };
 
 export const useRecruitQuery = (orderNo: string) => {
-  const { get } = useFetchWrapper();
+  const { get } = apiClient();
 
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
