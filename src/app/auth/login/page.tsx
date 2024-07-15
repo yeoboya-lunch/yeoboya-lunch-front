@@ -10,10 +10,8 @@ import { useRouter } from 'next/navigation';
 import googleLoginImg from 'public/img_google_login_w.png';
 import naverLoginImg from 'public/img_naver_login_w.png';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 
 import Button from '@/components/button';
-import memberAtom from '@/libs/recoil/member';
 
 interface LoginForm {
   loginId: string;
@@ -26,22 +24,11 @@ const LoginPage: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
-  const setMember = useSetRecoilState(memberAtom);
   const router = useRouter();
   const { mutate } = useSignIn();
 
   const onValid = async (value: LoginForm) => {
-    const response = mutate(value);
-    console.log(response);
-
-    if (!response || response.error) {
-      console.error('로그인 실패', response?.error);
-      return;
-    }
-
-    setMember({
-      email: value.loginId,
-    });
+    mutate(value);
     router.push('/');
   };
 

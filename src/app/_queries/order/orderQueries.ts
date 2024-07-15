@@ -5,11 +5,10 @@ import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys'
 import { GroupOrder, Order, UserOrder } from '@/domain/order';
 import { Shop } from '@/domain/shop';
 import { User } from '@/domain/user';
-import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
-  const { get } = apiClient();
 
   const today = dayjs().format('YYYYMMDD');
   const lastWeek = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
@@ -17,27 +16,28 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   return useInfiniteQuery({
     queryKey: orderKeys.list({
       size: size ?? 6,
-      page,
-      orderEmail,
+      page: page ?? 1,
+      orderEmail: orderEmail ?? '',
       startDate: startDate ?? lastWeek,
       endDate: endDate ?? today,
     }),
     queryFn: async ({ pageParam, queryKey }) => {
       const [, , { orderEmail, startDate, endDate }] = queryKey;
-      const { data } = await get<InfiniteScrollData<Order>>({
+      const params = new URLSearchParams({
+        page: pageParam.toString(),
+        orderEmail,
+        startDate,
+        endDate,
+      });
+      const { data } = await apiClient.get<InfiniteScrollData<Order>>({
         url: `/order/recruits`,
-        params: {
-          page: pageParam,
-          orderEmail,
-          startDate,
-          endDate,
-        },
+        params,
       });
       return data;
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
+      if (lastPage.pagination.hasNext) return lastPage.pagination.pageNo + 1;
     },
   });
 };
@@ -54,11 +54,9 @@ export type RecruitResponse = {
 };
 
 export const useRecruitQuery = (orderNo: string) => {
-  const { get } = apiClient();
-
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
-    queryFn: () => get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
-    select: (data) => data.data.data,
+    queryFn: () => apiClient.get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
+    select: (data) => data.data,
   });
 };

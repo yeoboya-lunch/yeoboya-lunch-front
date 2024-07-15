@@ -3,7 +3,7 @@ import { boardKeys } from 'app/_queries/board/boardQueryKeys';
 import { Board, Comment } from 'domain/board';
 import { User } from 'domain/user';
 
-import apiClient from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/apiClient';
 
 type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
   (
@@ -17,10 +17,8 @@ type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
       }
   );
 export const useBoardWrite = () => {
-  const { post } = apiClient();
-
   return useMutation({
-    mutationFn: (data: BoardWriteParams) => post({ url: `/board/write`, data: data }),
+    mutationFn: (data: BoardWriteParams) => apiClient.post({ url: `/board/write`, data: data }),
   });
 };
 
@@ -31,11 +29,10 @@ type ReplyWriteParams = {
   parentReplyId?: Comment['replyId'];
 };
 export const useReplyWrite = () => {
-  const { post } = apiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ReplyWriteParams) => post({ url: `/board/reply/write`, data }),
+    mutationFn: (data: ReplyWriteParams) => apiClient.post({ url: `/board/reply/write`, data }),
     onSuccess: (data, values) =>
       queryClient.invalidateQueries({ queryKey: boardKeys.detail(values.boardId) }),
   });

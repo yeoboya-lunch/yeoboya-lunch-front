@@ -1,6 +1,7 @@
 'use client';
 
 import { PlusIcon } from '@radix-ui/react-icons';
+import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
@@ -17,7 +18,7 @@ const Home = () => {
   const orders = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
-
+  console.log(axios.defaults.headers);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     entry.isIntersecting && orders.fetchNextPage();
   };
@@ -39,7 +40,7 @@ const Home = () => {
       {orders.status === 'success' &&
         orders.data.pages.map((group, index) => (
           <ul className="flex flex-col gap-4" key={index}>
-            {group.data.list.map((data: Order, index: number) => {
+            {group.list.map((data: Order, index: number) => {
               return (
                 <Link href={`/order/${data.orderId}`} key={index}>
                   <OrderRecruitCard

@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 
 import { userKeys } from '@/app/_queries/user/userQueryKeys';
 import { User } from '@/domain/user';
-import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 type Profile = {
   phoneNumber?: number;
@@ -11,32 +11,38 @@ type Profile = {
 } & User;
 
 export const useSettingMember = () => {
-  const { get } = apiClient();
   const { data: session } = useSession();
 
   return useQuery({
     queryKey: userKeys.detail(session?.token.subject),
-    queryFn: () => get<Profile>({ url: `/member/${session?.token.subject}/summary` }),
+    queryFn: () => apiClient.get<Profile>({ url: `/member/${session?.token.subject}/summary` }),
     enabled: !!session?.token.subject,
-    select: (data) => data.data.data,
+    select: (data) => data,
   });
 };
 
 export const useInfiniteMemberList = (page = 0) => {
-  const { get } = apiClient();
   const size = 30;
 
   return useInfiniteQuery({
     queryKey: userKeys.list({ page, size }),
-    queryFn: ({ pageParam }) =>
-      get<InfiniteScrollData<User>>({ url: '/member', params: { size: size, page: pageParam } }),
+    queryFn: ({ pageParam }) => {
+      const params = new URLSearchParams({
+        size: size.toString(),
+        page: pageParam.toString(),
+      });
+
+      return apiClient.get<InfiniteScrollData<User>>({
+        url: '/member',
+        params,
+      });
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      if (lastPage.data.data.pagination.hasNext) return lastPage.data.data.pagination.pageNo + 1;
+      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
     },
     getPreviousPageParam: (firstPage) => {
-      if (firstPage.data.data.pagination.hasPrevious)
-        return firstPage.data.data.pagination.pageNo - 1;
+      if (firstPage.data.pagination.hasPrevious) return firstPage.data.pagination.pageNo - 1;
     },
   });
 };

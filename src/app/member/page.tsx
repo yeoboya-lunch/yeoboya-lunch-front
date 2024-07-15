@@ -35,7 +35,7 @@ const MemberPage: NextPage = () => {
       {member.status === 'success' &&
         member.data.pages.map((group, index) => (
           <div className="mb-2 flex flex-wrap gap-4" key={index}>
-            {group.data.data.list.map((data, index) => {
+            {group.data.list.map((data, index) => {
               return (
                 <MemberCard
                   key={index}

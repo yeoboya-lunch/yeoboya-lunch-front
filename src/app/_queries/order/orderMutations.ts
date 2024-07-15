@@ -4,24 +4,22 @@ import { useRouter } from 'next/navigation';
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
 import { Order, Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
-import apiClient from '@/libs/client/fetch-wrapper';
+import apiClient from '@/libs/client/apiClient';
 
 export const useStartOrderRecruit = () => {
-  const { post } = apiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (value: Recruit) => post({ url: `/order/recruit/start`, data: value }),
+    mutationFn: (value: Recruit) => apiClient.post({ url: `/order/recruit/start`, data: value }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.lists() }),
   });
 };
 export const useEndOrderRecruit = () => {
-  const { patch } = apiClient();
   const router = useRouter();
 
   return useMutation({
     mutationFn: (groupOrderId: string) =>
-      patch({ url: `/order/recruit/${groupOrderId}`, data: { status: 'END' } }),
+      apiClient.patch({ url: `/order/recruit/${groupOrderId}`, data: { status: 'END' } }),
     onSuccess: () => {
       router.replace('/');
     },
@@ -39,16 +37,15 @@ export type RecruitJoinPatchBody = {
 };
 export type Cart = { itemName: string; orderQuantity: number };
 export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
-  const { post, patch } = apiClient();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (value: T extends true ? RecruitJoinPatchBody : RecruitJoinPostBody) => {
       if (hasData) {
-        return patch({ url: `/order/recruit/join`, data: value });
+        return apiClient.patch({ url: `/order/recruit/join`, data: value });
       }
-      return post({ url: `/order/recruit/join`, data: value });
+      return apiClient.post({ url: `/order/recruit/join`, data: value });
     },
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: orderKeys.detail(variables.orderId) });
@@ -58,13 +55,12 @@ export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
 };
 
 export const useOrderRecruitCancel = () => {
-  const { axiosDelete } = apiClient();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (orderId: Order['orderId'] | string) =>
-      axiosDelete({ url: `/order/recruit/join/${orderId}` }),
+      apiClient.delete({ url: `/order/recruit/join/${orderId}` }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
       router.replace('/');

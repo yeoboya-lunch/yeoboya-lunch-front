@@ -2,7 +2,6 @@
 
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 
 import { Button } from '@/app/_components/ui/Button';
 import { useLogout } from '@/app/_queries/auth/authMutations';
@@ -11,7 +10,7 @@ import Layout from '@/components/layout';
 
 const ProfilePage: NextPage = () => {
   const { data: member } = useSettingMember();
-  const logout = useLogout();
+  const { mutate } = useLogout();
 
   return (
     <Layout hasTabBar title="프로필">
@@ -100,10 +99,7 @@ const ProfilePage: NextPage = () => {
       <div
         className="mx-4 mt-3.5"
         onClick={() => {
-          signOut({ callbackUrl: '/', redirect: true }).finally(() => {
-            console.log('todo server logout');
-            logout.mutate();
-          });
+          mutate();
         }}
       >
         <Button variant="secondary" className="w-full">

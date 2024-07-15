@@ -4,33 +4,29 @@ import { historyKeys } from '@/app/_queries/history/historyQueryKeys';
 import { RecruitResponse } from '@/app/_queries/order/orderQueries';
 import { GroupOrder } from '@/domain/order';
 import { User } from '@/domain/user';
-import apiClient, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
+import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 export type HistoryJoinResponse = GroupOrder;
 
 export const useHistoryJoinQuery = (email: User['email']) => {
-  const { get } = apiClient();
-
   return useQuery({
     queryKey: historyKeys.join(email),
     queryFn: () => {
-      return get<InfiniteScrollData<HistoryJoinResponse>>({
+      return apiClient.get<InfiniteScrollData<HistoryJoinResponse>>({
         url: `/order/recruit/histories/join/${email}`,
       });
     },
-    select: (data) => data.data.data,
+    select: (data) => data.data,
   });
 };
 
 export type HistoryRecruitResponse = RecruitResponse['order'];
 export const useHistoryRecruitQuery = (email: User['email']) => {
-  const { get } = apiClient();
-
   return useQuery({
     queryKey: historyKeys.recruit(email),
     queryFn: () => {
-      return get<HistoryRecruitResponse[]>({ url: `/order/recruit/histories/${email}` });
+      return apiClient.get<HistoryRecruitResponse[]>({ url: `/order/recruit/histories/${email}` });
     },
-    select: (data) => data.data.data,
+    select: (data) => data.data,
   });
 };

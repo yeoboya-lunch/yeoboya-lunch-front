@@ -1,11 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { Login, Token } from 'domain/auth';
-import { useResetRecoilState } from 'recoil';
+import { useRouter } from 'next/navigation';
 
 import { setToken, signOut } from '@/auth';
-import apiClient from '@/libs/client/fetch-wrapper';
-import memberAtom from '@/libs/recoil/member';
+import apiClient from '@/libs/client/apiClient';
 
 const userKeys = {
   all: () => ['user'],
@@ -21,42 +19,34 @@ type Credentials = {
   name: string;
 };
 export function useSignUp() {
-  const { post } = apiClient();
-
   return useMutation({
     mutationKey: userKeys.insert(),
     mutationFn: (data: Credentials) =>
-      post({ url: '/user/sign-up', data: { ...data, provider: 'yeoboya' } }),
+      apiClient.post({ url: '/user/sign-up', data: { ...data, provider: 'yeoboya' } }),
   });
 }
 
 export const useSignIn = () => {
-  const { post } = apiClient();
-
   return useMutation({
     mutationFn: (data: Login) => {
-      return post<Token>({ url: '/user/sign-in', data });
+      return apiClient.post<Token>({ url: '/user/sign-in', data });
     },
-    onSuccess: async (data) => {
-      await setToken(data.data.data);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.data.accessToken}`;
+    onSuccess: (data) => {
+      setToken(data.data);
     },
   });
 };
 
 export function useLogout() {
-  const { post } = apiClient();
-  const resetMember = useResetRecoilState(memberAtom);
+  const router = useRouter();
   return useMutation({
     mutationFn: () =>
-      post({
+      apiClient.post({
         url: '/user/sign-out',
       }),
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        resetMember();
-        signOut();
-      }
+    onSuccess: async () => {
+      await signOut();
+      router.replace('/');
     },
   });
 }

@@ -7,7 +7,6 @@ import { Suspense } from 'react';
 import Spinner from '@/app/_components/ui/Spinner';
 import { cn } from '@/app/_lib/utils';
 
-import AuthProvider from './_components/AuthProvider';
 import ReactQueryProvider from './_components/ReactQueryProvider';
 import StateProvider from './_components/StateProvider';
 
@@ -26,13 +25,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="ko">
       <body className={cn('font-pretendard', font.variable)}>
         <main className="m-auto flex h-lvh max-w-xl flex-col">
-          <AuthProvider>
-            <ReactQueryProvider>
-              <StateProvider>
-                <Suspense fallback={<Spinner />}>{children}</Suspense>
-              </StateProvider>
-            </ReactQueryProvider>
-          </AuthProvider>
+          <ReactQueryProvider>
+            <StateProvider>
+              <Suspense fallback={<Spinner />}>{children}</Suspense>
+            </StateProvider>
+          </ReactQueryProvider>
         </main>
       </body>
     </html>
