@@ -3,7 +3,7 @@ import * as React from 'react';
 import { InputHTMLAttributes } from 'react';
 
 import { Badge } from '@/app/_components/ui/Badge';
-import { Input } from '@/app/_components/ui/input/Input';
+import { Input } from '@/app/_components/ui/Input';
 import { HashTag } from '@/domain/board';
 
 type Props = {
