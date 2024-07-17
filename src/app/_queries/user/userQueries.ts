@@ -1,9 +1,8 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
+import apiClient, { InfiniteScrollData } from 'client/apiClient';
 
 import { userKeys } from '@/app/_queries/user/userQueryKeys';
 import { User } from '@/domain/user';
-import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 type Profile = {
   phoneNumber?: number;
@@ -11,12 +10,10 @@ type Profile = {
 } & User;
 
 export const useSettingMember = () => {
-  const { data: session } = useSession();
-
   return useQuery({
-    queryKey: userKeys.detail(session?.token.subject),
-    queryFn: () => apiClient.get<Profile>({ url: `/member/${session?.token.subject}/summary` }),
-    enabled: !!session?.token.subject,
+    queryKey: userKeys.detail(session?.token?.subject),
+    queryFn: () => apiClient.get<Profile>(`/member/${session?.token?.subject}/summary`),
+    enabled: !!session?.token?.subject,
     select: (data) => data,
   });
 };
@@ -32,10 +29,7 @@ export const useInfiniteMemberList = (page = 0) => {
         page: pageParam.toString(),
       });
 
-      return apiClient.get<InfiniteScrollData<User>>({
-        url: '/member',
-        params,
-      });
+      return apiClient.get<InfiniteScrollData<User>>('/member', { params });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

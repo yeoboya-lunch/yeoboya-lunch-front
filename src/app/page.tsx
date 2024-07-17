@@ -1,7 +1,6 @@
 'use client';
 
 import { PlusIcon } from '@radix-ui/react-icons';
-import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
@@ -15,12 +14,12 @@ import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
 
 const Home = () => {
-  const orders = useInfiniteOrders();
+  const { fetchNextPage, status, data, error } = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
-  console.log(axios.defaults.headers);
+
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
-    entry.isIntersecting && orders.fetchNextPage();
+    entry.isIntersecting && fetchNextPage();
   };
 
   useObserver({
@@ -37,8 +36,8 @@ const Home = () => {
     <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />
 
-      {orders.status === 'success' &&
-        orders.data.pages.map((group, index) => (
+      {status === 'success' &&
+        data.pages.map((group, index) => (
           <ul className="flex flex-col gap-4" key={index}>
             {group.list.map((data: Order, index: number) => {
               return (

@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
+import apiClient from 'client/apiClient';
 import { useRouter } from 'next/navigation';
-
-import apiClient from '@/libs/client/apiClient';
 
 interface UpdateForm {
   email: string;
@@ -14,8 +13,8 @@ export const usePublicProfileUpdate = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (value: UpdateForm) =>
-      apiClient.patch({ url: `/member/setting/info/${value.email}`, data: value }),
+    mutationFn: (data: UpdateForm) =>
+      apiClient.patch(`/member/setting/info/${data.email}`, { data }),
     onSuccess: () => {
       return router.push('/profile');
     },
@@ -27,7 +26,7 @@ export const useAccountSave = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (value: UpdateForm) => apiClient.post({ url: `/member/account`, data: value }),
+    mutationFn: (data: UpdateForm) => apiClient.post(`/member/account`, { data }),
     onSuccess: () => {
       return router.push('/profile');
     },
@@ -36,7 +35,6 @@ export const useAccountSave = () => {
 
 export const useAccountInfoUpdate = () => {
   return useMutation({
-    mutationFn: (value: UpdateForm) =>
-      apiClient.patch({ url: `/member/account/${value.email}`, data: value }),
+    mutationFn: (data: UpdateForm) => apiClient.patch(`/member/account/${data.email}`, { data }),
   });
 };

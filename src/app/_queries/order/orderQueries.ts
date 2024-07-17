@@ -1,15 +1,14 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import apiClient, { InfiniteScrollData } from 'client/apiClient';
 import dayjs from 'dayjs';
 
 import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
 import { GroupOrder, Order, UserOrder } from '@/domain/order';
 import { Shop } from '@/domain/shop';
 import { User } from '@/domain/user';
-import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
-
   const today = dayjs().format('YYYYMMDD');
   const lastWeek = dayjs(today).subtract(7, 'day').format('YYYYMMDD');
 
@@ -29,8 +28,7 @@ export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
         startDate,
         endDate,
       });
-      const { data } = await apiClient.get<InfiniteScrollData<Order>>({
-        url: `/order/recruits`,
+      const { data } = await apiClient.get<InfiniteScrollData<Order>>(`/order/recruits`, {
         params,
       });
       return data;
@@ -56,7 +54,7 @@ export type RecruitResponse = {
 export const useRecruitQuery = (orderNo: string) => {
   return useQuery({
     queryKey: orderKeys.detail(orderNo),
-    queryFn: () => apiClient.get<RecruitResponse>({ url: `/order/recruit/${orderNo}` }),
+    queryFn: () => apiClient.get<RecruitResponse>(`/order/recruit/${orderNo}`),
     select: (data) => data.data,
   });
 };

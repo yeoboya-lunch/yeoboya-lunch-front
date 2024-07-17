@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
+import apiClient, { baseHeader } from 'client/apiClient';
 import { Login, Token } from 'domain/auth';
 import { useRouter } from 'next/navigation';
 
-import { setToken, signOut } from '@/auth';
-import apiClient from '@/libs/client/apiClient';
+import { deleteToken, setToken } from '@/auth';
 
 const userKeys = {
   all: () => ['user'],
@@ -22,17 +22,20 @@ export function useSignUp() {
   return useMutation({
     mutationKey: userKeys.insert(),
     mutationFn: (data: Credentials) =>
-      apiClient.post({ url: '/user/sign-up', data: { ...data, provider: 'yeoboya' } }),
+      apiClient.post('/user/sign-up', { data: { ...data, provider: 'yeoboya' } }),
   });
 }
 
 export const useSignIn = () => {
+  const router = useRouter();
   return useMutation({
     mutationFn: (data: Login) => {
-      return apiClient.post<Token>({ url: '/user/sign-in', data });
+      return apiClient.post<Token>('/user/sign-in', { data });
     },
-    onSuccess: (data) => {
-      setToken(data.data);
+    onSuccess: async (data) => {
+      await setToken(data.data);
+      baseHeader['Authorization'] = `Bearer ${data.data.accessToken}`;
+      router.push('/');
     },
   });
 };
@@ -40,12 +43,10 @@ export const useSignIn = () => {
 export function useLogout() {
   const router = useRouter();
   return useMutation({
-    mutationFn: () =>
-      apiClient.post({
-        url: '/user/sign-out',
-      }),
+    mutationFn: () => apiClient.post('/user/sign-out'),
     onSuccess: async () => {
-      await signOut();
+      await deleteToken();
+      baseHeader['Authorization'] = '';
       router.replace('/');
     },
   });

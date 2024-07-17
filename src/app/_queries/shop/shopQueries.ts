@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import apiClient, { InfiniteScrollData } from 'client/apiClient';
 
 import { shopKeys, ShopListFilter } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
-import apiClient, { InfiniteScrollData } from '@/libs/client/apiClient';
 
 export const useInfiniteShops = (filters?: ShopListFilter) => {
   const { size, page, sort } = Object.assign({ size: 10, page: 1, sort: 'id,desc' }, filters);
@@ -16,10 +16,7 @@ export const useInfiniteShops = (filters?: ShopListFilter) => {
         page: pageParam.toString(),
         sort,
       });
-      const { data } = await apiClient.get<InfiniteScrollData<Shop>>({
-        url: `/shop`,
-        params,
-      });
+      const { data } = await apiClient.get<InfiniteScrollData<Shop>>(`/shop`, { params });
       return data;
     },
     initialPageParam: 1,

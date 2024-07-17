@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { boardKeys } from 'app/_queries/board/boardQueryKeys';
+import apiClient from 'client/apiClient';
 import { Board, Comment } from 'domain/board';
 import { User } from 'domain/user';
-
-import apiClient from '@/libs/client/apiClient';
 
 type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
   (
@@ -18,7 +17,7 @@ type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
   );
 export const useBoardWrite = () => {
   return useMutation({
-    mutationFn: (data: BoardWriteParams) => apiClient.post({ url: `/board/write`, data: data }),
+    mutationFn: (data: BoardWriteParams) => apiClient.post(`/board/write`, { data }),
   });
 };
 
@@ -32,7 +31,7 @@ export const useReplyWrite = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ReplyWriteParams) => apiClient.post({ url: `/board/reply/write`, data }),
+    mutationFn: (data: ReplyWriteParams) => apiClient.post(`/board/reply/write`, { data }),
     onSuccess: (data, values) =>
       queryClient.invalidateQueries({ queryKey: boardKeys.detail(values.boardId) }),
   });

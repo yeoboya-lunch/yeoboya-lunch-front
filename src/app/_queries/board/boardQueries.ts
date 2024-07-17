@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient, { PaginationData, PaginationOptions } from 'client/apiClient';
 import { Board } from 'domain/board';
 
 import { boardKeys } from '@/app/_queries/board/boardQueryKeys';
-import { PaginationOptions } from '@/client/ApiClient';
-import apiClient, { PaginationData } from '@/libs/client/apiClient';
 
 export const useBoardListQuery = (pageParams: PaginationOptions) => {
   const { page, size } = Object.assign({ page: 1, size: 10 }, pageParams);
@@ -18,10 +17,7 @@ export const useBoardListQuery = (pageParams: PaginationOptions) => {
         page: page.toString(),
       });
 
-      return apiClient.get<PaginationData<Board>>({
-        url: '/board',
-        params,
-      });
+      return apiClient.get<PaginationData<Board>>('/board', { params });
     },
     select: (data) => data.data,
   });
@@ -31,7 +27,7 @@ export const useBoardQuery = (boardId: Board['boardId']) => {
   return useQuery({
     queryKey: boardKeys.detail(boardId),
     queryFn: () => {
-      return apiClient.get<Board>({ url: `/board/${boardId}` });
+      return apiClient.get<Board>(`/board/${boardId}`);
     },
     select: (data) => data.data,
   });

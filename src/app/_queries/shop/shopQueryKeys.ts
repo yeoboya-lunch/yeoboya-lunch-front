@@ -1,4 +1,4 @@
-import { PaginationOptions } from '@/client/ApiClient';
+import { PaginationOptions } from 'client/apiClient';
 
 export type ShopListFilter = {
   sort: string;

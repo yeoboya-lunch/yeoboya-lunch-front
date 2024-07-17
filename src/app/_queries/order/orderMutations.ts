@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import apiClient from 'client/apiClient';
 import { useRouter } from 'next/navigation';
 
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
 import { Order, Recruit } from '@/domain/order';
 import { User } from '@/domain/user';
-import apiClient from '@/libs/client/apiClient';
 
 export const useStartOrderRecruit = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (value: Recruit) => apiClient.post({ url: `/order/recruit/start`, data: value }),
+    mutationFn: (data: Recruit) => apiClient.post(`/order/recruit/start`, { data }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.lists() }),
   });
 };
@@ -19,7 +19,7 @@ export const useEndOrderRecruit = () => {
 
   return useMutation({
     mutationFn: (groupOrderId: string) =>
-      apiClient.patch({ url: `/order/recruit/${groupOrderId}`, data: { status: 'END' } }),
+      apiClient.patch(`/order/recruit/${groupOrderId}`, { data: { status: 'END' } }),
     onSuccess: () => {
       router.replace('/');
     },
@@ -43,9 +43,9 @@ export const useOrderRecruitGroupJoin = <T = boolean>(hasData?: T) => {
   return useMutation({
     mutationFn: (value: T extends true ? RecruitJoinPatchBody : RecruitJoinPostBody) => {
       if (hasData) {
-        return apiClient.patch({ url: `/order/recruit/join`, data: value });
+        return apiClient.patch(`/order/recruit/join`, { data: value });
       }
-      return apiClient.post({ url: `/order/recruit/join`, data: value });
+      return apiClient.post(`/order/recruit/join`, { data: value });
     },
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: orderKeys.detail(variables.orderId) });
@@ -60,7 +60,7 @@ export const useOrderRecruitCancel = () => {
 
   return useMutation({
     mutationFn: (orderId: Order['orderId'] | string) =>
-      apiClient.delete({ url: `/order/recruit/join/${orderId}` }),
+      apiClient.delete(`/order/recruit/join/${orderId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
       router.replace('/');
