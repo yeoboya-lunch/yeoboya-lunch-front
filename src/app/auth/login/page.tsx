@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import googleLoginImg from 'public/img_google_login_w.png';
 import naverLoginImg from 'public/img_naver_login_w.png';
-import { useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
@@ -26,21 +25,20 @@ const LoginPage: NextPage = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<LoginForm>();
   const setMember = useSetRecoilState(memberAtom);
-  const [method, setMethod] = useState<'email' | 'phone'>('email');
-
-  const onEmailClick = () => {
-    reset();
-    setMethod('email');
-  };
-
-  const onPhoneClick = () => {
-    reset();
-    setMethod('phone');
-  };
+  // const [method, setMethod] = useState<'email' | 'phone'>('email');
+  //
+  // const onEmailClick = () => {
+  //   reset();
+  //   setMethod('email');
+  // };
+  //
+  // const onPhoneClick = () => {
+  //   reset();
+  //   setMethod('phone');
+  // };
 
   const router = useRouter();
   const onValid = async (validForm: LoginForm) => {
@@ -79,7 +77,7 @@ const LoginPage: NextPage = () => {
         <Label className="flex flex-col gap-2">
           아이디
           <Input
-            {...register('loginId', {
+            {...register('email', {
               required: '아이디를 입력해주세요.',
             })}
             placeholder="아이디를 입력해주세요."
