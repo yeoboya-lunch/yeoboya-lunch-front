@@ -1,5 +1,6 @@
 'use client';
 
+import MemberOrderCard from 'app/order/[orderId]/_components/MemberOrderCard';
 import memberAtom from 'libs/recoil/member';
 import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
@@ -8,7 +9,6 @@ import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
 import { useEndOrderRecruit, useOrderRecruitCancel } from '@/app/_queries/order/orderMutations';
 import { useRecruitQuery } from '@/app/_queries/order/orderQueries';
-import UserOrderCard from '@/app/order/[orderId]/_components/UserOrderCard';
 import Layout from '@/components/layout';
 
 export interface OrderItem {
@@ -97,7 +97,7 @@ const RecruitPost = ({ params }: Props) => {
         <ul className="flex flex-col gap-4">
           {recruit?.group.map((userOrder) => {
             const { groupOrderId, name, orderItem } = userOrder;
-            return <UserOrderCard key={groupOrderId} name={name} items={orderItem} />;
+            return <MemberOrderCard key={groupOrderId} name={name} items={orderItem} />;
           })}
         </ul>
       </div>

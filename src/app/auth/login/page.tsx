@@ -29,7 +29,6 @@ const LoginPage: NextPage = () => {
 
   const onValid = async (value: LoginForm) => {
     mutate(value);
-    router.push('/');
   };
 
   const onInvalid = (errors: FieldErrors) => {

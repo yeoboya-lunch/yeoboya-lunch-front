@@ -1,16 +1,16 @@
 'use client';
 
+import { useSettingMember } from 'app/_queries/member/memberQueries';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 
 import { Button } from '@/app/_components/ui/Button';
-import { useLogout } from '@/app/_queries/auth/authMutations';
-import { useSettingMember } from '@/app/_queries/user/userQueries';
+import { useSignOut } from '@/app/_queries/auth/authMutations';
 import Layout from '@/components/layout';
 
 const ProfilePage: NextPage = () => {
   const { data: member } = useSettingMember();
-  const { mutate } = useLogout();
+  const { mutate } = useSignOut();
 
   return (
     <Layout hasTabBar title="프로필">

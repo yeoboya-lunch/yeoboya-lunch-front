@@ -1,4 +1,4 @@
-import { User } from '@/domain/user';
+import { Member } from 'domain/member';
 
 export type Login = {
   loginId: string;
@@ -6,7 +6,6 @@ export type Login = {
 };
 
 export type Token = {
-  /** The user's postal address. */
   accessToken: string;
   id: string;
   issueDAt: string;
@@ -20,7 +19,7 @@ export type Token = {
 
 export type Session = {
   token: Token;
-  user?: Partial<User & { password: string }>;
+  user?: Partial<Member & { password: string }>;
 };
 
 export type JWT = {

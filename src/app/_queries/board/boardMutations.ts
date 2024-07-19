@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { boardKeys } from 'app/_queries/board/boardQueryKeys';
 import apiClient from 'client/apiClient';
 import { Board, Comment } from 'domain/board';
-import { User } from 'domain/user';
+import { Member } from 'domain/member';
 
 type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
   (
@@ -22,7 +22,7 @@ export const useBoardWrite = () => {
 };
 
 type ReplyWriteParams = {
-  email: User['email'];
+  loginId: Member['loginId'];
   boardId: Board['boardId'];
   content: Comment['content'];
   parentReplyId?: Comment['replyId'];

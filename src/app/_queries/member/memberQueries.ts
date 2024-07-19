@@ -1,19 +1,20 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { memberKeys } from 'app/_queries/member/memberQueryKeys';
+import { useLoginId } from 'app/member/useMemberStore';
 import apiClient, { InfiniteScrollData } from 'client/apiClient';
-
-import { userKeys } from '@/app/_queries/user/userQueryKeys';
-import { User } from '@/domain/user';
+import { Member } from 'domain/member';
 
 type Profile = {
   phoneNumber?: number;
   account?: boolean;
-} & User;
+} & Member;
 
 export const useSettingMember = () => {
+  const loginId = useLoginId();
   return useQuery({
-    queryKey: userKeys.detail(session?.token?.subject),
-    queryFn: () => apiClient.get<Profile>(`/member/${session?.token?.subject}/summary`),
-    enabled: !!session?.token?.subject,
+    queryKey: memberKeys.detail(loginId),
+    queryFn: () => apiClient.get<Profile>(`/member/${loginId}/summary`),
+    enabled: !!loginId,
     select: (data) => data,
   });
 };
@@ -22,14 +23,14 @@ export const useInfiniteMemberList = (page = 0) => {
   const size = 30;
 
   return useInfiniteQuery({
-    queryKey: userKeys.list({ page, size }),
+    queryKey: memberKeys.list({ page, size }),
     queryFn: ({ pageParam }) => {
       const params = new URLSearchParams({
         size: size.toString(),
         page: pageParam.toString(),
       });
 
-      return apiClient.get<InfiniteScrollData<User>>('/member', { params });
+      return apiClient.get<InfiniteScrollData<Member>>('/member', { params });
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

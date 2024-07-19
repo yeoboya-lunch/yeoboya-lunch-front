@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from 'client/apiClient';
+import { Member } from 'domain/member';
 import { useRouter } from 'next/navigation';
 
 import { orderKeys } from '@/app/_queries/order/orderQueryKeys';
 import { Order, Recruit } from '@/domain/order';
-import { User } from '@/domain/user';
 
 export const useStartOrderRecruit = () => {
   const queryClient = useQueryClient();
@@ -27,7 +27,7 @@ export const useEndOrderRecruit = () => {
 };
 export type RecruitJoinPostBody = {
   orderId: string;
-  email: User['name'];
+  email: Member['name'];
   orderItems: Cart[];
 };
 export type RecruitJoinPatchBody = {

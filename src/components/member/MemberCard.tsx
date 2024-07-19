@@ -1,12 +1,17 @@
 'use client';
 
-import { User } from 'domain/user';
+import { Member } from 'domain/member';
 import { useRef, useState } from 'react';
 import useLocalStorage from 'use-local-storage';
 
 import { useObserver } from '@/libs/client/useObserver';
 
-export default function MemberCard({ email, name, nickName, phoneNumber }: Omit<User, 'account'>) {
+export default function MemberCard({
+  email,
+  name,
+  nickName,
+  phoneNumber,
+}: Omit<Member, 'account'>) {
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
 

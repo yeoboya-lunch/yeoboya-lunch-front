@@ -1,12 +1,12 @@
 import { Cart, useOrderRecruitGroupJoin } from 'app/_queries/order/orderMutations';
 import { RecruitResponse, useRecruitQuery } from 'app/_queries/order/orderQueries';
+import { Member } from 'domain/member';
 import { GroupOrder, OrderItem } from 'domain/order';
-import { User } from 'domain/user';
 import memberAtom from 'libs/recoil/member';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-const findMyCart = (recruit: RecruitResponse | undefined, email: User['email']) => {
+const findMyCart = (recruit: RecruitResponse | undefined, email: Member['email']) => {
   return recruit?.group.find((user) => email === user.email);
 };
 

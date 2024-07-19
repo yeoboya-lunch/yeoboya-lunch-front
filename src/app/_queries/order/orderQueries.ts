@@ -1,11 +1,11 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import apiClient, { InfiniteScrollData } from 'client/apiClient';
 import dayjs from 'dayjs';
+import { Member } from 'domain/member';
 
 import { orderKeys, OrderListFilter } from '@/app/_queries/order/orderQueryKeys';
-import { GroupOrder, Order, UserOrder } from '@/domain/order';
+import { GroupOrder, MemberOrder, Order } from '@/domain/order';
 import { Shop } from '@/domain/shop';
-import { User } from '@/domain/user';
 
 export const useInfiniteOrders = (filters: Partial<OrderListFilter> = {}) => {
   const { orderEmail, endDate, startDate, size, page } = filters;
@@ -45,9 +45,9 @@ export type RecruitResponse = {
   order: {
     deliveryFee: number;
     memo: string;
-    joinMember: UserOrder[];
+    joinMember: MemberOrder[];
   } & Pick<Order, 'orderStatus' | 'orderId' | 'lastOrderTime' | 'title'>;
-  orderMember: User;
+  orderMember: Member;
   shop: Shop;
 };
 

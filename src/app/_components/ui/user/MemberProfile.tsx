@@ -9,7 +9,7 @@ type Props = {
   children?: ReactNode;
 } & HTMLAttributes<HTMLSpanElement>;
 
-const UserProfile = ({ src, alt, className, children, ...rest }: Props) => {
+const MemberProfile = ({ src, alt, className, children, ...rest }: Props) => {
   return (
     <Avatar className={cn('h-8 w-8 cursor-pointer', className)} {...rest}>
       <AvatarImage src={src} alt={alt} />
@@ -18,4 +18,4 @@ const UserProfile = ({ src, alt, className, children, ...rest }: Props) => {
   );
 };
 
-export default UserProfile;
+export default MemberProfile;

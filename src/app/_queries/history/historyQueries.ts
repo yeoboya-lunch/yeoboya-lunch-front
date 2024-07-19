@@ -1,19 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import apiClient, { InfiniteScrollData } from 'client/apiClient';
+import { Member } from 'domain/member';
 
 import { historyKeys } from '@/app/_queries/history/historyQueryKeys';
 import { RecruitResponse } from '@/app/_queries/order/orderQueries';
 import { GroupOrder } from '@/domain/order';
-import { User } from '@/domain/user';
 
 export type HistoryJoinResponse = GroupOrder;
 
-export const useHistoryJoinQuery = (email: User['email']) => {
+export const useHistoryJoinQuery = (loginId: Member['loginId']) => {
   return useQuery({
-    queryKey: historyKeys.join(email),
+    queryKey: historyKeys.join(loginId),
     queryFn: () => {
       return apiClient.get<InfiniteScrollData<HistoryJoinResponse>>(
-        `/order/recruit/histories/join/${email}`,
+        `/order/recruit/histories/join/${loginId}`,
       );
     },
     select: (data) => data.data,
@@ -21,11 +21,11 @@ export const useHistoryJoinQuery = (email: User['email']) => {
 };
 
 export type HistoryRecruitResponse = RecruitResponse['order'];
-export const useHistoryRecruitQuery = (email: User['email']) => {
+export const useHistoryRecruitQuery = (loginId: Member['loginId']) => {
   return useQuery({
-    queryKey: historyKeys.recruit(email),
+    queryKey: historyKeys.recruit(loginId),
     queryFn: () => {
-      return apiClient.get<HistoryRecruitResponse[]>(`/order/recruit/histories/${email}`);
+      return apiClient.get<HistoryRecruitResponse[]>(`/order/recruit/histories/${loginId}`);
     },
     select: (data) => data.data,
   });

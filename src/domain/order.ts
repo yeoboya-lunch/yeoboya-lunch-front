@@ -1,18 +1,19 @@
+import { Member } from 'domain/member';
+
 import { Shop, ShopItem } from '@/domain/shop';
-import { User } from '@/domain/user';
 
 export type Order = {
   orderId: number;
   title: string;
-  orderMemberName: User['name'];
-  orderMemberEmail: User['email'];
+  orderMemberName: Member['name'];
+  orderMemberEmail: Member['email'];
   shopName: Shop['shopName'];
   lastOrderTime: string;
   orderStatus: '모집시작' | '모집종료' | '주문완료' | '주문취소';
   groupCount: number;
 };
 
-export type UserOrder = {
+export type MemberOrder = {
   orderId: number;
   groupOrderId: number;
   title: string;
@@ -34,13 +35,13 @@ export type GroupOrder = {
   orderId: number;
   title: string;
   orderItem: OrderItem[];
-  email: User['email'];
-  name: User['name'];
+  email: Member['email'];
+  name: Member['name'];
   totalPrice: number;
 };
 
 export type Recruit = {
-  email: User['name'];
+  email: Member['name'];
   shopName: Shop['shopName'];
   title: string;
   deliveryFee: number;

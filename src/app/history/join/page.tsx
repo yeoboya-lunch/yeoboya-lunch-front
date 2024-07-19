@@ -1,14 +1,13 @@
 'use client';
-import { useRecoilValue } from 'recoil';
+import { useLoginId } from 'app/member/useMemberStore';
 
 import { useHistoryJoinQuery } from '@/app/_queries/history/historyQueries';
 import JoinHistoryItem from '@/app/history/join/_components/JoinHistoryItem';
 import Layout from '@/components/layout';
-import memberAtom from '@/libs/recoil/member';
 
 const JoinHistoryPage = () => {
-  const { email } = useRecoilValue(memberAtom);
-  const { data } = useHistoryJoinQuery(email ?? '');
+  const loginId = useLoginId();
+  const { data } = useHistoryJoinQuery(loginId);
 
   return (
     <Layout className="p-0" title="주문 참여 내역" canGoBack>
