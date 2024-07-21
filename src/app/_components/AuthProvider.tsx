@@ -2,29 +2,35 @@
 
 import { useAuthActions, useMaxAge } from 'app/auth/useAuthStore';
 import { useLoginId } from 'app/member/useMemberStore';
-import { baseHeader } from 'client/apiClient';
+import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
+
+import { refreshAccessToken } from '@/auth';
 
 type Props = {
   children: ReactNode;
 };
 
 const AuthProvider = ({ children }: Props) => {
-  const token = baseHeader['Authorization'];
   const loginId = useLoginId();
   const maxAge = useMaxAge();
-  const { reset } = useAuthActions();
+  const { setMaxAge } = useAuthActions();
 
   useEffect(() => {
-    const refresh = async () => {
-      // if () {
-      //   const data = await refreshAccessToken(loginId);
-      // }
-      console.log(document.cookie);
-    };
+    const tokenMaxAge = dayjs(maxAge).diff(Date.now(), 'second');
+    const timeout = setTimeout(
+      async () => {
+        const token = await refreshAccessToken(loginId);
+        if (token) {
+          setMaxAge(token.tokenExpirationTime);
+        }
+      },
+      tokenMaxAge - 60 * 60 * 10,
+    );
 
-    refresh();
-  }, [maxAge, token, reset, loginId]);
+    return () => clearTimeout(timeout);
+  }, [loginId, maxAge, setMaxAge]);
+
   return <>{children}</>;
 };
 
