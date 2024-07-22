@@ -14,7 +14,7 @@ import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
 
 const Home = () => {
-  const { fetchNextPage, status, data, error } = useInfiniteOrders();
+  const { fetchNextPage, status, data } = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
 

@@ -1,8 +1,10 @@
 export type Headers = { [key: string]: string };
 export type Options<B = unknown> = {
+  baseURL?: string;
   headers?: Headers;
   params?: Params;
   data?: B;
+  signal?: AbortSignal;
 };
 export type Params = URLSearchParams;
 export type PaginationOptions = {
@@ -10,23 +12,6 @@ export type PaginationOptions = {
   size?: number;
 };
 
-type GetConfig = {
-  url: string;
-  params?: Params;
-  config?: Omit<Options, 'data'>;
-};
-type PostConfig<B> = {
-  url: string;
-  config?: Options<B>;
-};
-type PatchConfig<B> = {
-  url: string;
-  config?: Options<B>;
-};
-type DeleteConfig = {
-  url: string;
-  config?: Omit<Options, 'data'>;
-};
 type Response<T = unknown> = {
   data: T;
   code: number;
@@ -67,7 +52,7 @@ export const baseHeader: Headers = {
 
 const apiClient = {
   get: async <T = unknown>(url: string, config?: Omit<Options, 'data'>): Promise<Response<T>> => {
-    const fetchUrl = `${baseUrl}${url}${paramToString(config?.params)}`;
+    const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = { ...baseHeader, ...config?.headers };
 
     const result = await fetch(fetchUrl, {
@@ -87,7 +72,7 @@ const apiClient = {
     url: string,
     config?: Options<B>,
   ): Promise<Response<T>> => {
-    const fetchUrl = `${baseUrl}${url}${paramToString(config?.params)}`;
+    const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
       'Content-Type': 'application/json;charset=UTF-8',
@@ -110,7 +95,7 @@ const apiClient = {
     url: string,
     config?: Options<B>,
   ): Promise<Response<T>> => {
-    const fetchUrl = `${baseUrl}${url}${paramToString(config?.params)}`;
+    const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
       'Content-Type': 'application/json;charset=UTF-8',
@@ -134,7 +119,7 @@ const apiClient = {
     url: string,
     config?: Omit<Options, 'data'>,
   ): Promise<Response<T>> => {
-    const fetchUrl = `${baseUrl}${url}${paramToString(config?.params)}`;
+    const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({ ...baseHeader, ...config?.headers });
 
     const result = await fetch(fetchUrl, {

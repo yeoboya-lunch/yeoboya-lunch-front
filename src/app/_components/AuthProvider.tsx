@@ -2,10 +2,10 @@
 
 import { useAuthActions, useMaxAge } from 'app/auth/useAuthStore';
 import { useLoginId } from 'app/member/useMemberStore';
+import { refreshAccessToken } from 'auth';
+import apiClient, { baseHeader } from 'client/apiClient';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
-
-import { refreshAccessToken } from '@/auth';
 
 type Props = {
   children: ReactNode;
@@ -17,12 +17,18 @@ const AuthProvider = ({ children }: Props) => {
   const { setMaxAge } = useAuthActions();
 
   useEffect(() => {
+    if (!maxAge) return;
     const tokenMaxAge = dayjs(maxAge).diff(Date.now(), 'second');
     const timeout = setTimeout(
       async () => {
-        const token = await refreshAccessToken(loginId);
-        if (token) {
-          setMaxAge(token.tokenExpirationTime);
+        try {
+          const token = await refreshAccessToken(loginId);
+          if (token) {
+            setMaxAge(token.tokenExpirationTime);
+            baseHeader['Authorization'] = `Bearer ${token.accessToken}`;
+          }
+        } catch (e) {
+          console.error(e);
         }
       },
       tokenMaxAge - 60 * 60 * 10,
@@ -30,6 +36,17 @@ const AuthProvider = ({ children }: Props) => {
 
     return () => clearTimeout(timeout);
   }, [loginId, maxAge, setMaxAge]);
+
+  useEffect(() => {
+    (async () => {
+      const result = await apiClient.get('/auth/api/token', {
+        baseURL: process.env.NEXT_PUBLIC_FRONT_URL,
+      });
+      if (result.data) {
+        baseHeader['Authorization'] = `Bearer ${result.data}`;
+      }
+    })();
+  }, []);
 
   return <>{children}</>;
 };

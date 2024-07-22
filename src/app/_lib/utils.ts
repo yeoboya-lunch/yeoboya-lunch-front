@@ -6,5 +6,5 @@ export const cn = (...inputs: ClassValue[]) => {
 };
 
 export const wait = async (second: number) => {
-  return new Promise((resolve) => setTimeout(resolve, second * 1000));
+  return new Promise<NodeJS.Timeout>((resolve) => setTimeout(resolve, second * 1000));
 };
