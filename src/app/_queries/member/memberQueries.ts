@@ -15,7 +15,7 @@ export const useSettingMember = () => {
     queryKey: memberKeys.detail(loginId),
     queryFn: () => apiClient.get<Profile>(`/member/${loginId}/summary`),
     enabled: !!loginId,
-    select: (data) => data,
+    select: (data) => data.data,
   });
 };
 

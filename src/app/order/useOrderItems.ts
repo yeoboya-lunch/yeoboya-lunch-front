@@ -1,10 +1,9 @@
 import { Cart, useOrderRecruitGroupJoin } from 'app/_queries/order/orderMutations';
 import { RecruitResponse, useRecruitQuery } from 'app/_queries/order/orderQueries';
+import { useLoginId } from 'app/member/useMemberStore';
 import { Member } from 'domain/member';
 import { GroupOrder, OrderItem } from 'domain/order';
-import memberAtom from 'libs/recoil/member';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 const findMyCart = (recruit: RecruitResponse | undefined, email: Member['email']) => {
   return recruit?.group.find((user) => email === user.email);
@@ -18,11 +17,10 @@ const findOrderItem = (
 };
 
 export const useOrderItems = (orderId: string) => {
-  const member = useRecoilValue(memberAtom);
-  const email = member.email as string;
+  const loginId = useLoginId();
 
   const { data: recruit } = useRecruitQuery(orderId);
-  const existsData = !!recruit?.group.find((user) => user.email === email);
+  const existsData = !!recruit?.group.find((user) => user.loginId === loginId);
   const { mutate } = useOrderRecruitGroupJoin(existsData);
 
   const initCart: GroupOrder = {
@@ -35,7 +33,7 @@ export const useOrderItems = (orderId: string) => {
     title: '',
   };
 
-  const [myOrder, setMyOrder] = useState(() => findMyCart(recruit, email) ?? initCart);
+  const [myOrder, setMyOrder] = useState(() => findMyCart(recruit, loginId) ?? initCart);
 
   const updateQuantity = ({ itemName, quantity }: { itemName: string; quantity: number }) => {
     if (!recruit?.shop) return;
@@ -74,7 +72,7 @@ export const useOrderItems = (orderId: string) => {
       mutate({ orderId, orderItems, groupOrderId: myOrder.groupOrderId });
       return;
     }
-    mutate({ email, orderId, orderItems });
+    mutate({ loginId, orderId, orderItems });
   };
 
   return {

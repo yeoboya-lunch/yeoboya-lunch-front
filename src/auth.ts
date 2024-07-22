@@ -13,10 +13,6 @@ export const deleteToken = async () => {
   cookies().delete('RefreshToken');
 };
 
-export const auth = async () => {};
-
-export const handlers = async () => {};
-
 export const setToken = async (token: Token) => {
   cookies().set('RefreshToken', token.refreshToken, {
     secure: process.env.NEXT_PUBLIC_MODE === 'prod',

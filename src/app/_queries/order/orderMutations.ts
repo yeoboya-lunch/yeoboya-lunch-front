@@ -27,7 +27,7 @@ export const useEndOrderRecruit = () => {
 };
 export type RecruitJoinPostBody = {
   orderId: string;
-  email: Member['name'];
+  loginId: Member['loginId'];
   orderItems: Cart[];
 };
 export type RecruitJoinPatchBody = {

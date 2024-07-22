@@ -41,7 +41,7 @@ const Home = () => {
           <ul className="flex flex-col gap-4" key={index}>
             {group.list.map((data: Order, index: number) => {
               return (
-                <Link href={`/order/${data.orderId}`} key={index}>
+                <Link href={`/order/${data.orderId}`} key={index} scroll={false}>
                   <OrderRecruitCard
                     orderMemberName={data.orderMemberName}
                     shopName={data.shopName}

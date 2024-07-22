@@ -23,8 +23,13 @@ export default function ShopCard({ shopName }: TShop) {
 
   return (
     <div className="mt-4 flex w-[calc(50%_-_1rem)] cursor-pointer items-center justify-evenly">
-      <div className="block max-w-sm rounded-lg bg-white shadow-lg dark:bg-neutral-700">
-        <Link href={`/order?shopName=${shopName}`} className="flex flex-col " ref={target}>
+      <Link
+        href={`/order?shopName=${shopName}`}
+        scroll={false}
+        className="flex flex-col "
+        ref={target}
+      >
+        <div className="block max-w-sm rounded-lg bg-white shadow-lg dark:bg-neutral-700">
           {visible && (
             <Image
               width={150}
@@ -34,13 +39,13 @@ export default function ShopCard({ shopName }: TShop) {
               src="/defaultImage.jpg"
             />
           )}
-        </Link>
-        <div className="p-6">
-          <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-            {shopName}
-          </h5>
+          <div className="p-6">
+            <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+              {shopName}
+            </h5>
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

@@ -1,9 +1,8 @@
 'use client';
 
+import { useLoginId } from 'app/member/useMemberStore';
 import MemberOrderCard from 'app/order/[orderId]/_components/MemberOrderCard';
-import memberAtom from 'libs/recoil/member';
 import Link from 'next/link';
-import { useRecoilValue } from 'recoil';
 
 import { Badge } from '@/app/_components/ui/Badge';
 import { Button } from '@/app/_components/ui/Button';
@@ -35,17 +34,17 @@ type Props = {
 };
 
 const RecruitPost = ({ params }: Props) => {
-  const { email } = useRecoilValue(memberAtom);
+  const loginId = useLoginId();
   const { data: recruit } = useRecruitQuery(params.orderId);
   const { mutate } = useEndOrderRecruit();
   const { mutate: cancelMutate } = useOrderRecruitCancel();
 
   const totalPrice = recruit?.order.joinMember.reduce((acc, cur) => acc + cur.totalPrice, 0);
-  const isMyOrder = email === recruit?.orderMember.email;
+  const isMyOrder = loginId === recruit?.orderMember.loginId;
   const isRecruitEnd = recruit?.order.orderStatus === '모집종료';
 
   const EndRecruit = () => {
-    if (email !== recruit?.orderMember.email) return;
+    if (loginId !== recruit?.orderMember.loginId) return;
     mutate(params.orderId);
   };
 

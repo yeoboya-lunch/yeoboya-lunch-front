@@ -17,16 +17,30 @@ const AuthProvider = ({ children }: Props) => {
   const { setMaxAge } = useAuthActions();
 
   useEffect(() => {
-    if (!maxAge) return;
+    const refresh = async () => {
+      try {
+        const token = await refreshAccessToken(loginId);
+        if (token) {
+          setMaxAge(token.tokenExpirationTime);
+          baseHeader['Authorization'] = `Bearer ${token.accessToken}`;
+          return token;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    if (!maxAge) {
+      refresh();
+      return;
+    }
+
     const tokenMaxAge = dayjs(maxAge).diff(Date.now(), 'second');
+
     const timeout = setTimeout(
       async () => {
         try {
-          const token = await refreshAccessToken(loginId);
-          if (token) {
-            setMaxAge(token.tokenExpirationTime);
-            baseHeader['Authorization'] = `Bearer ${token.accessToken}`;
-          }
+          refresh();
         } catch (e) {
           console.error(e);
         }
@@ -43,6 +57,7 @@ const AuthProvider = ({ children }: Props) => {
         baseURL: process.env.NEXT_PUBLIC_FRONT_URL,
       });
       if (result.data) {
+        console.log(result.data);
         baseHeader['Authorization'] = `Bearer ${result.data}`;
       }
     })();

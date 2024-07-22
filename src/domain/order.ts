@@ -17,6 +17,7 @@ export type MemberOrder = {
   orderId: number;
   groupOrderId: number;
   title: string;
+  loginId: string;
   email: string;
   name: string;
   orderItem: OrderItem[];
@@ -41,7 +42,7 @@ export type GroupOrder = {
 };
 
 export type Recruit = {
-  email: Member['name'];
+  loginId: Member['loginId'];
   shopName: Shop['shopName'];
   title: string;
   deliveryFee: number;
