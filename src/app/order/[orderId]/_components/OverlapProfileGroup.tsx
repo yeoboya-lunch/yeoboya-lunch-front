@@ -1,4 +1,4 @@
-import MemberProfile from 'app/_components/ui/user/MemberProfile';
+import UserProfile from '@/app/_components/ui/user/UserProfile';
 
 type Props = {
   users: { name: string; image: string }[];
@@ -12,7 +12,7 @@ const OverlapProfileGroup = ({ users, count }: Props) => {
   return (
     <div className="flex space-x-[-8px]">
       {showGroup.map((user, index, array) => (
-        <MemberProfile
+        <UserProfile
           key={index}
           src={user.image}
           alt={user.name}
@@ -21,9 +21,9 @@ const OverlapProfileGroup = ({ users, count }: Props) => {
         />
       ))}
       {restGroupCount > 0 && (
-        <MemberProfile alt={'기본 이미지'} className="h-6 w-6 text-xs">
+        <UserProfile alt={'기본 이미지'} className="h-6 w-6 text-xs">
           +
-        </MemberProfile>
+        </UserProfile>
       )}
     </div>
   );

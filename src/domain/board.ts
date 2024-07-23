@@ -1,4 +1,4 @@
-import { Member } from 'domain/member';
+import { User } from '@/domain/user';
 
 export type Board = {
   boardId: number;
@@ -11,7 +11,7 @@ export type Board = {
     childReplies?: CommentReply[];
   })[];
   replyCount: 0;
-} & Pick<Member, 'loginId' | 'name'>;
+} & Pick<User, 'email' | 'name'>;
 
 export type HashTag = {
   tag: string;

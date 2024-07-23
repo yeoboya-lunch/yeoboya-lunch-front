@@ -1,31 +1,34 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import apiClient, { InfiniteScrollData } from 'client/apiClient';
 
 import { shopKeys, ShopListFilter } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
+import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
-export const useInfiniteShops = (filters?: ShopListFilter) => {
-  const { size, page, sort } = Object.assign({ size: 10, page: 1, sort: 'id,desc' }, filters);
+export const useInfiniteShops = (filters: ShopListFilter = {}) => {
+  const { size, page, sort } = filters;
+  const { get } = useFetchWrapper();
 
   return useInfiniteQuery({
-    queryKey: shopKeys.list({ size, page, sort }),
+    queryKey: shopKeys.list({
+      size: size ?? 10,
+      page: page ?? 1,
+      sort: sort ?? 'id,desc',
+    }),
     queryFn: async ({ pageParam, queryKey }) => {
       const [, , { size, sort }] = queryKey;
-      const params = new URLSearchParams({
-        size: size.toString(),
-        page: pageParam.toString(),
-        sort,
+      const { data } = await get<InfiniteScrollData<Shop>>({
+        url: `/shop`,
+        params: { size: size, page: pageParam, sort },
       });
-      const { data } = await apiClient.get<InfiniteScrollData<Shop>>(`/shop`, { params });
       return data;
     },
     initialPageParam: 1,
     refetchOnMount: true,
     getNextPageParam: (lastPage) => {
-      if (lastPage.pagination.hasNext) return lastPage.pagination.pageNo + 1;
+      if (lastPage.data.pagination.hasNext) return lastPage.data.pagination.pageNo + 1;
     },
     getPreviousPageParam: (firstPage) => {
-      if (firstPage.pagination.hasPrevious) return firstPage.pagination.pageNo - 1;
+      if (firstPage.data.pagination.hasPrevious) return firstPage.data.pagination.pageNo - 1;
     },
   });
 };

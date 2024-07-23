@@ -36,7 +36,7 @@ const ShopPage: NextPage = () => {
       {shop.status === 'success' &&
         shop.data.pages.map((group, index: number) => (
           <div className="mb-2 flex flex-wrap gap-4" key={index}>
-            {group.list.map((data, index: number) => {
+            {group.data.list.map((data, index: number) => {
               return <ShopCard key={index} shopName={data.shopName} />;
             })}
           </div>

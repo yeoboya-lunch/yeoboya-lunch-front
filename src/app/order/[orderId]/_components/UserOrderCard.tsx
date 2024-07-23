@@ -1,9 +1,9 @@
-import MemberProfile from 'app/_components/ui/user/MemberProfile';
-import { Member } from 'domain/member';
 import defaultImg from 'public/defaultImage.jpg';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';
+import UserProfile from '@/app/_components/ui/user/UserProfile';
 import { OrderItems } from '@/app/order/[orderId]/page';
+import { User } from '@/domain/user';
 
 const users = [
   {
@@ -25,15 +25,15 @@ const users = [
 ];
 
 type Props = {
-  name: Member['name'];
+  name: User['name'];
   items: OrderItems[];
 };
 
-const MemberOrderCard = ({ name, items }: Props) => {
+const UserOrderCard = ({ name, items }: Props) => {
   return (
     <Card>
       <CardHeader className="flex-row items-center gap-2 space-y-0 text-lg">
-        <MemberProfile src={users[0].image} alt="유저 이름" />
+        <UserProfile src={users[0].image} alt="유저 이름" />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
       <CardContent className="text- flex flex-col justify-between gap-2 text-lg">
@@ -60,4 +60,4 @@ const MemberOrderCard = ({ name, items }: Props) => {
   );
 };
 
-export default MemberOrderCard;
+export default UserOrderCard;

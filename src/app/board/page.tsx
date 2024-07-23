@@ -27,7 +27,7 @@ const BoardPage: NextPage = () => {
       {data?.pagination.isEmpty && (
         <div className="mt-5 flex flex-col items-center border border-dotted p-10">
           <div>사진</div>
-          <Link href="/board/write" scroll={false}>
+          <Link href="/board/write">
             <div>Create a New Board</div>
           </Link>
         </div>
@@ -41,7 +41,6 @@ const BoardPage: NextPage = () => {
               key={boardId}
               href={`/board/${boardId}`}
               className="flex cursor-pointer flex-col items-start p-4"
-              scroll={false}
             >
               <div className="mt-2 flex">
                 {content.hashTag.map(({ tag }, index) => {
