@@ -1,11 +1,11 @@
-import { PaginationOptions } from '@/client/ApiClient';
+import { PaginationOptions } from 'client/apiClient';
 
 export type ShopListFilter = {
-  sort?: string;
+  sort: string;
 } & PaginationOptions;
 
 export const shopKeys = {
   all: () => ['shop'] as const,
   lists: () => [...shopKeys.all(), 'list'] as const,
-  list: (filters: ShopListFilter) => [...shopKeys.lists(), { ...filters }] as const,
+  list: (filters: Required<ShopListFilter>) => [...shopKeys.lists(), { ...filters }] as const,
 };

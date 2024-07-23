@@ -1,12 +1,12 @@
 'use client';
 
 import { ImageIcon } from '@radix-ui/react-icons';
+import { useLoginId } from 'app/member/useMemberStore';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { useStartOrderRecruit } from '@/app/_queries/order/orderMutations';
 import Button from '@/components/button';
@@ -14,14 +14,12 @@ import Input from '@/components/input';
 import Layout from '@/components/layout';
 import TextArea from '@/components/textarea';
 import type { Recruit } from '@/domain/order';
-import memberAtom from '@/libs/recoil/member';
 
 const OrderPage: NextPage = () => {
-  const router = useRouter();
   const search = useSearchParams();
   const { mutate, error } = useStartOrderRecruit();
 
-  const iMember = useRecoilValue(memberAtom);
+  const loginId = useLoginId();
 
   useEffect(() => {
     const dateControl = document.querySelector('input[type="datetime-local"]') as HTMLInputElement;
@@ -38,13 +36,12 @@ const OrderPage: NextPage = () => {
   });
 
   const onValid = (recruitForm: Recruit) => {
-    recruitForm.email = iMember.email!;
+    recruitForm.loginId = loginId;
     recruitForm.shopName = search.get('shopName') || '';
     recruitForm.lastOrderTime = (
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
     mutate(recruitForm, {
-      onSuccess: () => router.push('/'),
       onError: () =>
         setError('deliveryFee', { type: 'focus', message: error?.message }, { shouldFocus: true }),
     });

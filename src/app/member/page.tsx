@@ -1,10 +1,10 @@
 'use client';
 
+import { useInfiniteMemberList } from 'app/_queries/member/memberQueries';
 import type { NextPage } from 'next';
 import { useEffect, useRef } from 'react';
 import useLocalStorage from 'use-local-storage';
 
-import { useInfiniteMemberList } from '@/app/_queries/user/userQueries';
 import Layout from '@/components/layout';
 import MemberCard from '@/components/member/MemberCard';
 import { useObserver } from '@/libs/client/useObserver';
@@ -35,11 +35,11 @@ const MemberPage: NextPage = () => {
       {member.status === 'success' &&
         member.data.pages.map((group, index) => (
           <div className="mb-2 flex flex-wrap gap-4" key={index}>
-            {group.data.data.list.map((data, index) => {
+            {group.data.list.map((data, index) => {
               return (
                 <MemberCard
                   key={index}
-                  email={data.email}
+                  loginId={data.loginId}
                   name={data.name}
                   nickName={data.nickName}
                   phoneNumber={data.phoneNumber}
