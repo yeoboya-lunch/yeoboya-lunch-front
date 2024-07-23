@@ -7,11 +7,11 @@ import useLocalStorage from 'use-local-storage';
 import { useObserver } from '@/libs/client/useObserver';
 
 export default function MemberCard({
-  email,
+  loginId,
   name,
   nickName,
   phoneNumber,
-}: Omit<Member, 'account'>) {
+}: Omit<Member, 'account' | 'email'>) {
   const target = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -36,7 +36,7 @@ export default function MemberCard({
         <div className="flex flex-col " ref={target} onClick={() => setScrollY(window.scrollY)}>
           {visible && (
             <>
-              <div className="mt-2 text-base font-bold">{email}</div>
+              <div className="mt-2 text-base font-bold">{loginId}</div>
               <div className="flex space-x-1">
                 <div className="text-sm text-gray-700">{name}</div>
                 <div className="text-sm text-gray-700">{phoneNumber}</div>

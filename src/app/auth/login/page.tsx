@@ -5,6 +5,7 @@ import { Label } from 'app/_components/ui/input/Label';
 import { useSignIn } from 'app/_queries/auth/authMutations';
 import Layout from 'components/layout';
 import type { NextPage } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import googleLoginImg from 'public/img_google_login_w.png';
@@ -93,13 +94,13 @@ const LoginPage: NextPage = () => {
           </div>
         </div>
         <div className="mt-2 flex items-center justify-center gap-4">
-          <img
+          <Image
             src={naverLoginImg.src}
             alt="naver login"
             className="w-1/12 cursor-pointer"
             onClick={handleNaverLogin}
           />
-          <img
+          <Image
             src={googleLoginImg.src}
             alt="google login"
             className="w-1/12 cursor-pointer"

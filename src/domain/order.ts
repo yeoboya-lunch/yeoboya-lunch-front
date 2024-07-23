@@ -36,7 +36,7 @@ export type GroupOrder = {
   orderId: number;
   title: string;
   orderItem: OrderItem[];
-  email: Member['email'];
+  loginId: Member['loginId'];
   name: Member['name'];
   totalPrice: number;
 };

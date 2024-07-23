@@ -5,8 +5,8 @@ import { Member } from 'domain/member';
 import { GroupOrder, OrderItem } from 'domain/order';
 import { useState } from 'react';
 
-const findMyCart = (recruit: RecruitResponse | undefined, email: Member['email']) => {
-  return recruit?.group.find((user) => email === user.email);
+const findMyCart = (recruit: RecruitResponse | undefined, loginId: Member['loginId']) => {
+  return recruit?.group.find((user) => loginId === user.loginId);
 };
 
 const findOrderItem = (
@@ -24,7 +24,7 @@ export const useOrderItems = (orderId: string) => {
   const { mutate } = useOrderRecruitGroupJoin(existsData);
 
   const initCart: GroupOrder = {
-    email: '',
+    loginId: '',
     name: '',
     orderItem: [],
     totalPrice: 0,

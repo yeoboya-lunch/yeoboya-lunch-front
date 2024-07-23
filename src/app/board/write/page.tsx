@@ -1,7 +1,7 @@
 'use client';
 
+import { useLoginId } from 'app/member/useMemberStore';
 import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -15,11 +15,11 @@ import { Board, HashTag } from '@/domain/board';
 
 const WritePage: NextPage = () => {
   const board = useBoardWrite();
-  const { data: session } = useSession();
+  const loginId = useLoginId();
   const [tags, setTags] = useState<HashTag[]>([]);
 
   const onValidBoard: SubmitHandler<Board> = (validForm) => {
-    validForm.email = session?.token.subject ?? '';
+    validForm.loginId = loginId;
     validForm.hashTag = tags;
     board.mutate(validForm);
   };

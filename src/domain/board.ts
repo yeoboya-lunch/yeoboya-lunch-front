@@ -11,7 +11,7 @@ export type Board = {
     childReplies?: CommentReply[];
   })[];
   replyCount: 0;
-} & Pick<Member, 'email' | 'name'>;
+} & Pick<Member, 'loginId' | 'name'>;
 
 export type HashTag = {
   tag: string;

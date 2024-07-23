@@ -61,8 +61,8 @@ export const useOrderRecruitCancel = () => {
   return useMutation({
     mutationFn: (orderId: Order['orderId'] | string) =>
       apiClient.delete(`/order/recruit/join/${orderId}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
       router.replace('/');
     },
   });

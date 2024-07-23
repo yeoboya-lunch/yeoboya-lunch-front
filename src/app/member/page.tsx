@@ -39,7 +39,7 @@ const MemberPage: NextPage = () => {
               return (
                 <MemberCard
                   key={index}
-                  email={data.email}
+                  loginId={data.loginId}
                   name={data.name}
                   nickName={data.nickName}
                   phoneNumber={data.phoneNumber}

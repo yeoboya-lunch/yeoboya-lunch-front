@@ -15,7 +15,7 @@ const INITIAL_STATE: AuthState = {
   maxAge: '',
 };
 
-const useAuthStore = create<AuthState & AuthActions>()((set, get) => ({
+const useAuthStore = create<AuthState & AuthActions>()((set) => ({
   ...INITIAL_STATE,
   actions: {
     reset: () => set(INITIAL_STATE),

@@ -11,7 +11,7 @@ const userKeys = {
   all: () => ['user'],
   list: () => [...userKeys.all(), 'list'],
   details: () => [...userKeys.all(), 'detail'],
-  detail: (email: string) => [...userKeys.details(), email],
+  detail: (loginId: string) => [...userKeys.details(), loginId],
   insert: () => ['sign-up'],
 };
 type Credentials = {

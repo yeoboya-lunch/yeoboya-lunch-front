@@ -4,7 +4,7 @@ import apiClient from 'client/apiClient';
 import { Board, Comment } from 'domain/board';
 import { Member } from 'domain/member';
 
-type BoardWriteParams = Pick<Board, 'email' | 'title' | 'hashTag' | 'content'> &
+type BoardWriteParams = Pick<Board, 'loginId' | 'title' | 'hashTag' | 'content'> &
   (
     | {
         pin: number;
