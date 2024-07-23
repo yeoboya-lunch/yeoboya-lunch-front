@@ -14,14 +14,17 @@ type Props = {
 const AuthProvider = ({ children }: Props) => {
   const loginId = useLoginId();
   const maxAge = useMaxAge();
-  const { setMaxAge } = useAuthActions();
+  const { init } = useAuthActions();
 
   useEffect(() => {
     const refresh = async () => {
       try {
         const token = await refreshAccessToken(loginId);
         if (token) {
-          setMaxAge(token.tokenExpirationTime);
+          init({
+            token: token.accessToken,
+            maxAge: token.tokenExpirationTime,
+          });
           baseHeader['Authorization'] = `Bearer ${token.accessToken}`;
           return token;
         }
@@ -49,7 +52,7 @@ const AuthProvider = ({ children }: Props) => {
     );
 
     return () => clearTimeout(timeout);
-  }, [loginId, maxAge, setMaxAge]);
+  }, [loginId, maxAge, init]);
 
   useEffect(() => {
     (async () => {

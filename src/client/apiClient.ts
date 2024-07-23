@@ -12,7 +12,7 @@ export type PaginationOptions = {
   size?: number;
 };
 
-type Response<T = unknown> = {
+export type Response<T = unknown> = {
   data: T;
   code: number;
   message: string;

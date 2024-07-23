@@ -1,6 +1,6 @@
 'use client';
 
-import { ChatBubbleIcon, CheckCircledIcon, Pencil1Icon } from '@radix-ui/react-icons';
+import { ChatBubbleIcon, HeartFilledIcon, HeartIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
@@ -22,9 +22,15 @@ import Layout from '@/components/layout';
 const BoardPage: NextPage = () => {
   const { data } = useBoardListQuery({ page: 0 });
 
+  if (!data) {
+    return null;
+  }
+
+  const { pagination, list } = data;
+
   return (
-    <Layout hasTabBar title="자유게시판">
-      {data?.pagination.isEmpty && (
+    <Layout hasTabBar title="자유게시판" className="p-0">
+      {pagination.isEmpty && (
         <div className="mt-5 flex flex-col items-center border border-dotted p-10">
           <div>사진</div>
           <Link href="/board/write" scroll={false}>
@@ -34,8 +40,8 @@ const BoardPage: NextPage = () => {
       )}
 
       <div className="divide-y-[2px]">
-        {data?.list?.map((content) => {
-          const { boardId, title, name, createDate } = content;
+        {list?.map((content) => {
+          const { boardId, title, name, createDate, likeCount, replyCount, clickLiked } = content;
           return (
             <Link
               key={boardId}
@@ -62,14 +68,18 @@ const BoardPage: NextPage = () => {
                 <span>{name}</span>
                 <span className="text-muted-foreground">{createDate}</span>
               </div>
-              <div className="mt-3 flex w-full justify-end space-x-5">
-                <span className="flex items-center space-x-2 text-sm">
-                  <CheckCircledIcon className="h-4 w-4" />
-                  <span>공감 1</span>
+              <div className="mt-3 flex w-full justify-end space-x-5 text-base">
+                <span className="flex items-center gap-2">
+                  {clickLiked ? (
+                    <HeartFilledIcon className="h-4 w-4 text-accent" />
+                  ) : (
+                    <HeartIcon className="h-4 w-4" />
+                  )}
+                  <span>{likeCount}</span>
                 </span>
-                <span className="flex items-center space-x-2 text-sm">
+                <span className="flex items-center space-x-2">
                   <ChatBubbleIcon className="h-4 w-4" />
-                  <span>답변 1</span>
+                  <span>{replyCount}</span>
                 </span>
               </div>
             </Link>

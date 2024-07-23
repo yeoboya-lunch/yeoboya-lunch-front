@@ -10,7 +10,10 @@ export type Board = {
   replies: (Comment & {
     childReplies?: CommentReply[];
   })[];
-  replyCount: 0;
+  replyCount: number;
+  likeCount: number;
+  clickLiked: boolean;
+  secret: boolean;
 } & Pick<Member, 'loginId' | 'name'>;
 
 export type HashTag = {

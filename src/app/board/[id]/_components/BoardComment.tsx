@@ -13,6 +13,7 @@ type Props = {
 };
 
 const BoardComment = ({ comment, boardId }: Props) => {
+  console.log(comment);
   const { replyId, writer, content, childReplies } = comment;
   const [openReply, setOpenReply] = useState(false);
   return (
@@ -25,20 +26,16 @@ const BoardComment = ({ comment, boardId }: Props) => {
         <div className="flex flex-grow flex-col gap-2">
           <span className="w-fit cursor-pointer text-sm font-medium">{writer}</span>
           <p className="whitespace-pre">{content}</p>
-          <div className="flex gap-2">
-            <div className="flex items-center gap-1">
-              <ChatBubbleIcon className="h-4 w-4" />
-            </div>
-            <button
-              type="button"
-              className={cn(
-                'hover:trasition-all cursor-pointer rounded-lg px-2 py-1  duration-200 ease-in hover:bg-secondary',
-                openReply && 'bg-secondary',
-              )}
-              onClick={() => setOpenReply(!openReply)}
-            >
-              답글 달기
-            </button>
+
+          <div
+            className={cn(
+              'flex w-fit cursor-pointer items-center gap-2 rounded px-2 py-1',
+              'hover:trasition-all hover:bg-muted',
+            )}
+            onClick={() => setOpenReply((prev) => !prev)}
+          >
+            <ChatBubbleIcon className="h-4 w-4" />
+            {childReplies?.length ?? 0}
           </div>
         </div>
       </CommentBox>
@@ -48,11 +45,11 @@ const BoardComment = ({ comment, boardId }: Props) => {
         )
       ) : (
         <ReplyBox>
+          {openReply && <CommentForm boardId={boardId} parentReplyId={replyId} />}
           {childReplies?.map((reply) => {
             const { replyId } = reply;
             return <CommentReply key={replyId} reply={reply} />;
           })}
-          {openReply && <CommentForm boardId={boardId} parentReplyId={replyId} />}
         </ReplyBox>
       )}
     </section>

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useAuthActions } from 'app/auth/useAuthStore';
+import { useAuthActions, useToken } from 'app/auth/useAuthStore';
 import { useMemberActions } from 'app/member/useMemberStore';
 import apiClient, { baseHeader } from 'client/apiClient';
 import { Login, Token } from 'domain/auth';
@@ -30,7 +30,7 @@ export function useSignUp() {
 
 export const useSignIn = () => {
   const router = useRouter();
-  const { setMaxAge } = useAuthActions();
+  const { init } = useAuthActions();
   const { setMember } = useMemberActions();
   return useMutation({
     mutationFn: (data: Login) => {
@@ -39,7 +39,10 @@ export const useSignIn = () => {
     onSuccess: async (data) => {
       await setToken(data.data);
       baseHeader['Authorization'] = `Bearer ${data.data.accessToken}`;
-      setMaxAge(data.data.tokenExpirationTime);
+      init({
+        token: data.data.accessToken,
+        maxAge: data.data.tokenExpirationTime,
+      });
       setMember({ loginId: data.data.subject });
       router.push('/', { scroll: false });
     },
@@ -48,8 +51,12 @@ export const useSignIn = () => {
 
 export function useSignOut() {
   const router = useRouter();
+  const token = useToken();
   return useMutation({
-    mutationFn: () => apiClient.post('/user/sign-out'),
+    mutationFn: () =>
+      apiClient.post('/user/sign-out', {
+        data: { accessToken: token },
+      }),
     onSuccess: async () => {
       await deleteToken();
       baseHeader['Authorization'] = '';
