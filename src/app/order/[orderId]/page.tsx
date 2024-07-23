@@ -59,19 +59,19 @@ const RecruitPost = ({ params }: Props) => {
       </div>
       <h2 className="mb-2 text-3xl">{recruit?.order.title}</h2>
       <p className="flex font-medium">
-        <span className="w-1/4 font-medium">작성자</span>
-        <span className="flex-grow">{recruit?.orderMember.name}</span>
+        <span className="w-1/4 font-medium text-muted-foreground">작성자</span>
+        <span className="flex-grow text-muted-foreground">{recruit?.orderMember.name}</span>
       </p>
       <div className="flex items-center">
-        <span className="w-1/4 font-medium">배달비</span>
-        <span className="flex-grow">{recruit?.order.deliveryFee}원</span>
+        <span className="w-1/4 font-medium text-muted-foreground">배달비</span>
+        <span className="flex-grow text-muted-foreground">{recruit?.order.deliveryFee}원</span>
       </div>
       <div className="flex">
-        <span className="w-1/4 font-medium">종료 시간</span>
-        <span className="flex-grow">{recruit?.order.lastOrderTime} </span>
+        <span className="w-1/4 font-medium text-muted-foreground">종료 시간</span>
+        <span className="flex-grow text-muted-foreground">{recruit?.order.lastOrderTime} </span>
       </div>
       {!isRecruitEnd && (
-        <>
+        <div className="flex flex-col border-y">
           <span className="my-4 text-center">
             현재 {recruit?.group.length ?? 0}명 신청 중이에요!
           </span>
@@ -89,7 +89,7 @@ const RecruitPost = ({ params }: Props) => {
               </Button>
             )}
           </div>
-        </>
+        </div>
       )}
       <div className="mt-2">
         <h4 className="mb-2 text-xl">메뉴 목록</h4>

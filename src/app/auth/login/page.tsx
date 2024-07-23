@@ -76,7 +76,7 @@ const LoginPage: NextPage = () => {
             {errors.password?.message}
           </p>
         )}
-        <Button text={'login'} />
+        <Button text="로그인" />
       </form>
 
       <p className="mt-5 rounded-md border p-3 text-center text-gray-700">

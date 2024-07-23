@@ -46,7 +46,7 @@ const SignupPage: NextPage = () => {
   return (
     <Layout title="회원가입" canGoBack>
       <div className="px-4">
-        <form onSubmit={handleSubmit(onValid, onInvalid)} className="mt-8 flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onValid, onInvalid)} className="mt-8 flex flex-col gap-2">
           <Label className="flex flex-col gap-2">
             아이디
             <Input
@@ -67,7 +67,7 @@ const SignupPage: NextPage = () => {
               required
             />
           </Label>
-          <p role="alert" className="text-sm text-red-500">
+          <p role="alert" className="h-5 text-sm text-red-500">
             {errors.loginId?.message}
           </p>
           <Label className="flex flex-col gap-2">
@@ -88,7 +88,7 @@ const SignupPage: NextPage = () => {
             />
           </Label>
           {
-            <p role="alert" className="text-sm text-red-500">
+            <p role="alert" className="h-5 text-sm text-red-500">
               {errors.password?.message}
             </p>
           }
@@ -110,7 +110,7 @@ const SignupPage: NextPage = () => {
             />
           </Label>
           {
-            <p role="alert" className="text-sm text-red-500">
+            <p role="alert" className="h-5 text-sm text-red-500">
               {errors.email?.message}
             </p>
           }
@@ -136,7 +136,7 @@ const SignupPage: NextPage = () => {
             />
           </Label>
           {
-            <p role="alert" className="text-sm text-red-500">
+            <p role="alert" className="h-5 text-sm text-red-500">
               {errors.name?.message}
             </p>
           }
