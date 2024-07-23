@@ -1,9 +1,9 @@
-import { Member } from 'domain/member';
+import { User } from '@/domain/user';
 
 export const historyKeys = {
   all: () => ['history'] as const,
   joins: () => [...historyKeys.all(), 'join'] as const,
-  join: (loginId: Member['loginId']) => [...historyKeys.joins(), loginId] as const,
+  join: (email: User['email']) => [...historyKeys.joins(), email] as const,
   recruits: () => [...historyKeys.all(), 'recruit'] as const,
-  recruit: (loginId: Member['loginId']) => [...historyKeys.recruits(), loginId] as const,
+  recruit: (email: User['email']) => [...historyKeys.recruits(), email] as const,
 } as const;

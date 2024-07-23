@@ -1,6 +1,7 @@
 import { Badge } from 'app/_components/ui/Badge';
-import { useLoginId } from 'app/member/useMemberStore';
+import memberAtom from 'libs/recoil/member';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 
 import { HistoryRecruitResponse } from '@/app/_queries/history/historyQueries';
 
@@ -9,7 +10,7 @@ type Props = {
 };
 const RecruitHistoryItem = ({ recruit }: Props) => {
   const { orderId, title, lastOrderTime, joinMember, orderStatus } = recruit;
-  const myId = useLoginId();
+  const { email: myEmail } = useRecoilValue(memberAtom);
 
   const totalPrice = joinMember.reduce((sum, member) => sum + member.totalPrice, 0);
 
@@ -28,12 +29,12 @@ const RecruitHistoryItem = ({ recruit }: Props) => {
             <p className="font-medium text-muted-foreground">참여자</p>
             {joinMember.length > 0
               ? joinMember.map((memberItem) => {
-                  const { name, orderId, loginId } = memberItem;
+                  const { name, orderId, email } = memberItem;
                   return (
                     <ul key={orderId}>
                       <li className="flex gap-4">
                         {name}
-                        {loginId === myId ? '(나)' : ''}
+                        {email === myEmail ? '(나)' : ''}
                       </li>
                     </ul>
                   );

@@ -1,12 +1,14 @@
-import { Cart, useOrderRecruitGroupJoin } from 'app/_queries/order/orderMutations';
-import { RecruitResponse, useRecruitQuery } from 'app/_queries/order/orderQueries';
-import { useLoginId } from 'app/member/useMemberStore';
-import { Member } from 'domain/member';
-import { GroupOrder, OrderItem } from 'domain/order';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-const findMyCart = (recruit: RecruitResponse | undefined, loginId: Member['loginId']) => {
-  return recruit?.group.find((user) => loginId === user.loginId);
+import { Cart, useOrderRecruitGroupJoin } from '@/app/_queries/order/orderMutations';
+import { RecruitResponse, useRecruitQuery } from '@/app/_queries/order/orderQueries';
+import { GroupOrder, OrderItem } from '@/domain/order';
+import { User } from '@/domain/user';
+import memberAtom from '@/libs/recoil/member';
+
+const findMyCart = (recruit: RecruitResponse | undefined, email: User['email']) => {
+  return recruit?.group.find((user) => email === user.email);
 };
 
 const findOrderItem = (
@@ -17,14 +19,15 @@ const findOrderItem = (
 };
 
 export const useOrderItems = (orderId: string) => {
-  const loginId = useLoginId();
+  const member = useRecoilValue(memberAtom);
+  const email = member.email as string;
 
   const { data: recruit } = useRecruitQuery(orderId);
-  const existsData = !!recruit?.group.find((user) => user.loginId === loginId);
+  const existsData = !!recruit?.group.find((user) => user.email === email);
   const { mutate } = useOrderRecruitGroupJoin(existsData);
 
   const initCart: GroupOrder = {
-    loginId: '',
+    email: '',
     name: '',
     orderItem: [],
     totalPrice: 0,
@@ -33,7 +36,7 @@ export const useOrderItems = (orderId: string) => {
     title: '',
   };
 
-  const [myOrder, setMyOrder] = useState(() => findMyCart(recruit, loginId) ?? initCart);
+  const [myOrder, setMyOrder] = useState(() => findMyCart(recruit, email) ?? initCart);
 
   const updateQuantity = ({ itemName, quantity }: { itemName: string; quantity: number }) => {
     if (!recruit?.shop) return;
@@ -72,7 +75,7 @@ export const useOrderItems = (orderId: string) => {
       mutate({ orderId, orderItems, groupOrderId: myOrder.groupOrderId });
       return;
     }
-    mutate({ loginId, orderId, orderItems });
+    mutate({ email, orderId, orderItems });
   };
 
   return {

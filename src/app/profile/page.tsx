@@ -1,16 +1,17 @@
 'use client';
 
-import { useSettingMember } from 'app/_queries/member/memberQueries';
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 import { Button } from '@/app/_components/ui/Button';
-import { useSignOut } from '@/app/_queries/auth/authMutations';
+import { useLogout } from '@/app/_queries/auth/authMutations';
+import { useSettingMember } from '@/app/_queries/user/userQueries';
 import Layout from '@/components/layout';
 
 const ProfilePage: NextPage = () => {
   const { data: member } = useSettingMember();
-  const { mutate } = useSignOut();
+  const logout = useLogout();
 
   return (
     <Layout hasTabBar title="프로필">
@@ -99,7 +100,10 @@ const ProfilePage: NextPage = () => {
       <div
         className="mx-4 mt-3.5"
         onClick={() => {
-          mutate();
+          signOut({ callbackUrl: '/', redirect: true }).finally(() => {
+            console.log('todo server logout');
+            logout.mutate();
+          });
         }}
       >
         <Button variant="secondary" className="w-full">

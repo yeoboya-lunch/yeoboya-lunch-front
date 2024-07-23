@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import apiClient from 'client/apiClient';
 
 import { shopKeys } from '@/app/_queries/shop/shopQueryKeys';
 import { Shop } from '@/domain/shop';
+import useFetchWrapper from '@/libs/client/fetch-wrapper';
 
 export const useShopRegister = () => {
+  const { post } = useFetchWrapper();
   const cache = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Shop) => apiClient.post(`/shop/create`, { data }),
+    mutationFn: (value: Shop) => post({ url: `/shop/create`, data: value }),
     onSettled: () => {
       return cache.invalidateQueries({ queryKey: shopKeys.lists() });
     },

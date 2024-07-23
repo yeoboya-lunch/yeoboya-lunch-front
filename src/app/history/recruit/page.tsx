@@ -1,14 +1,15 @@
 'use client';
 
-import { useLoginId } from 'app/member/useMemberStore';
+import { useRecoilValue } from 'recoil';
 
 import { useHistoryRecruitQuery } from '@/app/_queries/history/historyQueries';
 import RecruitHistoryItem from '@/app/history/recruit/_components/RecruitHistoryItem';
 import Layout from '@/components/layout';
+import memberAtom from '@/libs/recoil/member';
 
 const RecruitHistoryPage = () => {
-  const loginId = useLoginId();
-  const { data } = useHistoryRecruitQuery(loginId);
+  const { email } = useRecoilValue(memberAtom);
+  const { data } = useHistoryRecruitQuery(email ?? '');
 
   return (
     <Layout title="주문 모집 내역" canGoBack className="p-0">

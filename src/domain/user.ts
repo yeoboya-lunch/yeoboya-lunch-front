@@ -1,5 +1,4 @@
-export type Member = {
-  loginId: string;
+export type User = {
   email: string;
   name: string;
   nickName: string;

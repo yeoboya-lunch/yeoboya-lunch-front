@@ -14,12 +14,12 @@ import { Order } from '@/domain/order';
 import { useObserver } from '@/libs/client/useObserver';
 
 const Home = () => {
-  const { fetchNextPage, status, data } = useInfiniteOrders();
+  const orders = useInfiniteOrders();
   const bottom = useRef(null);
   const [scrollY] = useLocalStorage('order_list_scroll', 0);
 
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
-    entry.isIntersecting && fetchNextPage();
+    entry.isIntersecting && orders.fetchNextPage();
   };
 
   useObserver({
@@ -36,12 +36,12 @@ const Home = () => {
     <Layout title="오늘의주문" hasTabBar className="gap-8">
       <TopBanner />
 
-      {status === 'success' &&
-        data.pages.map((group, index) => (
+      {orders.status === 'success' &&
+        orders.data.pages.map((group, index) => (
           <ul className="flex flex-col gap-4" key={index}>
-            {group.list.map((data: Order, index: number) => {
+            {group.data.list.map((data: Order, index: number) => {
               return (
-                <Link href={`/order/${data.orderId}`} key={index} scroll={false}>
+                <Link href={`/order/${data.orderId}`} key={index}>
                   <OrderRecruitCard
                     orderMemberName={data.orderMemberName}
                     shopName={data.shopName}

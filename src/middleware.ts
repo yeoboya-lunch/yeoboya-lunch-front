@@ -1,10 +1,6 @@
-import { MiddlewareConfig, NextMiddleware, NextResponse } from 'next/server';
+import { MiddlewareConfig } from 'next/server';
 
-export const middleware: NextMiddleware = async (req) => {
-  if (!req.cookies.get('RefreshToken')) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  }
-};
+export { default } from 'next-auth/middleware';
 
 export const config: MiddlewareConfig = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|auth|board$|$).*)'],
