@@ -13,7 +13,6 @@ export type Board = {
   replyCount: number;
   likeCount: number;
   clickLiked: boolean;
-  secret: boolean;
 } & Pick<Member, 'loginId' | 'name'>;
 
 export type HashTag = {
