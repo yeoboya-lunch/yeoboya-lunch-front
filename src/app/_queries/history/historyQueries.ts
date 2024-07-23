@@ -1,36 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient, { InfiniteScrollData } from 'client/apiClient';
+import { Member } from 'domain/member';
 
 import { historyKeys } from '@/app/_queries/history/historyQueryKeys';
 import { RecruitResponse } from '@/app/_queries/order/orderQueries';
 import { GroupOrder } from '@/domain/order';
-import { User } from '@/domain/user';
-import useFetchWrapper, { InfiniteScrollData } from '@/libs/client/fetch-wrapper';
 
 export type HistoryJoinResponse = GroupOrder;
 
-export const useHistoryJoinQuery = (email: User['email']) => {
-  const { get } = useFetchWrapper();
-
+export const useHistoryJoinQuery = (loginId: Member['loginId']) => {
   return useQuery({
-    queryKey: historyKeys.join(email),
+    queryKey: historyKeys.join(loginId),
     queryFn: () => {
-      return get<InfiniteScrollData<HistoryJoinResponse>>({
-        url: `/order/recruit/histories/join/${email}`,
-      });
+      return apiClient.get<InfiniteScrollData<HistoryJoinResponse>>(
+        `/order/recruit/histories/join/${loginId}`,
+      );
     },
-    select: (data) => data.data.data,
+    select: (data) => data.data,
   });
 };
 
 export type HistoryRecruitResponse = RecruitResponse['order'];
-export const useHistoryRecruitQuery = (email: User['email']) => {
-  const { get } = useFetchWrapper();
-
+export const useHistoryRecruitQuery = (loginId: Member['loginId']) => {
   return useQuery({
-    queryKey: historyKeys.recruit(email),
+    queryKey: historyKeys.recruit(loginId),
     queryFn: () => {
-      return get<HistoryRecruitResponse[]>({ url: `/order/recruit/histories/${email}` });
+      return apiClient.get<HistoryRecruitResponse[]>(`/order/recruit/histories/${loginId}`);
     },
-    select: (data) => data.data.data,
+    select: (data) => data.data,
   });
 };

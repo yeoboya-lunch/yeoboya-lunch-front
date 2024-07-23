@@ -1,9 +1,10 @@
 'use client';
 
+import { useOrderItems } from 'app/order/useOrderItems';
+
 import { Button } from '@/app/_components/ui/Button';
 import OrderItemCard from '@/app/order/[orderId]/item/_components/OrderItemCard';
 import Layout from '@/components/layout';
-import { useOrderItems } from '@/features/order/useOrderItems';
 
 type Props = {
   params: {

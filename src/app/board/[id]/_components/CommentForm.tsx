@@ -1,12 +1,11 @@
+import { useLoginId } from 'app/member/useMemberStore';
 import type { Property } from 'csstype';
 import { ChangeEventHandler, HTMLAttributes, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 
 import { Button } from '@/app/_components/ui/Button';
 import { Textarea } from '@/app/_components/ui/Textarea';
 import { useReplyWrite } from '@/app/_queries/board/boardMutations';
-import memberAtom from '@/libs/recoil/member';
 
 type FormProps = {
   reply: string;
@@ -20,7 +19,7 @@ const CommentForm = ({ boardId, parentReplyId, ...props }: Props) => {
   const { register, handleSubmit, setValue } = useForm<FormProps>();
   const [textareaHeight, setTextareaHeight] = useState<Property.Height<string | number>>('auto');
   const { mutate } = useReplyWrite();
-  const { email } = useRecoilValue(memberAtom);
+  const loginId = useLoginId();
 
   const resize: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     if (textareaHeight !== e.target.scrollHeight) {
@@ -31,7 +30,7 @@ const CommentForm = ({ boardId, parentReplyId, ...props }: Props) => {
 
   const handleReply: SubmitHandler<FormProps> = ({ reply }) => {
     mutate(
-      { content: reply, email: email ?? '', boardId: boardId, parentReplyId },
+      { content: reply, loginId, boardId, parentReplyId },
       {
         onSuccess: () => setValue('reply', ''),
       },

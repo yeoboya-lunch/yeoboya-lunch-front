@@ -4,7 +4,6 @@ about: 기능 추가 요청
 title: ''
 labels: ''
 assignees: Forourhappy
-
 ---
 
 ## 기능 설명
