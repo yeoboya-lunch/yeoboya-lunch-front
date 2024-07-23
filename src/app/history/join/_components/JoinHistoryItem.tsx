@@ -10,7 +10,7 @@ const JoinHistoryItem = ({ recruit }: Props) => {
   if (orderItem.length === 0) return null;
 
   return (
-    <article className="bg-white py-2">
+    <article className="bg-white p-2">
       <Link href={`/order/${orderId}`} className="flex flex-col gap-2">
         <p className="text-sm font-medium text-muted-foreground">주문 날짜</p>
         <h4 className="text-xl font-semibold">{title}</h4>

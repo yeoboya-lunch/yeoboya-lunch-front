@@ -8,10 +8,14 @@ import { Order, Recruit } from '@/domain/order';
 
 export const useStartOrderRecruit = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: (data: Recruit) => apiClient.post(`/order/recruit/start`, { data }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: orderKeys.lists() }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+      router.push('/');
+    },
   });
 };
 export const useEndOrderRecruit = () => {

@@ -4,7 +4,7 @@ import { ImageIcon } from '@radix-ui/react-icons';
 import { useLoginId } from 'app/member/useMemberStore';
 import dayjs from 'dayjs';
 import type { NextPage } from 'next';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 
@@ -16,7 +16,6 @@ import TextArea from '@/components/textarea';
 import type { Recruit } from '@/domain/order';
 
 const OrderPage: NextPage = () => {
-  const router = useRouter();
   const search = useSearchParams();
   const { mutate, error } = useStartOrderRecruit();
 
@@ -43,7 +42,6 @@ const OrderPage: NextPage = () => {
       document.querySelector('input[type="datetime-local"]') as HTMLInputElement
     ).value;
     mutate(recruitForm, {
-      onSuccess: () => router.push('/'),
       onError: () =>
         setError('deliveryFee', { type: 'focus', message: error?.message }, { shouldFocus: true }),
     });

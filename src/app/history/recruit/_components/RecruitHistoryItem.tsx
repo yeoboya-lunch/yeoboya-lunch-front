@@ -14,7 +14,7 @@ const RecruitHistoryItem = ({ recruit }: Props) => {
   const totalPrice = joinMember.reduce((sum, member) => sum + member.totalPrice, 0);
 
   return (
-    <article className="bg-background py-2">
+    <article className="bg-background p-2">
       <Link href={`/order/${orderId}`} className="flex flex-col gap-2">
         <p className="text-sm font-medium text-muted-foreground">{lastOrderTime}</p>
         <div className="flex items-center justify-between">

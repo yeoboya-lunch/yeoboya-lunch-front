@@ -95,12 +95,16 @@ const LoginPage: NextPage = () => {
         </div>
         <div className="mt-2 flex items-center justify-center gap-4">
           <Image
+            width={100}
+            height={100}
             src={naverLoginImg.src}
             alt="naver login"
             className="w-1/12 cursor-pointer"
             onClick={handleNaverLogin}
           />
           <Image
+            width={100}
+            height={100}
             src={googleLoginImg.src}
             alt="google login"
             className="w-1/12 cursor-pointer"

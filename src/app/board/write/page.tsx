@@ -91,7 +91,7 @@ const WritePage: NextPage = () => {
           {...register('content', {
             required: '내용은 필수 입력입니다.',
           })}
-          className="h-full border-none p-0 text-lg shadow-none focus-visible:ring-0 "
+          className="h-full border p-2 text-base shadow-none focus-visible:ring-0"
         />
         {errors.content && (
           <p role="alert" className="text-sm text-red-500">
