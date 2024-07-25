@@ -26,9 +26,9 @@ export const useBoardListQuery = (pageParams: PaginationOptions) => {
 export const useBoardQuery = (boardId: Board['boardId']) => {
   return useQuery({
     queryKey: boardKeys.detail(boardId),
-    queryFn: () => {
-      return apiClient.get<Board>(`/board/${boardId}`);
+    queryFn: () => apiClient.get<Board>(`/board/${boardId}`),
+    select: (data) => {
+      return data?.data;
     },
-    select: (data) => data.data,
   });
 };

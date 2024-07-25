@@ -17,6 +17,15 @@ export type Response<T = unknown> = {
   code: number;
   message: string;
 };
+
+export class ResponseError extends Error {
+  status: number;
+  constructor({ status, message }: { status: number; message: string }) {
+    super(message);
+    this.status = status;
+  }
+}
+
 type InfiniteScroll = {
   pageNo: number;
   size: number;
@@ -34,13 +43,22 @@ type Pagination = {
   totalPages: number;
   totalElements: number;
 };
+
 export type InfiniteScrollData<T> = {
   list: T[];
   pagination: InfiniteScroll;
 };
+
 export type PaginationData<T> = {
   list: T[];
   pagination: Pagination;
+};
+
+export type ApiClient = {
+  get: <T = unknown>(url: string, config?: Omit<Options, 'data'>) => Promise<Response<T>>;
+  post: <T = unknown, B = unknown>(url: string, config?: Options<B>) => Promise<Response<T>>;
+  patch: <T = unknown, B = unknown>(url: string, config?: Options<B>) => Promise<Response<T>>;
+  delete: <T = unknown>(url: string, config?: Omit<Options, 'data'>) => Promise<Response<T>>;
 };
 
 const paramToString = (params?: URLSearchParams) => (params ? `?${params}` : '');
@@ -50,8 +68,8 @@ export const baseHeader: Headers = {
   'Content-Type': 'application/json',
 };
 
-const apiClient = {
-  get: async <T = unknown>(url: string, config?: Omit<Options, 'data'>): Promise<Response<T>> => {
+const apiClient: ApiClient = {
+  get: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = { ...baseHeader, ...config?.headers };
 
@@ -66,12 +84,13 @@ const apiClient = {
       return result.json();
     }
 
+    if (result.status === 401) {
+      throw new ResponseError({ status: result.status, message: 'Unauthorized' });
+    }
+
     throw result.json();
   },
-  post: async <T = unknown, B = unknown>(
-    url: string,
-    config?: Options<B>,
-  ): Promise<Response<T>> => {
+  post: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
@@ -85,16 +104,14 @@ const apiClient = {
       body: JSON.stringify(config?.data),
       ...config,
     });
+
     if (result.ok) {
       return result.json();
     }
 
     throw result.json();
   },
-  patch: async <T = unknown, B = unknown>(
-    url: string,
-    config?: Options<B>,
-  ): Promise<Response<T>> => {
+  patch: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
@@ -115,10 +132,7 @@ const apiClient = {
 
     throw result.json();
   },
-  delete: async <T = unknown>(
-    url: string,
-    config?: Omit<Options, 'data'>,
-  ): Promise<Response<T>> => {
+  delete: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({ ...baseHeader, ...config?.headers });
 

@@ -22,16 +22,32 @@ export const setToken = async (token: Token) => {
   });
 };
 
+type Error = {
+  validation: {
+    field: string;
+    message: string;
+  }[];
+};
 export const refreshAccessToken = async (loginId: Member['loginId']) => {
-  const { data, code } = await apiClient.post<Token>('/user/reissue', {
-    data: {
-      loginId,
-      provider: 'yeoboya',
-    },
-  });
+  try {
+    const result = await apiClient.post<Token>('/user/reissue', {
+      data: {
+        loginId,
+        provider: 'yeoboya',
+      },
+    });
 
-  if (code === 200) {
-    await setToken(data);
-    return data;
+    if (result?.code === 200) {
+      await setToken(result.data);
+      return {
+        code: 200,
+        message: 'success',
+        data: result.data,
+      } as const;
+    }
+
+    throw result;
+  } catch (e) {
+    return e as { code: number; message: string } & Error;
   }
 };

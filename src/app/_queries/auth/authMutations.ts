@@ -29,7 +29,6 @@ export function useSignUp() {
 }
 
 export const useSignIn = () => {
-  const router = useRouter();
   const { init } = useAuthActions();
   const { setMember } = useMemberActions();
   return useMutation({
@@ -44,7 +43,6 @@ export const useSignIn = () => {
         maxAge: data.data.tokenExpirationTime,
       });
       setMember({ loginId: data.data.subject });
-      router.push('/', { scroll: false });
     },
   });
 };
