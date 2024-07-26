@@ -1,6 +1,6 @@
 'use server';
 
-import apiClient from 'client/apiClient';
+import apiClient, { ValidationError } from 'client/apiClient';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { Token } from 'domain/auth';
@@ -22,12 +22,6 @@ export const setToken = async (token: Token) => {
   });
 };
 
-type Error = {
-  validation: {
-    field: string;
-    message: string;
-  }[];
-};
 export const refreshAccessToken = async (loginId: Member['loginId']) => {
   try {
     const result = await apiClient.post<Token>('/user/reissue', {
@@ -40,14 +34,20 @@ export const refreshAccessToken = async (loginId: Member['loginId']) => {
     if (result?.code === 200) {
       await setToken(result.data);
       return {
-        code: 200,
-        message: 'success',
+        isSuccess: true,
         data: result.data,
       } as const;
     }
 
     throw result;
   } catch (e) {
-    return e as { code: number; message: string } & Error;
+    if (e instanceof ValidationError) {
+      return {
+        isSuccess: false,
+        message: e.message,
+        validation: e.validation,
+      } as const;
+    }
+    throw e;
   }
 };

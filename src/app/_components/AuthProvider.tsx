@@ -21,15 +21,16 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const refresh = async () => {
       const result = await refreshAccessToken(loginId);
-      console.log(result);
-      if (result?.code === 200) {
+      if (result.isSuccess) {
         init({
-          token: result.accessToken,
-          maxAge: result.tokenExpirationTime,
+          token: result.data.accessToken,
+          maxAge: result.data.tokenExpirationTime,
         });
-        // baseHeader['Authorization'] = `Bearer ${result.accessToken}`;
+        baseHeader['Authorization'] = `Bearer ${result.data.accessToken}`;
         return result;
       }
+
+      console.error(result);
     };
 
     if (!maxAge) {

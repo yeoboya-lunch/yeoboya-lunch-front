@@ -18,11 +18,30 @@ export type Response<T = unknown> = {
   message: string;
 };
 
-export class ResponseError extends Error {
-  status: number;
+export class AuthError extends Error {
+  status;
   constructor({ status, message }: { status: number; message: string }) {
     super(message);
     this.status = status;
+  }
+}
+
+export class ValidationError {
+  validation;
+  status;
+  message;
+  constructor({
+    code,
+    message,
+    validation,
+  }: {
+    code: number;
+    message: string;
+    validation: { field: string; message: string }[];
+  }) {
+    this.validation = validation;
+    this.status = code;
+    this.message = message;
   }
 }
 
@@ -80,15 +99,17 @@ const apiClient: ApiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
     if (result.status === 401) {
-      throw new ResponseError({ status: result.status, message: 'Unauthorized' });
+      throw new AuthError({ status: result.status, message: 'Unauthorized' });
     }
 
-    throw result.json();
+    throw responseBody;
   },
   post: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
@@ -105,11 +126,18 @@ const apiClient: ApiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    console.log(responseBody);
+    if (result.status === 400) {
+      throw new ValidationError(responseBody);
+    }
+
+    throw responseBody;
   },
   patch: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
@@ -126,11 +154,13 @@ const apiClient: ApiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    throw responseBody;
   },
   delete: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
@@ -143,11 +173,13 @@ const apiClient: ApiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    throw responseBody;
   },
 } as const;
 
