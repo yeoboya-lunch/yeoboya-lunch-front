@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="ko">
       <body className={cn('font-pretendard', font.variable)}>
-        <main className="m-auto flex h-lvh max-w-xl flex-col">
+        <main className="m-auto flex flex min-h-dvh max-w-xl flex-col flex-col shadow-[0_0_20px_#00000012]">
           <ReactQueryProvider>
             <AuthProvider>
               <Suspense fallback={<Spinner />}>{children}</Suspense>

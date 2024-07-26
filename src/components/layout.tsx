@@ -17,7 +17,9 @@ export default function Layout({ title, canGoBack, hasTabBar, children, classNam
   return (
     <>
       <Header title={title} canGoBack={canGoBack} />
-      <section className={cn('flex flex-grow flex-col p-4', hasTabBar ? 'pb-16' : '', className)}>
+      <section
+        className={cn('relative flex flex-grow flex-col', hasTabBar ? 'mb-16' : '', className)}
+      >
         {children}
       </section>
       {hasTabBar && <NavBar />}

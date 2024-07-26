@@ -17,6 +17,34 @@ export type Response<T = unknown> = {
   code: number;
   message: string;
 };
+
+export class AuthError extends Error {
+  status;
+  constructor({ status, message }: { status: number; message: string }) {
+    super(message);
+    this.status = status;
+  }
+}
+
+export class ValidationError {
+  validation;
+  status;
+  message;
+  constructor({
+    code,
+    message,
+    validation,
+  }: {
+    code: number;
+    message: string;
+    validation: { field: string; message: string }[];
+  }) {
+    this.validation = validation;
+    this.status = code;
+    this.message = message;
+  }
+}
+
 type InfiniteScroll = {
   pageNo: number;
   size: number;
@@ -34,13 +62,22 @@ type Pagination = {
   totalPages: number;
   totalElements: number;
 };
+
 export type InfiniteScrollData<T> = {
   list: T[];
   pagination: InfiniteScroll;
 };
+
 export type PaginationData<T> = {
   list: T[];
   pagination: Pagination;
+};
+
+export type ApiClient = {
+  get: <T = unknown>(url: string, config?: Omit<Options, 'data'>) => Promise<Response<T>>;
+  post: <T = unknown, B = unknown>(url: string, config?: Options<B>) => Promise<Response<T>>;
+  patch: <T = unknown, B = unknown>(url: string, config?: Options<B>) => Promise<Response<T>>;
+  delete: <T = unknown>(url: string, config?: Omit<Options, 'data'>) => Promise<Response<T>>;
 };
 
 const paramToString = (params?: URLSearchParams) => (params ? `?${params}` : '');
@@ -50,8 +87,8 @@ export const baseHeader: Headers = {
   'Content-Type': 'application/json',
 };
 
-const apiClient = {
-  get: async <T = unknown>(url: string, config?: Omit<Options, 'data'>): Promise<Response<T>> => {
+const apiClient: ApiClient = {
+  get: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = { ...baseHeader, ...config?.headers };
 
@@ -62,16 +99,19 @@ const apiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    if (result.status === 401) {
+      throw new AuthError({ status: result.status, message: 'Unauthorized' });
+    }
+
+    throw responseBody;
   },
-  post: async <T = unknown, B = unknown>(
-    url: string,
-    config?: Options<B>,
-  ): Promise<Response<T>> => {
+  post: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
@@ -85,16 +125,21 @@ const apiClient = {
       body: JSON.stringify(config?.data),
       ...config,
     });
+
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    console.log(responseBody);
+    if (result.status === 400) {
+      throw new ValidationError(responseBody);
+    }
+
+    throw responseBody;
   },
-  patch: async <T = unknown, B = unknown>(
-    url: string,
-    config?: Options<B>,
-  ): Promise<Response<T>> => {
+  patch: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({
       ...baseHeader,
@@ -109,16 +154,15 @@ const apiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    throw responseBody;
   },
-  delete: async <T = unknown>(
-    url: string,
-    config?: Omit<Options, 'data'>,
-  ): Promise<Response<T>> => {
+  delete: async (url, config) => {
     const fetchUrl = `${config?.baseURL ?? baseUrl}${url}${paramToString(config?.params)}`;
     const fetchHeader = new Headers({ ...baseHeader, ...config?.headers });
 
@@ -129,11 +173,13 @@ const apiClient = {
       ...config,
     });
 
+    const responseBody = await result.json().catch(() => null);
+
     if (result.ok) {
-      return result.json();
+      return responseBody;
     }
 
-    throw result.json();
+    throw responseBody;
   },
 } as const;
 

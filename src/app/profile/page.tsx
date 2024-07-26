@@ -18,8 +18,8 @@ const ProfilePage: NextPage = () => {
         <div className="mt-4 flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-gray-900">{member?.email}</span>
-            <span className="text-sm text-gray-500">{member?.name}</span>
+            <span className="text-2xl font-bold text-gray-900">{member?.name}</span>
+            <span className="text-sm text-gray-500">{member?.loginId}</span>
             <span>{member?.phoneNumber}</span>
           </div>
         </div>

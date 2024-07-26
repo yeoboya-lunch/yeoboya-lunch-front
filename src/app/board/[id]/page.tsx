@@ -4,7 +4,6 @@ import { ChatBubbleIcon, HeartFilledIcon, HeartIcon } from '@radix-ui/react-icon
 import { cn } from 'app/_lib/utils';
 import { useBoardLike, useBoardUnlike } from 'app/_queries/board/boardMutations';
 import { useBoardQuery } from 'app/_queries/board/boardQueries';
-import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/ui/Avatar';
 import { Badge } from '@/app/_components/ui/Badge';
@@ -19,7 +18,6 @@ type Props = {
 };
 const BoardDetailPage = ({ params: { id } }: Props) => {
   const { data } = useBoardQuery(id);
-  const [isOpenComment, setIsOpenComment] = useState(false);
   const { mutate: onLike } = useBoardLike(id);
   const { mutate: onUnlike } = useBoardUnlike(id);
 
@@ -39,12 +37,8 @@ const BoardDetailPage = ({ params: { id } }: Props) => {
     onUnlike();
   };
 
-  const handleOpenComment = () => {
-    setIsOpenComment((prev) => !prev);
-  };
-
   return (
-    <Layout title="자유게시판" canGoBack>
+    <Layout title="자유게시판" className="p-4" canGoBack>
       <h2 className="mb-4 text-4xl">{title}</h2>
       <div className="mb-2 flex items-center space-x-3">
         <Avatar className="h-8 w-8 cursor-pointer">
@@ -81,13 +75,12 @@ const BoardDetailPage = ({ params: { id } }: Props) => {
             'flex w-14 cursor-pointer items-center justify-between gap-1 rounded px-2 py-1',
             'hover:bg-muted',
           )}
-          onClick={handleOpenComment}
         >
           <ChatBubbleIcon className="h-5 w-5" />
           {replyCount}
         </div>
       </div>
-      {isOpenComment && <CommentForm boardId={id} />}
+      <CommentForm boardId={id} />
       {replies.map((reply, index) => {
         return <BoardComment key={index} boardId={id} comment={reply} />;
       })}

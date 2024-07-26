@@ -15,6 +15,7 @@ import Layout from '@/components/layout';
 type FormProps = Required<Required<Session>['user']>;
 
 const SignupPage: NextPage = () => {
+  const router = useRouter();
   const { mutate, isSuccess, isError, isPending, error } = useSignUp();
   const {
     register,
@@ -26,10 +27,10 @@ const SignupPage: NextPage = () => {
   });
 
   const onValid: SubmitHandler<FormProps> = (sinUpForm) => {
-    mutate(sinUpForm);
+    mutate(sinUpForm, {
+      onSuccess: () => router.replace('/', { scroll: false }),
+    });
   };
-
-  const router = useRouter();
   useEffect(() => {
     if (isError) {
       setError('email', { type: 'focus', message: error.message }, { shouldFocus: true });

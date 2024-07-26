@@ -29,7 +29,11 @@ const LoginPage: NextPage = () => {
   const { mutate } = useSignIn();
 
   const onValid = async (value: LoginForm) => {
-    mutate(value);
+    mutate(value, {
+      onSuccess: () => {
+        router.replace('/', { scroll: false });
+      },
+    });
   };
 
   const onInvalid = (errors: FieldErrors) => {
