@@ -13,7 +13,6 @@ type Props = {
 };
 
 const BoardComment = ({ comment, boardId }: Props) => {
-  console.log(comment);
   const { replyId, writer, content, childReplies } = comment;
   const [openReply, setOpenReply] = useState(false);
   return (

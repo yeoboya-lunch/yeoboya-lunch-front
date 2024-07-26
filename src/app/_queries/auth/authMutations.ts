@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthActions, useToken } from 'app/auth/useAuthStore';
 import { useMemberActions } from 'app/member/useMemberStore';
 import apiClient, { baseHeader } from 'client/apiClient';
@@ -31,12 +31,14 @@ export function useSignUp() {
 export const useSignIn = () => {
   const { init } = useAuthActions();
   const { setMember } = useMemberActions();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Login) => {
       return apiClient.post<Token>('/user/sign-in', { data });
     },
     onSuccess: async (data) => {
       await setToken(data.data);
+      queryClient.clear();
       baseHeader['Authorization'] = `Bearer ${data.data.accessToken}`;
       init({
         token: data.data.accessToken,

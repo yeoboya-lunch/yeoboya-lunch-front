@@ -1,13 +1,18 @@
 import { DotFilledIcon } from '@radix-ui/react-icons';
+import { cn } from 'app/_lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
+import { ClassNameValue } from 'tailwind-merge';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';
 import { Carousel, CarouselContent, CarouselItem } from '@/app/_components/ui/Carousel';
 
-export default function TopBanner() {
+type Props = {
+  className?: ClassNameValue;
+};
+export default function TopBanner({ className }: Props) {
   return (
-    <Carousel opts={{ loop: true }} plugins={[Autoplay()]}>
+    <Carousel opts={{ loop: true }} plugins={[Autoplay()]} className={cn(className)}>
       <CarouselContent>
         {Array.from({ length: 2 }).map((_, index) => (
           <CarouselItem key={index}>

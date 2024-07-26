@@ -34,11 +34,11 @@ const Home = () => {
   }, [scrollY]);
   return (
     <Layout title="오늘의주문" hasTabBar className="gap-8">
-      <TopBanner />
+      <TopBanner className="p-4" />
 
       {status === 'success' &&
         data.pages.map((group, index) => (
-          <ul className="flex flex-col gap-4" key={index}>
+          <ul className="flex flex-col gap-4 p-4" key={index}>
             {group.list.map((data: Order, index: number) => {
               return (
                 <Link href={`/order/${data.orderId}`} key={index} scroll={false}>

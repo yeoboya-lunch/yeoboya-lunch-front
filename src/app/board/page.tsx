@@ -104,11 +104,11 @@ const BoardPage: NextPage = () => {
             </PaginationContent>
           </Pagination>
         )}
-
-        <FloatingButton href="/board/write">
-          <Pencil1Icon className="h-6 w-6" />
-        </FloatingButton>
       </div>
+
+      <FloatingButton href="/board/write">
+        <Pencil1Icon className="h-6 w-6" />
+      </FloatingButton>
     </Layout>
   );
 };

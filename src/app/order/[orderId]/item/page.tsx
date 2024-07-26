@@ -28,9 +28,9 @@ const OrderItemPage = ({ params }: Props) => {
     );
 
   return (
-    <Layout title="메뉴 담기" className="flex-grow" canGoBack>
+    <Layout title="메뉴 담기" className="flex-grow p-0" canGoBack>
       <div className="flex flex-grow flex-col justify-between gap-8 bg-muted">
-        <ul className="flex flex-col gap-4 border-b-2 bg-white pb-4">
+        <ul className="flex flex-col gap-4 border-b-2 bg-white p-4">
           {shopItems?.map((item) => (
             <OrderItemCard
               key={item.name}
