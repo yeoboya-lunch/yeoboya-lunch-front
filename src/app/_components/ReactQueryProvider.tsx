@@ -15,7 +15,6 @@ const queryClient = new QueryClient({
             redirect('/auth/login', RedirectType.replace);
           }
         }
-        console.log(error);
 
         return true;
       },

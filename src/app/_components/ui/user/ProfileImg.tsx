@@ -5,17 +5,17 @@ import { cn } from '@/app/_lib/utils';
 
 type Props = {
   src?: string;
-  alt: string;
+  alt?: string;
   children?: ReactNode;
 } & HTMLAttributes<HTMLSpanElement>;
 
-const MemberProfile = ({ src, alt, className, children, ...rest }: Props) => {
+const ProfileImg = ({ src, alt, className, children, ...rest }: Props) => {
   return (
     <Avatar className={cn('h-8 w-8 cursor-pointer', className)} {...rest}>
-      <AvatarImage src={src} alt={alt} />
+      <AvatarImage src={src} alt={alt ?? '프로필 이미지'} />
       <AvatarFallback>{children}</AvatarFallback>
     </Avatar>
   );
 };
 
-export default MemberProfile;
+export default ProfileImg;

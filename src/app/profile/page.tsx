@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import { Button } from '@/app/_components/ui/Button';
 import { useSignOut } from '@/app/_queries/auth/authMutations';
+import MemberProfile from '@/app/profile/_components/MemberProfile';
 import Layout from '@/components/layout';
 
 const ProfilePage: NextPage = () => {
@@ -14,15 +15,8 @@ const ProfilePage: NextPage = () => {
 
   return (
     <Layout hasTabBar title="프로필">
-      <div className="px-4">
-        <div className="mt-4 flex items-center space-x-3">
-          <div className="h-16 w-16 rounded-full bg-slate-500" />
-          <div className="flex flex-col">
-            <span className="text-2xl font-bold text-gray-900">{member?.name}</span>
-            <span className="text-sm text-gray-500">{member?.loginId}</span>
-            <span>{member?.phoneNumber}</span>
-          </div>
-        </div>
+      <div>
+        <MemberProfile member={member} className="p-4" />
         <div className="mt-10 flex justify-around border-b pb-5">
           <Link href="/history/recruit" className="flex flex-col items-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
@@ -65,30 +59,26 @@ const ProfilePage: NextPage = () => {
         </div>
 
         <div className="mt-5 grid grid-cols-3 grid-rows-3 gap-x-5 gap-y-10 p-4">
-          <Link href="/profile/edit" className="text-sm text-gray-700">
-            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
-              <div className="">사진</div>
+          <Link href="/profile/edit" className="text-sm text-gray-700" scroll={false}>
+            <div className="flex flex-col items-center justify-center text-sm font-medium text-gray-700">
               <span>프로필 수정</span>
             </div>
           </Link>
 
           <Link href="/shop/register" className="text-sm text-gray-700">
-            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
-              <div className="">사진</div>
+            <div className="flex flex-col items-center justify-center text-sm font-medium text-gray-700">
               <span>식당등록</span>
             </div>
           </Link>
 
           <Link href="/member" className="text-sm text-gray-700">
-            <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
-              <div className="">사진</div>
+            <div className="flex flex-col items-center justify-center text-sm font-medium text-gray-700">
               <span>당직자</span>
             </div>
           </Link>
 
           <Link href="/member" className="text-sm text-gray-700">
             <div className="flex flex-col items-center justify-center justify-around text-sm font-medium text-gray-700">
-              <div className="">사진</div>
               <span>상품등록</span>
             </div>
           </Link>

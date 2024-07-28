@@ -60,13 +60,7 @@ const AuthProvider = ({ children }: Props) => {
         baseURL: process.env.NEXT_PUBLIC_FRONT_URL,
       });
 
-      if (result.code === 401) {
-        router.push('/login');
-        return;
-      }
-
       if (result.data) {
-        console.log(result.data);
         baseHeader['Authorization'] = `Bearer ${result.data}`;
       }
     })();

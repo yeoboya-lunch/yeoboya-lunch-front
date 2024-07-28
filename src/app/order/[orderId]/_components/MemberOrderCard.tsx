@@ -1,8 +1,8 @@
-import MemberProfile from 'app/_components/ui/user/MemberProfile';
 import { Member } from 'domain/member';
 import defaultImg from 'public/defaultImage.jpg';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/Card';
+import ProfileImg from '@/app/_components/ui/user/ProfileImg';
 import { OrderItems } from '@/app/order/[orderId]/page';
 
 const users = [
@@ -33,7 +33,7 @@ const MemberOrderCard = ({ name, items }: Props) => {
   return (
     <Card>
       <CardHeader className="flex-row items-center gap-2 space-y-0 text-lg">
-        <MemberProfile src={users[0].image} alt="유저 이름" />
+        <ProfileImg src={users[0].image} alt="유저 이름" />
         <CardTitle>{name}</CardTitle>
       </CardHeader>
       <CardContent className="text- flex flex-col justify-between gap-2 text-lg">
